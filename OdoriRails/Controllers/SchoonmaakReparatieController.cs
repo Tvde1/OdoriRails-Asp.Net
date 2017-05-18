@@ -9,7 +9,7 @@ namespace OdoriRails.Controllers
     public class SchoonmaakReparatieController : Controller
     {
         // GET: SchoonmaakReparatie
-        public ActionResult Index()
+        public ActionResult SchoonmaakReparatieMainMenuView()
         {
             return View();
         }
