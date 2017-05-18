@@ -11,12 +11,12 @@ namespace OdoriRails.Helpers.DAL.Contexts
     public class TrackSectorContext : ITrackSectorContext
     {
         private readonly DatabaseHandler _databaseHandler;
-        private readonly _tramContext _tramContext;
+        private readonly TramContext _tramContext;
 
         public TrackSectorContext(DatabaseHandler databaseHandler)
         {
             _databaseHandler = databaseHandler;
-            _tramContext = new _tramContext(_databaseHandler);
+            _tramContext = new TramContext(_databaseHandler);
         }
 
         private const int RemiseNumber = 1;

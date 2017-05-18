@@ -116,8 +116,8 @@
     <Compile Include="Helpers\DAL\Contexts\LoginContext.cs" />
     <Compile Include="Helpers\DAL\Contexts\ServiceContext.cs" />
     <Compile Include="Helpers\DAL\Contexts\TrackSectorContext.cs" />
-    <Compile Include="Helpers\DAL\Contexts\_tramContext.cs" />
-    <Compile Include="Helpers\DAL\Contexts\_userContext.cs" />
+    <Compile Include="Helpers\DAL\Contexts\TramContext.cs" />
+    <Compile Include="Helpers\DAL\Contexts\UserContext.cs" />
     <Compile Include="Helpers\DAL\DatabaseHandler.cs" />
     <Compile Include="Helpers\DAL\DatabaseException.cs" />
     <Compile Include="Helpers\DAL\Repository\InUitrijRepository.cs" />
@@ -146,8 +146,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\SchoonmaakReparatie\SchoonmaakMainMenu.cshtml" />
-    <Content Include="Views\SchoonmaakReparatie\ReparatieMainMenu.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -157,7 +155,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Helpers\DAL\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -7,15 +7,15 @@ using OdoriRails.Helpers.DAL.ContextInterfaces;
 
 namespace OdoriRails.Helpers.DAL.Contexts
 {
-    public class _tramContext : ITramContext
+    public class TramContext : ITramContext
     {
         private readonly DatabaseHandler _databaseHandler;
-        private readonly _userContext _userContext;
+        private readonly UserContext _userContext;
         private readonly TrackSectorContext _trackSectorContext;
-        public _tramContext(DatabaseHandler databaseHandler)
+        public TramContext(DatabaseHandler databaseHandler)
         {
             _databaseHandler = databaseHandler;
-            _userContext = new _userContext(_databaseHandler);
+            _userContext = new UserContext(_databaseHandler);
             _trackSectorContext = new TrackSectorContext(_databaseHandler);
         }
 

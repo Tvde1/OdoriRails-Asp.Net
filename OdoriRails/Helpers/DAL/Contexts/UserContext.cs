@@ -6,14 +6,14 @@ using OdoriRails.Helpers.DAL.ContextInterfaces;
 
 namespace OdoriRails.Helpers.DAL.Contexts
 {
-    public class _userContext : IUserContext
+    public class UserContext : IUserContext
     {
         private readonly DatabaseHandler _databaseHandler;
-        private static _tramContext _tramContext;
-        public _userContext(DatabaseHandler databaseHandler)
+        private static TramContext _tramContext;
+        public UserContext(DatabaseHandler databaseHandler)
         {
             _databaseHandler = databaseHandler;
-            _tramContext = new _tramContext(_databaseHandler);
+            _tramContext = new TramContext(_databaseHandler);
         }
 
 

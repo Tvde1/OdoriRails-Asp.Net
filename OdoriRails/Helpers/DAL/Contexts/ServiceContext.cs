@@ -11,12 +11,12 @@ namespace OdoriRails.Helpers.DAL.Contexts
     public class ServiceContext : IServiceContext
     {
         private readonly DatabaseHandler _databaseHandler;
-        private readonly _userContext _userContext;
+        private readonly UserContext _userContext;
 
         public ServiceContext(DatabaseHandler databaseHandler)
         {
             _databaseHandler = databaseHandler;
-            _userContext = new _userContext(_databaseHandler);
+            _userContext = new UserContext(_databaseHandler);
         }
 
         public DataRow GetServiceById(int id)
