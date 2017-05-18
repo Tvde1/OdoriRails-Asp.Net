@@ -10,9 +10,14 @@ namespace OdoriRails
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Login", action = "Index", id = UrlParameter.Optional }
+                "Default",
+                "{controller}/{action}/{id}",
+                new { controller = "Login", action = "Index", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                "SchoonmaakReparatie",
+                "mainmenu/{action}/{id}",
+                new{controller = "SRMainMenu", action = "Index", id = UrlParameter.Optional}
             );
         }
     }
