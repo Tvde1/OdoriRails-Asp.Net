@@ -6,10 +6,10 @@ using System.Web.Mvc;
 
 namespace OdoriRails.Controllers
 {
-    public class SchoonmaakReparatieController : Controller
+    public class SRMainMenuController : Controller
     {
         // GET: SchoonmaakReparatie
-        public ActionResult SchoonmaakReparatieMainMenuView()
+        public ActionResult Index()
         {
             return View();
         }

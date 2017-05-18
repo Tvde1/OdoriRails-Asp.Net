@@ -16,8 +16,8 @@ namespace OdoriRails
             );
             routes.MapRoute(
                 "SchoonmaakReparatie",
-                "mainmenu/{action}",
-                new{controller = "SchoonmaakReparatie", action = "SchoonmaakReparatieMainMenuView", id = UrlParameter.Optional}
+                "mainmenu/{action}/{id}",
+                new{controller = "SRMainMenu", action = "Index", id = UrlParameter.Optional}
             );
         }
     }
