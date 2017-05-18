@@ -1,4 +1,5 @@
-﻿
+﻿@model OdoriRails.Models.LoginModel
+
 @{
     ViewBag.Title = "Index";
 }
@@ -6,6 +7,7 @@
 <h2>Index</h2>
 
 <p>
+    Hallo, @Model.User.FirstName; <br/>
     Geeft u hier uw steam id en het wachtwoord op:
 </p>
 

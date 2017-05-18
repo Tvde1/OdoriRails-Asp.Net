@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using OdoriRails.Helpers;
+using OdoriRails.Models;
 
 namespace OdoriRails.Controllers
 {
@@ -11,7 +13,10 @@ namespace OdoriRails.Controllers
         // GET: Login
         public ActionResult Index()
         {
-            return View();
+            var user = new User{FirstName = "Jan"};
+            var model = new LoginModel{User =  user};
+
+            return View(model);
         }
     }
 }
