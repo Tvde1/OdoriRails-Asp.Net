@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -105,10 +104,33 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\LoginController.cs" />
-    <Compile Include="Controllers\SchoonmaakReparatieController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Cleaning.cs" />
+    <Compile Include="Helpers\DAL\ContextInterfaces\ILoginContext.cs" />
+    <Compile Include="Helpers\DAL\ContextInterfaces\IServiceContext.cs" />
+    <Compile Include="Helpers\DAL\ContextInterfaces\ITrackSectorContext.cs" />
+    <Compile Include="Helpers\DAL\ContextInterfaces\ITramContext.cs" />
+    <Compile Include="Helpers\DAL\ContextInterfaces\IUserContext.cs" />
+    <Compile Include="Helpers\DAL\Contexts\LoginContext.cs" />
+    <Compile Include="Helpers\DAL\Contexts\ServiceContext.cs" />
+    <Compile Include="Helpers\DAL\Contexts\TrackSectorContext.cs" />
+    <Compile Include="Helpers\DAL\Contexts\_tramContext.cs" />
+    <Compile Include="Helpers\DAL\Contexts\_userContext.cs" />
+    <Compile Include="Helpers\DAL\DatabaseHandler.cs" />
+    <Compile Include="Helpers\DAL\DatabaseException.cs" />
+    <Compile Include="Helpers\DAL\Repository\InUitrijRepository.cs" />
+    <Compile Include="Helpers\DAL\Repository\LoginRepository.cs" />
+    <Compile Include="Helpers\DAL\Repository\LogisticRepository.cs" />
+    <Compile Include="Helpers\DAL\Repository\SchoonmaakReparatieRepository.cs" />
+    <Compile Include="Helpers\DAL\Repository\UserBeheerRepository.cs" />
+    <Compile Include="Helpers\ObjectCreator.cs" />
+    <Compile Include="Helpers\Repair.cs" />
+    <Compile Include="Helpers\Sector.cs" />
+    <Compile Include="Helpers\Service.cs" />
+    <Compile Include="Helpers\Track.cs" />
+    <Compile Include="Helpers\Tram.cs" />
     <Compile Include="Helpers\User.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -133,8 +155,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Helpers\DAL\" />
-    <Folder Include="Views\SchoonmaakReparatie\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
