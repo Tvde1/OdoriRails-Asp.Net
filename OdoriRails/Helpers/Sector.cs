@@ -11,8 +11,9 @@
     {
         public int Number { get; private set; }
         public SectorStatus Status { get; protected set; }
-        public Tram OccupyingTram { get; protected set; }
+        public Tram OccupyingTram { get; set; }
         public int TrackNumber { get; private set; }
+        public int? TramId { get; }
 
         /// <summary>
         /// Constructor
@@ -21,12 +22,12 @@
         /// <param name="trackNumber"></param>
         /// <param name="status"></param>
         /// <param name="tram"></param>
-        public Sector(int number, int trackNumber, SectorStatus status, Tram tram)
+        public Sector(int number, int trackNumber, SectorStatus status, int? tramId)
         {
             Number = number;
             Status = status;
-            OccupyingTram = tram;
             TrackNumber = trackNumber;
+            TramId = tramId;
         }
 
         /// <summary>
@@ -36,6 +37,11 @@
         public Sector(int number)
         {
             Number = number;
+        }
+
+        public void SetTram(Tram tram)
+        {
+            OccupyingTram = tram;
         }
     }
 }

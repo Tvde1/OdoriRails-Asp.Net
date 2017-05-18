@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OdoriRails.BaseClasses;
 using OdoriRails.Helpers.DAL.ContextInterfaces;
 using OdoriRails.Helpers.DAL.Contexts;
@@ -94,7 +95,19 @@ namespace OdoriRails.Helpers.DAL.Repository
         /// <returns></returns>
         public List<Track> GetTracksAndSectors()
         {
-            throw new NotImplementedException();
+            var tracks = ObjectCreator.GenerateListWithFunction(_trackSectorContext.GetAllTracks(), ObjectCreator.CreateTrack).ToDictionary(x => x.Number, x => x);
+            var sectors = ObjectCreator.GenerateListWithFunction(_trackSectorContext.GetAllSectors(), _objectCreator.CreateSector);
+            var trams = ObjectCreator.GenerateListWithFunction(_tramContext.GetAllTrams(), _objectCreator.CreateTram).ToDictionary(x => x.Number, x => x);
+
+
+            foreach (var sector in sectors)
+            {
+                if (sector.TramId == null) continue;
+                sector.OccupyingTram = trams[(int)sector.TramId];
+                tracks[sector.TrackNumber].AddSector(sector);
+            }
+
+            return tracks.Select(x => x.Value).ToList();
         }
 
         /// <summary>

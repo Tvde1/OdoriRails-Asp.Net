@@ -33,7 +33,7 @@ namespace OdoriRails.Helpers
 
             return new User((int)array[0], (string)array[1], (string)array[2], (string)array[4], (string)array[3], (Role)(int)array[5], parentUserString, tram);
         }
-
+        
         public static Track CreateTrack(DataRow row)
         {
             var array = row.ItemArray;
@@ -43,10 +43,8 @@ namespace OdoriRails.Helpers
         public Sector CreateSector(DataRow row)
         {
             var array = row.ItemArray;
-            Tram tram = null;
-            if (array[3] != DBNull.Value) tram = CreateTram(_tramContext.GetTram((int)array[3]));
-
-            return new Sector((int)array[0], (int)array[2], (SectorStatus)array[1], tram);
+            var occupyingTramNumber = row["TramFk"] == DBNull.Value ? null : (int?)row["TramFk"];
+            return new Sector((int)array[0], (int)array[2], (SectorStatus)array[1], occupyingTramNumber);
         }
 
         public Tram CreateTram(DataRow row)

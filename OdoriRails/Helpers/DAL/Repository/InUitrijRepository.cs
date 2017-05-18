@@ -67,7 +67,9 @@ namespace OdoriRails.Helpers.DAL.Repository
         /// <returns></returns>
         public Sector GetAssignedSector(Tram tram)
         {
-            return _objectCreator.CreateSector(_tramContext.GetAssignedSector(tram));
+            var sector = _objectCreator.CreateSector(_tramContext.GetAssignedSector(tram));
+            sector.SetTram(tram);
+            return sector;
         }
 
         /// <summary>
