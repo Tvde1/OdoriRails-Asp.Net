@@ -1,4 +1,5 @@
 ﻿using System;
+using OdoriRails.Helpers;
 
 namespace OdoriRails.BaseClasses
 {
