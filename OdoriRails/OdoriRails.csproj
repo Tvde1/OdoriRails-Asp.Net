@@ -91,6 +91,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\signin.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -110,11 +111,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DriverController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\SRMainMenuController.cs" />
+    <Compile Include="Controllers\UserBeheersysteemController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\DAL\Repository\BaseRepository.cs" />
+    <Compile Include="Helpers\Objects\Cleaning.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\ILoginContext.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\IServiceContext.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\ITrackSectorContext.cs" />
@@ -133,7 +138,6 @@
     <Compile Include="Helpers\DAL\Repository\LogisticRepository.cs" />
     <Compile Include="Helpers\DAL\Repository\SchoonmaakReparatieRepository.cs" />
     <Compile Include="Helpers\DAL\Repository\UserBeheerRepository.cs" />
-    <Compile Include="Helpers\Objects\Cleaning.cs" />
     <Compile Include="Helpers\Objects\ObjectCreator.cs" />
     <Compile Include="Helpers\Objects\Repair.cs" />
     <Compile Include="Helpers\Objects\Sector.cs" />
@@ -143,7 +147,9 @@
     <Compile Include="Helpers\Objects\User.cs" />
     <Compile Include="Helpers\UserBeheersysteem\UserBeheerLogic.cs" />
     <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\DriverModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\UserBeheerSysteemModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +163,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\SRMainMenu\Index.cshtml" />
+    <Content Include="Views\Driver\Index.cshtml" />
+    <Content Include="Views\UserBeheersysteem\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
