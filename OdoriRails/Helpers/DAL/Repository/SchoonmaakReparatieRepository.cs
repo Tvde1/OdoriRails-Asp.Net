@@ -7,14 +7,14 @@ using OdoriRails.Helpers.DAL.Contexts;
 
 namespace OdoriRails.Helpers.DAL.Repository
 {
-    public class SchoonmaakReparatieRepository
+    public class SchoonmaakReparatieRepository : BaseRepository
     {
-        public SchoonmaakReparatieRepository(DatabaseHandler databaseHandler)
+        public SchoonmaakReparatieRepository()
         {
-            _userContext = new UserContext(databaseHandler);
-            _serviceContext = new ServiceContext(databaseHandler);
-            _tramContext = new TramContext(databaseHandler);
-            _objectCreator = new ObjectCreator(databaseHandler);
+            _userContext = new UserContext(DatabaseHandler);
+            _serviceContext = new ServiceContext(DatabaseHandler);
+            _tramContext = new TramContext(DatabaseHandler);
+            _objectCreator = new ObjectCreator(DatabaseHandler);
         }
 
         private readonly IUserContext _userContext;
