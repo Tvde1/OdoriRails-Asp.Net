@@ -144,6 +144,7 @@
     <Compile Include="Helpers\UserBeheersysteem\UserBeheerLogic.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\UserBeheerSysteemModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
