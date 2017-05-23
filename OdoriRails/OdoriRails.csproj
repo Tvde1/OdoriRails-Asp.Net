@@ -163,6 +163,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\SRMainMenu\Index.cshtml" />
     <Content Include="Views\Driver\Index.cshtml" />
+    <Content Include="Views\UserBeheersysteem\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -173,7 +174,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\i18n\" />
-    <Folder Include="Views\UserBeheersysteem\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
