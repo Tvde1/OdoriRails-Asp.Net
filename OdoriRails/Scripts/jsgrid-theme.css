@@ -51,7 +51,7 @@
     scrollbar-highlight-color: #f1f1f1;
     scrollbar-track-color: #f1f1f1;
     scrollbar-shadow-color: #f1f1f1;
-    scrollbar-dark-shadow-color: #f1f1f1;
+    /*scrollbar-dark-shadow-color: #f1f1f1;*/
 }
 
 .jsgrid-header-scrollbar::-webkit-scrollbar {
