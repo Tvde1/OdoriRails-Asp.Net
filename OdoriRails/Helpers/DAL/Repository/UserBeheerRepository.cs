@@ -6,18 +6,10 @@ namespace OdoriRails.Helpers.DAL.Repository
 {
     public class UserBeheerRepository : BaseRepository
     {
-        public UserBeheerRepository()
-        {
-            _userContext = new UserContext(DatabaseHandler);
-            _tramContext = new TramContext(DatabaseHandler);
-            _loginContext = new LoginContext(DatabaseHandler);
-            _objectCreator = new ObjectCreator(DatabaseHandler);
-        }
-
-        private readonly IUserContext _userContext;
-        private readonly ITramContext _tramContext;
-        private readonly ILoginContext _loginContext;
-        private readonly ObjectCreator _objectCreator;
+        private readonly IUserContext _userContext = new UserContext();
+        private readonly ITramContext _tramContext = new TramContext();
+        private readonly ILoginContext _loginContext = new LoginContext();
+        private readonly ObjectCreator _objectCreator = new ObjectCreator();
 
         /// <summary>
         /// Voegt een User toe aan de database.

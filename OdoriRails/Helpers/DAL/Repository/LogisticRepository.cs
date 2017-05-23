@@ -9,20 +9,11 @@ namespace OdoriRails.Helpers.DAL.Repository
 {
     public class LogisticRepository : BaseRepository
     {
-        public LogisticRepository()
-        {
-            _userContext = new UserContext(DatabaseHandler);
-            _serviceContext = new ServiceContext(DatabaseHandler);
-            _trackSectorContext = new TrackSectorContext(DatabaseHandler);
-            _tramContext = new TramContext(DatabaseHandler);
-            _objectCreator = new ObjectCreator(DatabaseHandler);
-        }
-
-        private readonly IUserContext _userContext;
-        private readonly IServiceContext _serviceContext;
-        private readonly ITrackSectorContext _trackSectorContext;
-        private readonly ITramContext _tramContext;
-        private readonly ObjectCreator _objectCreator;
+        private readonly IUserContext _userContext = new UserContext();
+        private readonly IServiceContext _serviceContext = new ServiceContext();
+        private readonly ITrackSectorContext _trackSectorContext = new TrackSectorContext();
+        private readonly ITramContext _tramContext = new TramContext();
+        private readonly ObjectCreator _objectCreator = new ObjectCreator();
 
         /// <summary>
         /// Voegt een nieuwe tram toe aan de database.

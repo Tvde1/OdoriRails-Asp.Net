@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using OdoriRails.BaseClasses;
 using OdoriRails.Helpers.DAL.ContextInterfaces;
 
@@ -10,27 +8,18 @@ namespace OdoriRails.Helpers.DAL.Contexts
 {
     public class TrackSectorContext : ITrackSectorContext
     {
-        private readonly DatabaseHandler _databaseHandler;
-        private readonly TramContext _tramContext;
-
-        public TrackSectorContext(DatabaseHandler databaseHandler)
-        {
-            _databaseHandler = databaseHandler;
-            _tramContext = new TramContext(_databaseHandler);
-        }
-
         private const int RemiseNumber = 1;
 
         public DataTable GetAllTracks()
         {
             var trackQuery = new SqlCommand($"SELECT * FROM Track WHERE RemiseFk = {RemiseNumber}");
-            return _databaseHandler.GetData(trackQuery);
+            return DatabaseHandler.GetData(trackQuery);
         }
 
         public DataTable GetAllSectors()
         {
             var sectorQuery = new SqlCommand($"SELECT * FROM Sector WHERE RemiseFk = {RemiseNumber}");
-            return _databaseHandler.GetData(sectorQuery);
+            return DatabaseHandler.GetData(sectorQuery);
         }
 
         public void AddTrack(Track track)
@@ -41,7 +30,7 @@ namespace OdoriRails.Helpers.DAL.Contexts
             else query.Parameters.AddWithValue("@line", track.Line);
             query.Parameters.AddWithValue("@type", (int)track.Type);
             query.Parameters.AddWithValue("@remise", 1);
-            _databaseHandler.GetData(query);
+            DatabaseHandler.GetData(query);
 
             foreach (Sector sector in track.Sectors)
             {
@@ -56,7 +45,7 @@ namespace OdoriRails.Helpers.DAL.Contexts
             query.Parameters.AddWithValue("@type", (int)track.Type);
             query.Parameters.AddWithValue("@remise", RemiseNumber);
             query.Parameters.AddWithValue("@id", track.Number);
-            _databaseHandler.GetData(query);
+            DatabaseHandler.GetData(query);
 
             foreach (var sector in track.Sectors)
             {
@@ -68,7 +57,7 @@ namespace OdoriRails.Helpers.DAL.Contexts
         {
             var query = new SqlCommand("DELETE FROM Track WHERE TrackPK = @track");
             query.Parameters.AddWithValue("@track", track.Number);
-            _databaseHandler.GetData(query);
+            DatabaseHandler.GetData(query);
         }
 
         public void AddSector(Sector sector, Track track)
@@ -77,7 +66,7 @@ namespace OdoriRails.Helpers.DAL.Contexts
             query.Parameters.AddWithValue("@id", sector.Number);
             query.Parameters.AddWithValue("@track", track.Number);
             query.Parameters.AddWithValue("@remise", 1);
-            _databaseHandler.GetData(query);
+            DatabaseHandler.GetData(query);
         }
 
         public void EditSector(Sector sector)
@@ -89,7 +78,7 @@ namespace OdoriRails.Helpers.DAL.Contexts
             else query.Parameters.AddWithValue("@tram", DBNull.Value);
             query.Parameters.AddWithValue("@remis", RemiseNumber);
             query.Parameters.AddWithValue("@id", sector.Number);
-            _databaseHandler.GetData(query);
+            DatabaseHandler.GetData(query);
         }
 
         public void DeleteSectorFromTrack(Track track, Sector sector)
@@ -97,24 +86,24 @@ namespace OdoriRails.Helpers.DAL.Contexts
             var query = new SqlCommand("DELETE FROM Sector WHERE TrackFk = @track AND SectorPK = @sector");
             query.Parameters.AddWithValue("@track", track.Number);
             query.Parameters.AddWithValue("@sector", sector.Number + 1);
-            _databaseHandler.GetData(query);
+            DatabaseHandler.GetData(query);
         }
 
         public void WipeTramFromSectorByTramId(int id)
         {
             var query = new SqlCommand("UPDATE Sector SET Status = 0 WHERE TramFk = @id");
             query.Parameters.AddWithValue("@id", id);
-            _databaseHandler.GetData(query);
+            DatabaseHandler.GetData(query);
 
             query = new SqlCommand("UPDATE Sector SET TramFk = null WHERE TramFk = @id");
             query.Parameters.AddWithValue("@id", id);
-            _databaseHandler.GetData(query);
+            DatabaseHandler.GetData(query);
         }
 
         public void WipeTramsFromSectors()
         {
-            _databaseHandler.GetData(new SqlCommand("UPDATE Sector SET TramFk = null"));
-            _databaseHandler.GetData(new SqlCommand("UPDATE Sector SET Status = 0 WHERE Status = 2"));
+            DatabaseHandler.GetData(new SqlCommand("UPDATE Sector SET TramFk = null"));
+            DatabaseHandler.GetData(new SqlCommand("UPDATE Sector SET Status = 0 WHERE Status = 2"));
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using OdoriRails.BaseClasses;
@@ -9,20 +8,12 @@ namespace OdoriRails.Helpers.DAL.Contexts
 {
     public class TramContext : ITramContext
     {
-        private readonly DatabaseHandler _databaseHandler;
-        private readonly UserContext _userContext;
-        private readonly TrackSectorContext _trackSectorContext;
-        public TramContext(DatabaseHandler databaseHandler)
-        {
-            _databaseHandler = databaseHandler;
-            _userContext = new UserContext(_databaseHandler);
-            _trackSectorContext = new TrackSectorContext(_databaseHandler);
-        }
-
+        private static readonly UserContext _userContext = new UserContext();
+        private static readonly TrackSectorContext _trackSectorContext;
 
         public DataRow GetTram(int tramId)
         {
-            var data =  _databaseHandler.GetData(new SqlCommand($"SELECT * FROM Tram WHERE TramPk = {tramId}"));
+            var data = DatabaseHandler.GetData(new SqlCommand($"SELECT * FROM Tram WHERE TramPk = {tramId}"));
             return data.Rows.Count == 0 ? null : data.Rows[0];
         }
 
@@ -40,22 +31,22 @@ namespace OdoriRails.Helpers.DAL.Contexts
             else query.Parameters.AddWithValue("@driver", DBNull.Value);
             query.Parameters.AddWithValue("@remise", 1);
 
-            _databaseHandler.GetData(query);
+            DatabaseHandler.GetData(query);
         }
 
         public void RemoveTram(Tram tram)
         {
-            _databaseHandler.GetData(new SqlCommand($"DELETE FROM Tram WHERE TramPk = {tram.Number}"));
+            DatabaseHandler.GetData(new SqlCommand($"DELETE FROM Tram WHERE TramPk = {tram.Number}"));
         }
 
         public DataTable GetAllTrams()
         {
-            return _databaseHandler.GetData(new SqlCommand("SELECT * FROM Tram"));
+            return DatabaseHandler.GetData(new SqlCommand("SELECT * FROM Tram"));
         }
 
         public DataTable GetTramsByDriver(User driver)
         {
-            return _databaseHandler.GetData(new SqlCommand($"SELECT * FROM Tram WHERE DriverFk = {driver.Id}"));
+            return DatabaseHandler.GetData(new SqlCommand($"SELECT * FROM Tram WHERE DriverFk = {driver.Id}"));
         }
 
         public void EditTram(Tram tram)
@@ -72,55 +63,55 @@ namespace OdoriRails.Helpers.DAL.Contexts
             else query.Parameters.AddWithValue("@dep", tram.DepartureTime);
             query.Parameters.AddWithValue("@loc", (int)tram.Location);
             query.Parameters.AddWithValue("@id", tram.Number);
-            _databaseHandler.GetData(query);
+            DatabaseHandler.GetData(query);
         }
 
         public DataTable GetAllTramsWithStatus(TramStatus status)
         {
-            return _databaseHandler.GetData(new SqlCommand($"SELECT * FROM Tram WHERE Status = {(int)status}"));
+            return DatabaseHandler.GetData(new SqlCommand($"SELECT * FROM Tram WHERE Status = {(int)status}"));
         }
 
         public DataTable GetAllTramsWithLocation(TramLocation location)
         {
-            return _databaseHandler.GetData(new SqlCommand($"SELECT * FROM Tram WHERE Location = {(int)location}"));
+            return DatabaseHandler.GetData(new SqlCommand($"SELECT * FROM Tram WHERE Location = {(int)location}"));
         }
 
         public DataRow GetAssignedSector(Tram tram)
         {
-            var data = _databaseHandler.GetData(new SqlCommand($"SELECT * FROM Sector WHERE TramFk = {tram.Number}"));
+            var data = DatabaseHandler.GetData(new SqlCommand($"SELECT * FROM Sector WHERE TramFk = {tram.Number}"));
             return data.Rows.Count == 0 ? null : data.Rows[0];
         }
 
         public void WipeDepartureTimes()
         {
-            _databaseHandler.GetData(new SqlCommand("UPDATE Tram SET DepartureTime = null"));
+            DatabaseHandler.GetData(new SqlCommand("UPDATE Tram SET DepartureTime = null"));
         }
 
         public DataRow FetchTram(Tram tram)
         {
-            var data = _databaseHandler.GetData(new SqlCommand($"SELECT * FROM Tram WHERE TramPk = {tram.Number}"));
+            var data = DatabaseHandler.GetData(new SqlCommand($"SELECT * FROM Tram WHERE TramPk = {tram.Number}"));
             return data.Rows.Count == 0 ? null : data.Rows[0];
         }
 
         public bool DoesTramExist(int id)
         {
-            return _databaseHandler.GetData(new SqlCommand($"SELECT * FROM Tram WHERE TramPk = {id}")).Rows.Count > 0;
+            return DatabaseHandler.GetData(new SqlCommand($"SELECT * FROM Tram WHERE TramPk = {id}")).Rows.Count > 0;
         }
 
         public void SetUserToTram(Tram tram, User user)
         {
             if (tram == null) return;
-            _databaseHandler.GetData(new SqlCommand($"UPDATE Tram SET DriverFk = {user?.Id.ToString() ?? "null"} WHERE TramPk = {tram.Number}"));
+            DatabaseHandler.GetData(new SqlCommand($"UPDATE Tram SET DriverFk = {user?.Id.ToString() ?? "null"} WHERE TramPk = {tram.Number}"));
         }
 
         public DataTable GetTramIdByDriverId(int driverId)
         {
-            return _databaseHandler.GetData(new SqlCommand($"SELECT TramPk FROM Tram WHERE DriverFk = {driverId}"));
+            return DatabaseHandler.GetData(new SqlCommand($"SELECT TramPk FROM Tram WHERE DriverFk = {driverId}"));
         }
 
         public void SetStatusToIdle(int tramId)
         {
-            _databaseHandler.GetData(new SqlCommand($"UPDATE Tram SET Status = 0 WHERE TramPk = {tramId}"));
+            DatabaseHandler.GetData(new SqlCommand($"UPDATE Tram SET Status = 0 WHERE TramPk = {tramId}"));
         }
     }
 }
