@@ -19,7 +19,7 @@ namespace OdoriRails.Helpers.UserBeheersysteem
         public List<User> UsersSearch { get; } = new List<User>();
         public List<User> UsersAll { get; } = new List<User>();
 
-        public void GetAllUsersFromDatabase()
+        public List<User> GetAllUsersFromDatabase()
         {
             UsersAll.Clear();
             var tempUsers = _userBeheerRepository.GetAllUsers();
@@ -30,9 +30,10 @@ namespace OdoriRails.Helpers.UserBeheersysteem
                 if (ids.Count > 0) tramId = ids[0];
                 UsersAll.Add(new User(tempUser.Id, tempUser.Name, tempUser.Username, tempUser.Email, tempUser.Password, tempUser.Role, tempUser.ManagerUsername, tramId));
             }
+            return UsersAll;
         }
 
-        public void GetSelectUsersFromDatabase(int index)
+        public List<User> GetSelectUsersFromDatabase(int index)
         {
             UsersSearch.Clear();
 
@@ -45,6 +46,7 @@ namespace OdoriRails.Helpers.UserBeheersysteem
                 if (ids.Count > 0) tramId = ids[0];
                 UsersSearch.Add(new User(tempUser.Id, tempUser.Name, tempUser.Username, tempUser.Email, tempUser.Password, tempUser.Role, tempUser.ManagerUsername, tramId));
             }
+            return UsersSearch;
         }
 
         public void DeleteUser(int delIndex)

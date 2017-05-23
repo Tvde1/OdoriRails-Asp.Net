@@ -8,6 +8,6 @@ namespace OdoriRails.Models
 {
     public class UserBeheerSysteemModel : BaseModel
     {
-        List<User> users { get; set; }
+        public List<User> users { get; set; }
     }
 }
