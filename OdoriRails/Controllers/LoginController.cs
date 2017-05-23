@@ -13,10 +13,10 @@ namespace OdoriRails.Controllers
         // GET: Login
         public ActionResult Index()
         {
-            var user = new User(0, "Jan");
-            var model = new LoginModel{User =  user};
+            //var user = new User(0, "Jan");
+            //var model = new LoginModel{User =  user};
 
-            return View(model);
+            return View();
         }
     }
 }

@@ -2,6 +2,7 @@
 using OdoriRails.Helpers.DAL.ContextInterfaces;
 using OdoriRails.Helpers.DAL.Contexts;
 
+
 namespace OdoriRails.Helpers.DAL.Repository
 {
     public class UserBeheerRepository : BaseRepository
