@@ -7,15 +7,15 @@ using OdoriRails.Helpers.DAL.Contexts;
 
 namespace OdoriRails.Helpers.DAL.Repository
 {
-    public class LogisticRepository
+    public class LogisticRepository : BaseRepository
     {
-        public LogisticRepository(DatabaseHandler databaseHandler)
+        public LogisticRepository()
         {
-            _userContext = new UserContext(databaseHandler);
-            _serviceContext = new ServiceContext(databaseHandler);
-            _trackSectorContext = new TrackSectorContext(databaseHandler);
-            _tramContext = new TramContext(databaseHandler);
-            _objectCreator = new ObjectCreator(databaseHandler);
+            _userContext = new UserContext(DatabaseHandler);
+            _serviceContext = new ServiceContext(DatabaseHandler);
+            _trackSectorContext = new TrackSectorContext(DatabaseHandler);
+            _tramContext = new TramContext(DatabaseHandler);
+            _objectCreator = new ObjectCreator(DatabaseHandler);
         }
 
         private readonly IUserContext _userContext;

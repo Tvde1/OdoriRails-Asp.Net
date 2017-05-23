@@ -4,14 +4,14 @@ using OdoriRails.Helpers.DAL.Contexts;
 
 namespace OdoriRails.Helpers.DAL.Repository
 {
-    public class UserBeheerRepository
+    public class UserBeheerRepository : BaseRepository
     {
-        public UserBeheerRepository(DatabaseHandler databaseHandler)
+        public UserBeheerRepository()
         {
-            _userContext = new UserContext(databaseHandler);
-            _tramContext = new TramContext(databaseHandler);
-            _loginContext = new LoginContext(databaseHandler);
-            _objectCreator = new ObjectCreator(databaseHandler);
+            _userContext = new UserContext(DatabaseHandler);
+            _tramContext = new TramContext(DatabaseHandler);
+            _loginContext = new LoginContext(DatabaseHandler);
+            _objectCreator = new ObjectCreator(DatabaseHandler);
         }
 
         private readonly IUserContext _userContext;
