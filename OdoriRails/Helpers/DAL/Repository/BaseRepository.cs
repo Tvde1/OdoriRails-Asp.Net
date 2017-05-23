@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
 namespace OdoriRails.Helpers.DAL.Repository
 {
     public abstract class BaseRepository
     {
-        private static readonly string ConnectionString = "xd";
-        
-        public Exception TestConnection()
+        private const string ConnectionString = "Data Source=192.168.20.189;Initial Catalog=OdoriRails;User ID=sa;Password=OdoriRails123;";
+
+        public static Exception TestConnection()
         {
             try
             {

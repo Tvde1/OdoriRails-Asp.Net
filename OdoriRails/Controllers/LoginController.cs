@@ -15,7 +15,7 @@ namespace OdoriRails.Controllers
         private readonly LoginRepository _repository = new LoginRepository();
         public ActionResult Index()
         {
-            var conn = _repository.TestConnection();
+            var conn = BaseRepository.TestConnection();
             if (conn != null)
             {
                 var errorModel = new LoginModel() { Error = "Can't connect to the database." };
@@ -30,7 +30,7 @@ namespace OdoriRails.Controllers
         [HttpPost]
         public ActionResult Index(LoginModel model)
         {
-            var conn = _repository.TestConnection();
+            var conn = BaseRepository.TestConnection();
             if (conn != null)
             {
                 var errorModel = new LoginModel() { Error = "Can't connect to the database." };

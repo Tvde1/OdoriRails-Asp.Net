@@ -1,28 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 
 namespace OdoriRails.Helpers.DAL
 {
     public class DatabaseHandler
     {
-        //private const string ConnectionString = @"Data Source=192.168.20.189;Initial Catalog=OdoriRails;User ID=sa;Password=OdoriRails123;";
-
-        private static string _connectionString;
-
-        public DatabaseHandler(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
-
+        private const string ConnectionString = @"Data Source=192.168.20.189;Initial Catalog=OdoriRails;User ID=sa;Password=OdoriRails123;";
+        
         public static DataTable GetData(SqlCommand command)
         {
             try
             {
                 var dataTable = new DataTable();
-                using (var conn = new SqlConnection(_connectionString))
+                using (var conn = new SqlConnection(ConnectionString))
                 {
                     command.Connection = conn;
                     var adapter = new SqlDataAdapter(command);
