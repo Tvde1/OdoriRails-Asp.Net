@@ -160,7 +160,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\Cleaning.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\ILoginContext.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\IServiceContext.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\ITrackSectorContext.cs" />
@@ -173,18 +172,20 @@
     <Compile Include="Helpers\DAL\Contexts\UserContext.cs" />
     <Compile Include="Helpers\DAL\DatabaseHandler.cs" />
     <Compile Include="Helpers\DAL\DatabaseException.cs" />
+    <Compile Include="Helpers\DAL\Repository\BaseRepository.cs" />
     <Compile Include="Helpers\DAL\Repository\InUitrijRepository.cs" />
     <Compile Include="Helpers\DAL\Repository\LoginRepository.cs" />
     <Compile Include="Helpers\DAL\Repository\LogisticRepository.cs" />
     <Compile Include="Helpers\DAL\Repository\SchoonmaakReparatieRepository.cs" />
     <Compile Include="Helpers\DAL\Repository\UserBeheerRepository.cs" />
-    <Compile Include="Helpers\ObjectCreator.cs" />
-    <Compile Include="Helpers\Repair.cs" />
-    <Compile Include="Helpers\Sector.cs" />
-    <Compile Include="Helpers\Service.cs" />
-    <Compile Include="Helpers\Track.cs" />
-    <Compile Include="Helpers\Tram.cs" />
-    <Compile Include="Helpers\User.cs" />
+    <Compile Include="Helpers\Objects\Cleaning.cs" />
+    <Compile Include="Helpers\Objects\ObjectCreator.cs" />
+    <Compile Include="Helpers\Objects\Repair.cs" />
+    <Compile Include="Helpers\Objects\Sector.cs" />
+    <Compile Include="Helpers\Objects\Service.cs" />
+    <Compile Include="Helpers\Objects\Track.cs" />
+    <Compile Include="Helpers\Objects\Tram.cs" />
+    <Compile Include="Helpers\Objects\User.cs" />
     <Compile Include="Helpers\UserBeheersysteem\UserBeheerLogic.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
