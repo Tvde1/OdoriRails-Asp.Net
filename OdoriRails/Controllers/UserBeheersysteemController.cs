@@ -16,14 +16,14 @@ namespace OdoriRails.Controllers
         // GET: UserBeheersysteem
         public ActionResult Index()//Show all users
         {
-            model.users = logic.GetAllUsersFromDatabase();
-            return View(model);
+            //model.users = logic.GetAllUsersFromDatabase();
+            return View();
         }
 
-        public ActionResult Index(int index)//Show all users of a certain type
-        {
-            model.users = logic.GetSelectUsersFromDatabase(index);
-            return View(model);
-        }
+      //  public ActionResult Index(int index)//Show all users of a certain type
+      //  {
+         //   model.users = logic.GetSelectUsersFromDatabase(index);
+         //   return View(model);
+      //  }
     }
 }
