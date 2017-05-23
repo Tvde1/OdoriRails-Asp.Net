@@ -114,6 +114,7 @@
     <Compile Include="Controllers\DriverController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\SRMainMenuController.cs" />
+    <Compile Include="Controllers\UserBeheersysteemController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -172,6 +173,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\i18n\" />
+    <Folder Include="Views\UserBeheersysteem\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
