@@ -110,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DriverController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\SRMainMenuController.cs" />
     <Compile Include="Global.asax.cs">
@@ -143,6 +144,7 @@
     <Compile Include="Helpers\Objects\User.cs" />
     <Compile Include="Helpers\UserBeheersysteem\UserBeheerLogic.cs" />
     <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\DriverModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\UserBeheerSysteemModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -158,6 +160,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\SRMainMenu\Index.cshtml" />
+    <Content Include="Views\Driver\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
