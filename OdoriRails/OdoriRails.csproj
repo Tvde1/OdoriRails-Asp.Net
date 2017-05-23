@@ -185,6 +185,7 @@
     <Compile Include="Helpers\Track.cs" />
     <Compile Include="Helpers\Tram.cs" />
     <Compile Include="Helpers\User.cs" />
+    <Compile Include="Helpers\UserBeheersysteem\UserBeheerLogic.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
