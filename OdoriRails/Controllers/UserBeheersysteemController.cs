@@ -1,21 +1,22 @@
 ﻿using OdoriRails.Helpers.UserBeheersysteem;
 using OdoriRails.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using OdoriRails.Helpers;
 
 namespace OdoriRails.Controllers
 {
-    public class UserBeheersysteemController : Controller
+    public class UserBeheersysteemController : BaseControllerFunctions
     {
+        //Naar ronald: Deze kun je beter in ieder ActionResult zelf aanmaken.
         UserBeheerLogic logic = new UserBeheerLogic();
         UserBeheerSysteemModel model = new UserBeheerSysteemModel();
 
         // GET: UserBeheersysteem
         public ActionResult Index()//Show all users
         {
+            var user = GetLoggedInUser();
+            if (user == null) return NotLoggedIn();
+
             //model.users = logic.GetAllUsersFromDatabase();
             return View();
         }

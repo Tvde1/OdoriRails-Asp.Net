@@ -1,18 +1,18 @@
 ﻿using OdoriRails.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using OdoriRails.Helpers;
 
 namespace OdoriRails.Controllers
 {
-    public class DriverController : Controller
+    public class DriverController : BaseControllerFunctions
     {
         // GET: Driver
         public ActionResult Index()
         {
-            var model = new DriverModel();
+            var user = GetLoggedInUser();
+            if (user == null) return NotLoggedIn();
+
+            var model = new DriverModel { User = user };
 
             return View(model);
         }

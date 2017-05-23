@@ -5,7 +5,7 @@ using System.Web;
 
 namespace OdoriRails.Models
 {
-    public class DriverModel
+    public class DriverModel : BaseModel
     {
     }
 }

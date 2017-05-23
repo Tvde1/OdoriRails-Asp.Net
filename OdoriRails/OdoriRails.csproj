@@ -119,6 +119,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\BaseControllerFunctions.cs" />
     <Compile Include="Helpers\DAL\Repository\BaseRepository.cs" />
     <Compile Include="Helpers\Objects\Cleaning.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\ILoginContext.cs" />

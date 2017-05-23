@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using OdoriRails.Helpers;
-using OdoriRails.Helpers.DAL;
 using OdoriRails.Helpers.DAL.Repository;
 using OdoriRails.Models;
 
@@ -18,7 +14,7 @@ namespace OdoriRails.Controllers
             var conn = BaseRepository.TestConnection();
             if (conn != null)
             {
-                var errorModel = new LoginModel() { Error = "Can't connect to the database." };
+                var errorModel = new LoginModel { Error = "Kan niet met de database verbinden." };
                 return View(errorModel);
             }
             var result = TrySignInWithCookies();
@@ -33,7 +29,7 @@ namespace OdoriRails.Controllers
             var conn = BaseRepository.TestConnection();
             if (conn != null)
             {
-                var errorModel = new LoginModel() { Error = "Can't connect to the database." };
+                var errorModel = new LoginModel { Error = "Kan niet met de database verbinden." };
                 return View(errorModel);
             }
 
@@ -114,6 +110,26 @@ namespace OdoriRails.Controllers
             //return RedirectToAction("Index", "Home");
 
             //Adh van de user.role de juiste view teruggeven.
+
+            switch (((User)Session["User"]).Role)
+            {
+                case Role.Administrator:
+                    return RedirectToAction("Index", "UserBeheersysteem");
+                case Role.Logistic:
+                    break;
+                case Role.Driver:
+                    return RedirectToAction("Index", "Driver");
+                case Role.Cleaner:
+                    return RedirectToAction("Index", "SRMainMenu");
+                case Role.Engineer:
+                    return RedirectToAction("Index", "SRMainMenu");
+                case Role.HeadEngineer:
+                    return RedirectToAction("Index", "SRMainMenu");
+                case Role.HeadCleaner:
+                    return RedirectToAction("Index", "SRMainMenu");
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
 
 
             return null;
