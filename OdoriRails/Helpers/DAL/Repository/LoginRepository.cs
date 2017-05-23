@@ -13,7 +13,7 @@ namespace OdoriRails.Helpers.DAL.Repository
 
         public LoginRepository()
         {
-            _loginContext = new LoginContext(databaseHandler);
+            _loginContext = new LoginContext(DatabaseHandler);
         }
 
 
