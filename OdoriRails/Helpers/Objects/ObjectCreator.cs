@@ -15,11 +15,11 @@ namespace OdoriRails.Helpers
         private readonly ITramContext _tramContext;
         private readonly IServiceContext _serviceContext;
 
-        public ObjectCreator(DatabaseHandler databaseHandler)
+        public ObjectCreator()
         {
-            _userContext = new UserContext(databaseHandler);
-            _tramContext = new TramContext(databaseHandler);
-            _serviceContext = new ServiceContext(databaseHandler);
+            _userContext = new UserContext();
+            _tramContext = new TramContext();
+            _serviceContext = new ServiceContext();
         }
 
         public User CreateUser(DataRow row)

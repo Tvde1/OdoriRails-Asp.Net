@@ -126,6 +126,7 @@
     <Content Include="bin\System.Web.Webpages.xml" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\signin.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -149,8 +150,6 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Views\SRMainMenu\normalize.css" />
-    <Content Include="Views\SRMainMenu\skeleton.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +159,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\DAL\Repository\BaseRepository.cs" />
+    <Compile Include="Helpers\Objects\Cleaning.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\ILoginContext.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\IServiceContext.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\ITrackSectorContext.cs" />
@@ -172,13 +173,11 @@
     <Compile Include="Helpers\DAL\Contexts\UserContext.cs" />
     <Compile Include="Helpers\DAL\DatabaseHandler.cs" />
     <Compile Include="Helpers\DAL\DatabaseException.cs" />
-    <Compile Include="Helpers\DAL\Repository\BaseRepository.cs" />
     <Compile Include="Helpers\DAL\Repository\InUitrijRepository.cs" />
     <Compile Include="Helpers\DAL\Repository\LoginRepository.cs" />
     <Compile Include="Helpers\DAL\Repository\LogisticRepository.cs" />
     <Compile Include="Helpers\DAL\Repository\SchoonmaakReparatieRepository.cs" />
     <Compile Include="Helpers\DAL\Repository\UserBeheerRepository.cs" />
-    <Compile Include="Helpers\Objects\Cleaning.cs" />
     <Compile Include="Helpers\Objects\ObjectCreator.cs" />
     <Compile Include="Helpers\Objects\Repair.cs" />
     <Compile Include="Helpers\Objects\Sector.cs" />
@@ -186,7 +185,6 @@
     <Compile Include="Helpers\Objects\Track.cs" />
     <Compile Include="Helpers\Objects\Tram.cs" />
     <Compile Include="Helpers\Objects\User.cs" />
-    <Compile Include="Helpers\UserBeheersysteem\UserBeheerLogic.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
