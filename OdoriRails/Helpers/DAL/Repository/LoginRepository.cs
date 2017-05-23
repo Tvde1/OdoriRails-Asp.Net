@@ -7,13 +7,15 @@ using OdoriRails.Helpers.DAL.Contexts;
 
 namespace OdoriRails.Helpers.DAL.Repository
 {
-    public class LoginRepository
+    public class LoginRepository : BaseRepository
     {
         private ILoginContext _loginContext;
 
-        public LoginRepository(DatabaseHandler databaseHandler)
+        public LoginRepository()
         {
-            _loginContext = new LoginContext(databaseHandler);
+            _loginContext = new LoginContext(DatabaseHandler);
         }
+
+
     }
 }
