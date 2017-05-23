@@ -1,4 +1,5 @@
 ﻿using OdoriRails.Helpers.DAL.Repository;
+using OdoriRails.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,7 +74,7 @@ namespace OdoriRails.Helpers.UserBeheersysteem
             return _userBeheerRepository.GetUserId(username);
         }
 
-        internal bool AddUser(string name, string userName, string email, string password, Role role, string managedName, string tramId)
+        public bool AddUser(string name, string userName, string email, string password, Role role, string managedName, string tramId)
         {
             int tramIdResult = -1;
             if (userName == "")
