@@ -127,6 +127,7 @@
     <Compile Include="Helpers\DAL\Contexts\UserContext.cs" />
     <Compile Include="Helpers\DAL\DatabaseHandler.cs" />
     <Compile Include="Helpers\DAL\DatabaseException.cs" />
+    <Compile Include="Helpers\DAL\Repository\BaseRepository.cs" />
     <Compile Include="Helpers\DAL\Repository\InUitrijRepository.cs" />
     <Compile Include="Helpers\DAL\Repository\LoginRepository.cs" />
     <Compile Include="Helpers\DAL\Repository\LogisticRepository.cs" />
