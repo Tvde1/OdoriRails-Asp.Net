@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model OdoriRails.Models.BaseModel
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -26,13 +28,36 @@
         </div>
     </div>
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - OdoriRails BV</p>
-        </footer>
-    </div>
+<div class="container body-content">
+    
+    @if (Model.Error != null)
+    {
+        <div class="alert alert-danger" style="margin-top: 20px">
+            <a class="close" onclick="$('.alert').hide()" aria-label="close">&times;</a>
+            <strong>Error!</strong> @Model.Error
+        </div>
+    }
+    else if (Model.Sucess != null)
+    {
+        <div class="alert alert-success" style="margin-top: 20px">
+            <a class="close" onclick="$('.alert').hide()" aria-label="close">&times;</a>
+            <strong>Sucess!</strong> @Model.Sucess
+        </div>
+    }
+    else if (Model.Warning != null)
+    {
+        <div class="alert alert-warning" style="margin-top: 20px">
+            <a class="close" onclick="$('.alert').hide()" aria-label="close">&times;</a>
+            <strong>Warning!</strong> @Model.Warning
+        </div>
+    }
+
+    @RenderBody()
+    <hr/>
+    <footer>
+        <p>&copy; @DateTime.Now.Year - OdoriRails BV</p>
+    </footer>
+</div>
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
