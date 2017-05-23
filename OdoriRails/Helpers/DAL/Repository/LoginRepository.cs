@@ -1,21 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using OdoriRails.Helpers.DAL.ContextInterfaces;
+﻿using OdoriRails.Helpers.DAL.ContextInterfaces;
 using OdoriRails.Helpers.DAL.Contexts;
 
 namespace OdoriRails.Helpers.DAL.Repository
 {
     public class LoginRepository : BaseRepository
     {
-        private ILoginContext _loginContext;
+        private readonly ILoginContext _loginContext = new LoginContext();
+        private readonly IUserContext _userContext = new UserContext();
+        private readonly ObjectCreator _objectCreator = new ObjectCreator();
 
-        public LoginRepository()
+        public int ValidateUser(string username, string password)
         {
-            _loginContext = new LoginContext(DatabaseHandler);
+            if (!_loginContext.ValidateUsername(username)) return -2;
+            if (!_loginContext.MatchUsernameAndPassword(username, password)) return -1;
+            return 1;
         }
 
 
+        public User FetchUser(string username)
+        {
+            return _objectCreator.CreateUser(_userContext.GetUser(username));
+        }
     }
 }

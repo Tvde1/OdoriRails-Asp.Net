@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using OdoriRails.Helpers.DAL.ContextInterfaces;
@@ -8,13 +7,7 @@ namespace OdoriRails.Helpers.DAL.Contexts
 {
     public class UserContext : IUserContext
     {
-        private readonly DatabaseHandler _databaseHandler;
-        private static TramContext _tramContext;
-        public UserContext(DatabaseHandler databaseHandler)
-        {
-            _databaseHandler = databaseHandler;
-            _tramContext = new TramContext(_databaseHandler);
-        }
+        private static TramContext _tramContext = new TramContext();
 
 
         public User AddUser(User user)
@@ -29,19 +22,19 @@ namespace OdoriRails.Helpers.DAL.Contexts
             if (string.IsNullOrEmpty(user.ManagerUsername)) query.Parameters.AddWithValue("@managedBy", DBNull.Value);
             else query.Parameters.AddWithValue("@managedBy", GetUserId(user.ManagerUsername));
 
-            user.SetId(Convert.ToInt32((decimal)_databaseHandler.GetData(query).Rows[0][0]));
+            user.SetId(Convert.ToInt32((decimal)DatabaseHandler.GetData(query).Rows[0][0]));
             return user;
         }
 
         public DataTable GetAllUsers()
         {
-            return _databaseHandler.GetData(new SqlCommand("SELECT * FROM [User]"));
+            return DatabaseHandler.GetData(new SqlCommand("SELECT * FROM [User]"));
         }
 
         public void RemoveUser(User user)
         {
-            _databaseHandler.GetData(new SqlCommand($"UPDATE [User] SET ManagedBy = null WHERE ManagedBy = {user.Id}"));
-            _databaseHandler.GetData(new SqlCommand($"DELETE FROM [User] WHERE UserPk = {user.Id}"));
+            DatabaseHandler.GetData(new SqlCommand($"UPDATE [User] SET ManagedBy = null WHERE ManagedBy = {user.Id}"));
+            DatabaseHandler.GetData(new SqlCommand($"DELETE FROM [User] WHERE UserPk = {user.Id}"));
         }
 
         public void UpdateUser(User user)
@@ -55,17 +48,17 @@ namespace OdoriRails.Helpers.DAL.Contexts
             if (string.IsNullOrEmpty(user.ManagerUsername)) query.Parameters.AddWithValue("@managedby", DBNull.Value);
             else query.Parameters.AddWithValue("@managedby", GetUserId(user.ManagerUsername));
             query.Parameters.AddWithValue("@id", user.Id);
-            _databaseHandler.GetData(query);
+            DatabaseHandler.GetData(query);
         }
 
         public DataTable GetAllUsersWithFunction(Role role)
         {
-            return _databaseHandler.GetData(new SqlCommand($"SELECT * FROM [User] WHERE Role = {(int)role}"));
+            return DatabaseHandler.GetData(new SqlCommand($"SELECT * FROM [User] WHERE Role = {(int)role}"));
         }
 
         public DataRow GetUser(int id)
         {
-            var data = _databaseHandler.GetData(new SqlCommand($"SELECT * FROM [User] WHERE UserPk = {id}"));
+            var data = DatabaseHandler.GetData(new SqlCommand($"SELECT * FROM [User] WHERE UserPk = {id}"));
             return data.Rows.Count == 0 ? null : data.Rows[0];
         }
 
@@ -73,7 +66,7 @@ namespace OdoriRails.Helpers.DAL.Contexts
         {
             var command = new SqlCommand("SELECT * FROM [User] WHERE UserPk = @id");
             command.Parameters.AddWithValue("@id", GetUserId(userName));
-            var data  = _databaseHandler.GetData(command);
+            var data = DatabaseHandler.GetData(command);
             return data.Rows.Count == 0 ? null : data.Rows[0];
         }
 
@@ -81,7 +74,7 @@ namespace OdoriRails.Helpers.DAL.Contexts
         {
             var query = new SqlCommand("SELECT UserPk FROM [User] WHERE Username = @username");
             query.Parameters.AddWithValue("@username", username);
-            return (int)_databaseHandler.GetData(query).Rows[0].ItemArray[0];
+            return (int)DatabaseHandler.GetData(query).Rows[0].ItemArray[0];
         }
     }
 }

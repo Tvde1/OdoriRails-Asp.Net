@@ -10,14 +10,14 @@ namespace OdoriRails.Helpers.DAL
     {
         //private const string ConnectionString = @"Data Source=192.168.20.189;Initial Catalog=OdoriRails;User ID=sa;Password=OdoriRails123;";
 
-        private string _connectionString;
+        private static string _connectionString;
 
         public DatabaseHandler(string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public  DataTable GetData(SqlCommand command)
+        public static DataTable GetData(SqlCommand command)
         {
             try
             {
@@ -25,7 +25,7 @@ namespace OdoriRails.Helpers.DAL
                 using (var conn = new SqlConnection(_connectionString))
                 {
                     command.Connection = conn;
-                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    var adapter = new SqlDataAdapter(command);
                     adapter.Fill(dataTable);
                     return dataTable;
                 }

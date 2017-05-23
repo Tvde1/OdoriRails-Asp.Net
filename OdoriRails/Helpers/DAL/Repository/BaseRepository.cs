@@ -9,13 +9,7 @@ namespace OdoriRails.Helpers.DAL.Repository
     public abstract class BaseRepository
     {
         private static readonly string ConnectionString = "xd";
-        public DatabaseHandler DatabaseHandler { get; }
-
-        public BaseRepository()
-        {
-            DatabaseHandler = new DatabaseHandler(ConnectionString);
-        }
-
+        
         public Exception TestConnection()
         {
             try

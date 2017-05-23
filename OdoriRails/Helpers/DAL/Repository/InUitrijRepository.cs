@@ -7,18 +7,10 @@ namespace OdoriRails.Helpers.DAL.Repository
 {
     public class InUitrijRepository : BaseRepository
     {
-        public InUitrijRepository()
-        {
-            _userContext = new UserContext(DatabaseHandler);
-            _serviceContext = new ServiceContext(DatabaseHandler);
-            _tramContext = new TramContext(DatabaseHandler);
-            _objectCreator = new ObjectCreator(DatabaseHandler);
-        }
-
-        private readonly IUserContext _userContext;
-        private readonly IServiceContext _serviceContext;
-        private readonly ITramContext _tramContext;
-        private readonly ObjectCreator _objectCreator;
+        private readonly IUserContext _userContext = new UserContext();
+        private readonly IServiceContext _serviceContext = new ServiceContext();
+        private readonly ITramContext _tramContext = new TramContext();
+        private readonly ObjectCreator _objectCreator = new ObjectCreator();
 
         /// <summary>
         /// Voegt een Schoonmaak toe en geeft de schoonmaak met ID terug.
