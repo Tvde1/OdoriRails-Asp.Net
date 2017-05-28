@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using OdoriRails.Helpers;
 using OdoriRails.Helpers.DAL.Repository;
+using OdoriRails.Helpers.Objects;
 using OdoriRails.Models;
 
 namespace OdoriRails.Controllers

@@ -1,7 +1,6 @@
 ﻿using System;
-using OdoriRails.Helpers;
 
-namespace OdoriRails.BaseClasses
+namespace OdoriRails.Helpers.Objects
 {
     public enum TramStatus
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using OdoriRails.BaseClasses;
 using OdoriRails.Helpers.DAL.ContextInterfaces;
+using OdoriRails.Helpers.Objects;
 
 namespace OdoriRails.Helpers.DAL.Contexts
 {
@@ -98,13 +98,12 @@ namespace OdoriRails.Helpers.DAL.Contexts
             return DatabaseHandler.GetData(new SqlCommand($"SELECT * FROM Tram WHERE TramPk = {id}")).Rows.Count > 0;
         }
 
-        public void SetUserToTram(Tram tram, User user)
+        public void SetUserToTram(int tramId, int? userId)
         {
-            if (tram == null) return;
-            DatabaseHandler.GetData(new SqlCommand($"UPDATE Tram SET DriverFk = {user?.Id.ToString() ?? "null"} WHERE TramPk = {tram.Number}"));
+            DatabaseHandler.GetData(new SqlCommand($"UPDATE Tram SET DriverFk = {userId?.ToString() ?? "null"} WHERE TramPk = {tramId}"));
         }
 
-        public DataTable GetTramIdByDriverId(int driverId)
+        public DataTable GetTramIdsByDriverId(int driverId)
         {
             return DatabaseHandler.GetData(new SqlCommand($"SELECT TramPk FROM Tram WHERE DriverFk = {driverId}"));
         }

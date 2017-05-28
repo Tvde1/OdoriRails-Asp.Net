@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using OdoriRails.BaseClasses;
+using OdoriRails.Helpers.Objects;
 
 namespace OdoriRails.Helpers.DAL.ContextInterfaces
 {

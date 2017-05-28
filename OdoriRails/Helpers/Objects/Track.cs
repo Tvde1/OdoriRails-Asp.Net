@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OdoriRails.BaseClasses
+namespace OdoriRails.Helpers.Objects
 {
     public enum TrackType
     {

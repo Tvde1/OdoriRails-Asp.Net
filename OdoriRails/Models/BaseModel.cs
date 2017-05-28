@@ -1,4 +1,5 @@
 ﻿using OdoriRails.Helpers;
+using OdoriRails.Helpers.Objects;
 
 namespace OdoriRails.Models
 {

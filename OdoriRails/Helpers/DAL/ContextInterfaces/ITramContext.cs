@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using OdoriRails.BaseClasses;
+using OdoriRails.Helpers.Objects;
 
 namespace OdoriRails.Helpers.DAL.ContextInterfaces
 {
@@ -71,9 +71,9 @@ namespace OdoriRails.Helpers.DAL.ContextInterfaces
 
         bool DoesTramExist(int id);
 
-        void SetUserToTram(Tram tram, User user);
+        void SetUserToTram(int tramId, int? userId);
 
-        DataTable GetTramIdByDriverId(int driverId);
+        DataTable GetTramIdsByDriverId(int driverId);
 
         void SetStatusToIdle(int tramId);
     }

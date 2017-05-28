@@ -2,8 +2,8 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using OdoriRails.BaseClasses;
 using OdoriRails.Helpers.DAL.ContextInterfaces;
+using OdoriRails.Helpers.Objects;
 
 namespace OdoriRails.Helpers.DAL.Contexts
 {

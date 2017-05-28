@@ -1,4 +1,6 @@
-﻿namespace OdoriRails.Helpers
+﻿using System.Collections.Generic;
+
+namespace OdoriRails.Helpers.Objects
 {
     public enum Role
     {
@@ -48,7 +50,7 @@
         /// </summary>
         public string ManagerUsername { get; }
 
-        public int? TramId { get; protected set; }
+        public List<int> TramIds { get; protected set; }
 
         /// <summary>
         /// Toevoegen User, minimale hoeveelheid benodigde data.
@@ -69,7 +71,7 @@
         /// <summary>
         /// Toevoegen User, alle benodigde data.
         /// </summary>
-        public User(int id, string name, string username, string email, string password, Role role, string managedByUsername, int? tramId = null)
+        public User(int id, string name, string username, string email, string password, Role role, string managedByUsername, List<int> tramIds = null)
         {
             Id = id;
             Name = name;
@@ -78,7 +80,20 @@
             Username = username;
             Password = password;
             ManagerUsername = managedByUsername;
-            TramId = tramId;
+            TramIds = tramIds ?? new List<int>();
+        }
+
+        public User(User oldUser)
+        {
+            if (oldUser == null) return;
+            Id = oldUser.Id;
+            Name = oldUser.Name;
+            Email = oldUser.Email;
+            Role = oldUser.Role;
+            Username = oldUser.Username;
+            Password = oldUser.Password;
+            ManagerUsername = oldUser.ManagerUsername;
+            TramIds = oldUser.TramIds;
         }
 
         public void SetId(int id)

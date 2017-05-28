@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using OdoriRails.Helpers.DAL.ContextInterfaces;
 using OdoriRails.Helpers.DAL.Contexts;
+using OdoriRails.Helpers.Objects;
 
 
 namespace OdoriRails.Helpers.DAL.Repository
@@ -65,6 +67,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         public void UpdateUser(User user)
         {
             _userContext.UpdateUser(user);
+            SetUserToTrams(user);
         }
 
         /// <summary>
@@ -93,13 +96,21 @@ namespace OdoriRails.Helpers.DAL.Repository
 
         public List<int> GetTramIdByDriverId(int id)
         {
-            return ObjectCreator.GenerateListWithFunction(_tramContext.GetTramIdByDriverId(id), row => (int)row.ItemArray[0]);
+            return ObjectCreator.GenerateListWithFunction(_tramContext.GetTramIdsByDriverId(id), row => (int)row.ItemArray[0]);
         }
 
-        public void SetUserToTram(User user, int? tramId)
+        public void SetUserToTrams(User user)
         {
-            if (tramId != null && DoesTramExist((int)tramId)) _tramContext.SetUserToTram(_objectCreator.CreateTram(_tramContext.GetTram((int)tramId)), user);
-            else _tramContext.SetUserToTram(null, user);
+            var tramsWithUser = ObjectCreator.GenerateListWithFunction(_tramContext.GetTramsByDriver(user), row => (int)row["TramPk"]);
+            foreach (var tram in tramsWithUser.Where(x => !user.TramIds.Contains(x)))
+            {
+                _tramContext.SetUserToTram(tram, null);
+            }
+
+            foreach (var userTramId in user.TramIds)
+            {
+                _tramContext.SetUserToTram(userTramId, user.Id);
+            }
         }
 
         /// <summary>

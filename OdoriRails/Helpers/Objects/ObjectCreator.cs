@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using OdoriRails.BaseClasses;
-using OdoriRails.Helpers.DAL;
 using OdoriRails.Helpers.DAL.ContextInterfaces;
 using OdoriRails.Helpers.DAL.Contexts;
 
-namespace OdoriRails.Helpers
+namespace OdoriRails.Helpers.Objects
 {
     public class ObjectCreator
     {
@@ -27,11 +25,9 @@ namespace OdoriRails.Helpers
             var array = row.ItemArray;
             //name gebr wachtw email rol 
             var parentUserString = array[6] == DBNull.Value ? "" : CreateUser(_userContext.GetUser((int)array[6])).Username;
-            var tramList = GenerateListWithFunction(_tramContext.GetTramIdByDriverId((int)array[0]), dataRow => dataRow.ItemArray[0]);
-
-            var tram = tramList.Count > 0 ? (int?)tramList[0] : null;
-
-            return new User((int)array[0], (string)array[1], (string)array[2], (string)array[4], (string)array[3], (Role)(int)array[5], parentUserString, tram);
+            var tramList = GenerateListWithFunction(_tramContext.GetTramIdsByDriverId((int)array[0]), dataRow => (int)dataRow["TramPk"]);
+            
+            return new User((int)array[0], (string)array[1], (string)array[2], (string)array[4], (string)array[3], (Role)(int)array[5], parentUserString, tramList);
         }
         
         public static Track CreateTrack(DataRow row)

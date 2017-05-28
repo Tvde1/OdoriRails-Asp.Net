@@ -1,4 +1,4 @@
-﻿namespace OdoriRails.BaseClasses
+﻿namespace OdoriRails.Helpers.Objects
 {
     public enum SectorStatus
     {
