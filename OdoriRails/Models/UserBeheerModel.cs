@@ -1,8 +1,8 @@
 ﻿using System;
-using OdoriRails.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Routing;
 using OdoriRails.Helpers.DAL.Repository;
 using OdoriRails.Helpers.Objects;
 
@@ -22,17 +22,18 @@ namespace OdoriRails.Models
             Administrators
         }
 
-        private List<User> _allUsers;
         private readonly UserBeheerRepository _repository = new UserBeheerRepository();
 
-        public List<User> Users { get; set; }
-        public SortMethods SortMethod { get; set; }
+        private List<User> _allUsers;
 
 
         public UserBeheerModel()
         {
             UpdateUserList();
         }
+
+        public List<User> Users { get; set; }
+        public SortMethods SortMethod { get; set; }
 
         public void UpdateUserList()
         {
@@ -78,15 +79,22 @@ namespace OdoriRails.Models
 
     public class EditUserModel : BaseModel
     {
-        private UserBeheerRepository _repository = new UserBeheerRepository();
+        private readonly UserBeheerRepository _repository = new UserBeheerRepository();
+
+        public EditUserModel() : this(null, null)
+        {
+        }
+
+        public EditUserModel(UserBeheerModel model, User user)
+        {
+            CopyBaseModel(model);
+
+            OldUser = user;
+            EditUser = new User(OldUser);
+        }
 
         public User OldUser { get; set; }
         public User EditUser { get; set; }
-
-        public EditUserModel()
-        {
-            EditUser = new User(OldUser);
-        }
 
         public IReadOnlyCollection<User> AllUsers => _repository.GetAllUsers();
 
@@ -94,29 +102,35 @@ namespace OdoriRails.Models
         {
             return _repository.GetUserId(username);
         }
-        
-        private void SaveNewUser()
+
+        public ActionResult Save()
         {
-            throw new NotImplementedException();
-        }
+            if (string.IsNullOrEmpty(EditUser.Username))
+            {
+                Error = "De username mag niet leeg zijn.";
+                return new RedirectToRouteResult("Edit", new RouteValueDictionary(this));
+            }
+            if (_repository.DoesUserExist(EditUser.Username) && _repository.GetUserId(User.Username) != EditUser.Id)
+            {
+                Error = "Deze username is al in gebruik.";
+                return new RedirectToRouteResult("Edit", new RouteValueDictionary(this));
+            }
+            if (EditUser.TramIds.Any(x => !_repository.DoesTramExist(x)))
+            {
+                Error = "Een van de gekozen tramnummers bestaat niet.";
+                return new RedirectToRouteResult("Edit", new RouteValueDictionary(this));
+            }
+            if (string.IsNullOrEmpty(EditUser.Password))
+            {
+                Error = "Het wachtwoord kan niet leeg zijn.";
+                return new RedirectToRouteResult("Edit", new RouteValueDictionary(this));
+            }
 
-        private void UpdateUser(User user)
-        {
-            //TODO: Fix this.
-
-            int tramIdResult;
-            //if (tramId == null) _repository.SetUserToTram(user, null);
-            //if (int.TryParse(tramId, out tramIdResult)) _repository.SetUserToTram(user, tramIdResult);
-            _repository.UpdateUser(user);
-        }
-
-        public void AddUserAndAssignTram(User user, string tramId)
-        {
-            var newUser = _repository.AddUser(user);
-
-            int tramIdResult;
-            if (tramId == null) _repository.SetUserToTram(newUser, null);
-            if (int.TryParse(tramId, out tramIdResult)) _repository.SetUserToTram(newUser, tramIdResult);
+            if (OldUser == null)
+                _repository.AddUser(EditUser);
+            else
+                _repository.UpdateUser(EditUser);
+            return null;
         }
     }
 }

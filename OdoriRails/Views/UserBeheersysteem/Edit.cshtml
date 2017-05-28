@@ -1,6 +1,4 @@
-﻿@using OdoriRails.Helpers
-@using OdoriRails.Helpers.Objects
-@model OdoriRails.Models.EditUserModel
+﻿@model OdoriRails.Models.EditUserModel
 
 @{
     ViewBag.Title = "Edit User";
@@ -12,35 +10,35 @@
 {
 <table class="table-striped table-hover">
     <tbody>
-        <tr>
-            <td>Name</td>
-            <td>@Html.TextBoxFor(x => x.EditUser.Name)</td>
-        </tr>
-        <tr>
-            <td>Username</td>
-            <td>@Html.TextBoxFor(x => x.EditUser.Username)</td>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td>@Html.TextBoxFor(x => x.EditUser.Email)</td>
-        </tr>
-        <tr>
-            <td>Password</td>
-            <td>@Html.TextBoxFor(x => x.EditUser.Password)</td>
-        </tr>
     <tr>
-        <td>Role</td>
-        <td>@Html.DropDownListFor(x => x.EditUser.ManagerUsername, Enum.GetNames(typeof(Role)).Select(x => new SelectListItem { Text = x }), "Select Role")</td>
+        <td>Name</td>
+        <td>@Html.TextBoxFor(x => x.EditUser.Name)</td>
+    </tr>
+    <tr>
+        <td>Username</td>
+        <td>@Html.TextBoxFor(x => x.EditUser.Username)</td>
+    </tr>
+    <tr>
+        <td>Email</td>
+        <td>@Html.TextBoxFor(x => x.EditUser.Email)</td>
+    </tr>
+    <tr>
+        <td>Password</td>
+        <td>@Html.TextBoxFor(x => x.EditUser.Password)</td>
     </tr>
     <tr>
         <td>Role</td>
-
+        <td>@Html.EnumDropDownListFor(x => x.EditUser.ManagerUsername, new {Id = "DropDownRole"})</td>
+    </tr>
+    <tr>
+        <td>Manager</td>
+        <td>@Html.DropDownListFor(x => x.EditUser.ManagerUsername, Model.AllUsers.Select(x => new SelectListItem {Text = x.Name}), new {Id = "DropDownManager"})</td>
     </tr>
     </tbody>
 </table>
-
-
-
-@Html.TextAreaFor(x => x.EditUser.Email)
-@Html
 }
+
+<script type="text/javascript">
+    document.getElementById('DropDownRole').Value = @Model.EditUser.Role;
+    document.getElementById('DropDownManager').Value = @Model.EditUser.ManagerUsername;
+</script>

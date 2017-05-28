@@ -146,7 +146,6 @@
     <Compile Include="Helpers\Objects\Track.cs" />
     <Compile Include="Helpers\Objects\Tram.cs" />
     <Compile Include="Helpers\Objects\User.cs" />
-    <Compile Include="Helpers\UserBeheersysteem\UserBeheerLogic.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\DriverModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
