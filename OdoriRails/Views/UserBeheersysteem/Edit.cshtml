@@ -1,0 +1,46 @@
+﻿@using OdoriRails.Helpers
+@using OdoriRails.Helpers.Objects
+@model OdoriRails.Models.EditUserModel
+
+@{
+    ViewBag.Title = "Edit User";
+}
+
+<h2>Edit User @Model.EditUser.Name</h2>
+
+@Html.BeginForm("Edit", "UserBeheersysteem", FormMethod.Post)
+{
+<table class="table-striped table-hover">
+    <tbody>
+        <tr>
+            <td>Name</td>
+            <td>@Html.TextBoxFor(x => x.EditUser.Name)</td>
+        </tr>
+        <tr>
+            <td>Username</td>
+            <td>@Html.TextBoxFor(x => x.EditUser.Username)</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>@Html.TextBoxFor(x => x.EditUser.Email)</td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td>@Html.TextBoxFor(x => x.EditUser.Password)</td>
+        </tr>
+    <tr>
+        <td>Role</td>
+        <td>@Html.DropDownListFor(x => x.EditUser.ManagerUsername, Enum.GetNames(typeof(Role)).Select(x => new SelectListItem { Text = x }), "Select Role")</td>
+    </tr>
+    <tr>
+        <td>Role</td>
+
+    </tr>
+    </tbody>
+</table>
+
+
+
+@Html.TextAreaFor(x => x.EditUser.Email)
+@Html
+}

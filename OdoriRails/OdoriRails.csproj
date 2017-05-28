@@ -150,7 +150,7 @@
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\DriverModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
-    <Compile Include="Models\UserBeheerSysteemModel.cs" />
+    <Compile Include="Models\UserBeheerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +166,7 @@
     <Content Include="Views\SRMainMenu\Index.cshtml" />
     <Content Include="Views\Driver\Index.cshtml" />
     <Content Include="Views\UserBeheersysteem\Index.cshtml" />
+    <Content Include="Views\UserBeheersysteem\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
