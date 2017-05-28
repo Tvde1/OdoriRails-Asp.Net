@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using OdoriRails.Helpers.DAL.ContextInterfaces;
 using OdoriRails.Helpers.DAL.Contexts;
@@ -9,14 +8,14 @@ namespace OdoriRails.Helpers.DAL.Repository
 {
     public class LogisticRepository : BaseRepository
     {
-        private readonly IUserContext _userContext = new UserContext();
+        private readonly ObjectCreator _objectCreator = new ObjectCreator();
         private readonly IServiceContext _serviceContext = new ServiceContext();
         private readonly ITrackSectorContext _trackSectorContext = new TrackSectorContext();
         private readonly ITramContext _tramContext = new TramContext();
-        private readonly ObjectCreator _objectCreator = new ObjectCreator();
+        private readonly IUserContext _userContext = new UserContext();
 
         /// <summary>
-        /// Voegt een nieuwe tram toe aan de database.
+        ///     Voegt een nieuwe tram toe aan de database.
         /// </summary>
         /// <param name="tram"></param>
         public void AddTram(Tram tram)
@@ -25,7 +24,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Verwijdert een Tram uit de database.
+        ///     Verwijdert een Tram uit de database.
         /// </summary>
         /// <param name="tram"></param>
         public void RemoveTram(Tram tram)
@@ -34,7 +33,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Haal een Tram op aan de hand van de tramid.
+        ///     Haal een Tram op aan de hand van de tramid.
         /// </summary>
         /// <param name="id"></param>
         public Tram GetTram(int id)
@@ -43,7 +42,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Haal alle trams op.
+        ///     Haal alle trams op.
         /// </summary>
         public List<Tram> GetAllTrams()
         {
@@ -51,50 +50,58 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Haal de tram op waar deze meneer in rijdt.
+        ///     Haal de tram op waar deze meneer in rijdt.
         /// </summary>
         /// <param name="driver"></param>
         /// <returns></returns>
         public List<Tram> GetTramByDriver(User driver)
         {
-            return ObjectCreator.GenerateListWithFunction(_tramContext.GetTramsByDriver(driver), _objectCreator.CreateTram);
+            return ObjectCreator.GenerateListWithFunction(_tramContext.GetTramsByDriver(driver),
+                _objectCreator.CreateTram);
         }
 
         /// <summary>
-        /// Gets alle trams met een bepaalde status.
+        ///     Gets alle trams met een bepaalde status.
         /// </summary>
         /// <param name="status"></param>
         /// <returns></returns>
         public List<Tram> GetAllTramsWithStatus(TramStatus status)
         {
-            return ObjectCreator.GenerateListWithFunction(_tramContext.GetAllTramsWithStatus(status), _objectCreator.CreateTram);
+            return ObjectCreator.GenerateListWithFunction(_tramContext.GetAllTramsWithStatus(status),
+                _objectCreator.CreateTram);
         }
 
         /// <summary>
-        /// Haal trams op met locatie.
+        ///     Haal trams op met locatie.
         /// </summary>
         /// <param name="location"></param>
         /// <returns></returns>
         public List<Tram> GetAllTramsWithLocation(TramLocation location)
         {
-            return ObjectCreator.GenerateListWithFunction(_tramContext.GetAllTramsWithLocation(location), _objectCreator.CreateTram);
+            return ObjectCreator.GenerateListWithFunction(_tramContext.GetAllTramsWithLocation(location),
+                _objectCreator.CreateTram);
         }
 
         /// <summary>
-        /// Haalt alle tracks, sectoren en trams op sectoren op.
+        ///     Haalt alle tracks, sectoren en trams op sectoren op.
         /// </summary>
         /// <returns></returns>
         public List<Track> GetTracksAndSectors()
         {
-            var tracks = ObjectCreator.GenerateListWithFunction(_trackSectorContext.GetAllTracks(), ObjectCreator.CreateTrack).ToDictionary(x => x.Number, x => x);
-            var sectors = ObjectCreator.GenerateListWithFunction(_trackSectorContext.GetAllSectors(), _objectCreator.CreateSector);
-            var trams = ObjectCreator.GenerateListWithFunction(_tramContext.GetAllTrams(), _objectCreator.CreateTram).ToDictionary(x => x.Number, x => x);
+            var tracks = ObjectCreator
+                .GenerateListWithFunction(_trackSectorContext.GetAllTracks(), ObjectCreator.CreateTrack)
+                .ToDictionary(x => x.Number, x => x);
+            var sectors =
+                ObjectCreator.GenerateListWithFunction(_trackSectorContext.GetAllSectors(),
+                    _objectCreator.CreateSector);
+            var trams = ObjectCreator.GenerateListWithFunction(_tramContext.GetAllTrams(), _objectCreator.CreateTram)
+                .ToDictionary(x => x.Number, x => x);
 
 
             foreach (var sector in sectors)
             {
                 if (sector.TramId == null) continue;
-                sector.OccupyingTram = trams[(int)sector.TramId];
+                sector.OccupyingTram = trams[(int) sector.TramId];
                 tracks[sector.TrackNumber].AddSector(sector);
             }
 
@@ -102,7 +109,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Haal een User op aan de hand van de username.
+        ///     Haal een User op aan de hand van de username.
         /// </summary>
         /// <param name="userName"></param>
         public User GetUser(string userName)
@@ -187,7 +194,8 @@ namespace OdoriRails.Helpers.DAL.Repository
 
         public List<Repair> GetAllRepairsFromUser(User user)
         {
-            return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllRepairsFromUser(user), _objectCreator.CreateRepair);
+            return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllRepairsFromUser(user),
+                _objectCreator.CreateRepair);
         }
     }
 }

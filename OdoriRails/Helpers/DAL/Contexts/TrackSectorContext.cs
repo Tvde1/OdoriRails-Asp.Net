@@ -24,33 +24,31 @@ namespace OdoriRails.Helpers.DAL.Contexts
 
         public void AddTrack(Track track)
         {
-            var query = new SqlCommand("INSERT INTO Track (TrackPk, Line, [Type], RemiseFK) VALUES (@id, @line, @type, @remise)");
+            var query = new SqlCommand(
+                "INSERT INTO Track (TrackPk, Line, [Type], RemiseFK) VALUES (@id, @line, @type, @remise)");
             query.Parameters.AddWithValue("@id", track.Number);
             if (track.Line == null) query.Parameters.AddWithValue("@line", DBNull.Value);
             else query.Parameters.AddWithValue("@line", track.Line);
-            query.Parameters.AddWithValue("@type", (int)track.Type);
+            query.Parameters.AddWithValue("@type", (int) track.Type);
             query.Parameters.AddWithValue("@remise", 1);
             DatabaseHandler.GetData(query);
 
-            foreach (Sector sector in track.Sectors)
-            {
+            foreach (var sector in track.Sectors)
                 AddSector(sector, track);
-            }
         }
 
         public void EditTrack(Track track)
         {
-            var query = new SqlCommand("UPDATE Track SET Line = @line, Type = @type, RemiseFk = @remise WHERE TrackPk = @id");
+            var query = new SqlCommand(
+                "UPDATE Track SET Line = @line, Type = @type, RemiseFk = @remise WHERE TrackPk = @id");
             query.Parameters.AddWithValue("@line", track.Line);
-            query.Parameters.AddWithValue("@type", (int)track.Type);
+            query.Parameters.AddWithValue("@type", (int) track.Type);
             query.Parameters.AddWithValue("@remise", RemiseNumber);
             query.Parameters.AddWithValue("@id", track.Number);
             DatabaseHandler.GetData(query);
 
             foreach (var sector in track.Sectors)
-            {
                 EditSector(sector);
-            }
         }
 
         public void DeleteTrack(Track track)
@@ -62,7 +60,8 @@ namespace OdoriRails.Helpers.DAL.Contexts
 
         public void AddSector(Sector sector, Track track)
         {
-            var query = new SqlCommand("INSERT INTO Sector (SectorPk, TrackFk, RemiseFK) VALUES (@id, @track, @remise)");
+            var query = new SqlCommand(
+                "INSERT INTO Sector (SectorPk, TrackFk, RemiseFK) VALUES (@id, @track, @remise)");
             query.Parameters.AddWithValue("@id", sector.Number);
             query.Parameters.AddWithValue("@track", track.Number);
             query.Parameters.AddWithValue("@remise", 1);
@@ -71,8 +70,9 @@ namespace OdoriRails.Helpers.DAL.Contexts
 
         public void EditSector(Sector sector)
         {
-            var query = new SqlCommand("UPDATE Sector SET Status = @stat, TramFk = @tram, RemiseFk = @remis WHERE SectorPk = @id AND TrackFk = @track");
-            query.Parameters.AddWithValue("@stat", (int)sector.Status);
+            var query = new SqlCommand(
+                "UPDATE Sector SET Status = @stat, TramFk = @tram, RemiseFk = @remis WHERE SectorPk = @id AND TrackFk = @track");
+            query.Parameters.AddWithValue("@stat", (int) sector.Status);
             query.Parameters.AddWithValue("@track", sector.TrackNumber);
             if (sector.OccupyingTram != null) query.Parameters.AddWithValue("@tram", sector.OccupyingTram.Number);
             else query.Parameters.AddWithValue("@tram", DBNull.Value);

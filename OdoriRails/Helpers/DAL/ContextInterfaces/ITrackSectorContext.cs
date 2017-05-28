@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using OdoriRails.Helpers.Objects;
 
 namespace OdoriRails.Helpers.DAL.ContextInterfaces
@@ -15,12 +14,12 @@ namespace OdoriRails.Helpers.DAL.ContextInterfaces
         void AddSector(Sector sector, Track track);
 
         /// <summary>
-        /// Updated de track in de database met de nieuwe informatie.
+        ///     Updated de track in de database met de nieuwe informatie.
         /// </summary>
         void EditTrack(Track track);
 
         /// <summary>
-        /// Updated de sector in de database met de nieuwe informatie.
+        ///     Updated de sector in de database met de nieuwe informatie.
         /// </summary>
         void EditSector(Sector sector);
 

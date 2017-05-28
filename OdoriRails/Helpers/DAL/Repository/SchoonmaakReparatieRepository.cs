@@ -9,51 +9,55 @@ namespace OdoriRails.Helpers.DAL.Repository
 {
     public class SchoonmaakReparatieRepository : BaseRepository
     {
-        private readonly IUserContext _userContext = new UserContext();
+        private readonly ObjectCreator _objectCreator = new ObjectCreator();
         private readonly IServiceContext _serviceContext = new ServiceContext();
         private readonly ITramContext _tramContext = new TramContext();
-        private readonly ObjectCreator _objectCreator = new ObjectCreator();
+        private readonly IUserContext _userContext = new UserContext();
 
         /// <summary>
-        /// Haal alle reparaties op die deze user heeft.
+        ///     Haal alle reparaties op die deze user heeft.
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
         public List<Repair> GetAllRepairsFromUser(User user)
         {
-            return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllRepairsFromUser(user), _objectCreator.CreateRepair);
+            return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllRepairsFromUser(user),
+                _objectCreator.CreateRepair);
         }
 
         /// <summary>
-        /// Haal alle schoonmaaks op die deze user heeft.
+        ///     Haal alle schoonmaaks op die deze user heeft.
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
         public List<Cleaning> GetAllCleansFromUser(User user)
         {
-            return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllCleansFromUser(user), _objectCreator.CreateCleaning);
+            return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllCleansFromUser(user),
+                _objectCreator.CreateCleaning);
         }
 
         /// <summary>
-        /// Haalt een lijst op van repairs zonder users.
+        ///     Haalt een lijst op van repairs zonder users.
         /// </summary>
         /// <returns></returns>
         public List<Repair> GetAllRepairsWithoutUsers()
         {
-            return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllRepairsWithoutUsers(), _objectCreator.CreateRepair);
+            return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllRepairsWithoutUsers(),
+                _objectCreator.CreateRepair);
         }
 
         /// <summary>
-        /// Haalt een lijst op van cleanings zonder users.
+        ///     Haalt een lijst op van cleanings zonder users.
         /// </summary>
         /// <returns></returns>
         public List<Cleaning> GetAllCleansWithoutUsers()
         {
-            return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllCleansWithoutUsers(), _objectCreator.CreateCleaning);
+            return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllCleansWithoutUsers(),
+                _objectCreator.CreateCleaning);
         }
 
         /// <summary>
-        /// Voegt een Schoonmaak toe en geeft de schoonmaak met ID terug.
+        ///     Voegt een Schoonmaak toe en geeft de schoonmaak met ID terug.
         /// </summary>
         /// <param name="cleaning"></param>
         /// <returns></returns>
@@ -63,7 +67,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Voegt een Repair toe en geeft de repair met ID terug.
+        ///     Voegt een Repair toe en geeft de repair met ID terug.
         /// </summary>
         /// <param name="repair"></param>
         /// <returns></returns>
@@ -73,7 +77,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Past de service aan in de database.
+        ///     Past de service aan in de database.
         /// </summary>
         /// <param name="service"></param>
         public void EditService(Service service)
@@ -82,7 +86,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Verweider een service uit de database.
+        ///     Verweider een service uit de database.
         /// </summary>
         /// <param name="service"></param>
         public void DeleteService(Service service)
@@ -91,7 +95,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Haal een User op aan de hand van de username.
+        ///     Haal een User op aan de hand van de username.
         /// </summary>
         /// <param name="userName"></param>
         public User GetUser(string userName)
@@ -100,13 +104,14 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Haalt alle users op die deze rol hebben.
+        ///     Haalt alle users op die deze rol hebben.
         /// </summary>
         /// <param name="role"></param>
         /// <returns></returns>
         public List<User> GetAllUsersWithFunction(Role role)
         {
-            return ObjectCreator.GenerateListWithFunction(_userContext.GetAllUsersWithFunction(role), _objectCreator.CreateUser);
+            return ObjectCreator.GenerateListWithFunction(_userContext.GetAllUsersWithFunction(role),
+                _objectCreator.CreateUser);
         }
 
         public DataTable GetAllRepairsFromTram(int tramId)
@@ -116,11 +121,12 @@ namespace OdoriRails.Helpers.DAL.Repository
 
         public List<Cleaning> GetAllCleaningsFromTram(int tramId)
         {
-            return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllCleaningsFromTram(tramId), _objectCreator.CreateCleaning);
+            return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllCleaningsFromTram(tramId),
+                _objectCreator.CreateCleaning);
         }
 
         /// <summary>
-        /// Returnt een int[] met Repairs,Queries
+        ///     Returnt een int[] met Repairs,Queries
         /// </summary>
         /// <param name="day"></param>
         /// <returns></returns>
@@ -130,7 +136,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Returnt een int[] met bigclean, smallclean
+        ///     Returnt een int[] met bigclean, smallclean
         /// </summary>
         /// <param name="day"></param>
         /// <returns></returns>
@@ -145,7 +151,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Sets the tram's status to idle (when service is finished).
+        ///     Sets the tram's status to idle (when service is finished).
         /// </summary>
         /// <param name="tramId"></param>
         public void SetTramStatusToIdle(int tramId)
@@ -165,7 +171,8 @@ namespace OdoriRails.Helpers.DAL.Repository
 
         public void AddSolution(Repair repair, string solution)
         {
-            var newRepair = new Repair(repair.Id, repair.StartDate, repair.EndDate, repair.Type, repair.Defect, solution, repair.AssignedUsers, repair.TramId);
+            var newRepair = new Repair(repair.Id, repair.StartDate, repair.EndDate, repair.Type, repair.Defect,
+                solution, repair.AssignedUsers, repair.TramId);
             _serviceContext.EditService(newRepair);
         }
 

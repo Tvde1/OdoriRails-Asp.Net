@@ -6,8 +6,9 @@ namespace OdoriRails.Helpers.DAL
 {
     public class DatabaseHandler
     {
-        private const string ConnectionString = @"Data Source=192.168.20.189;Initial Catalog=OdoriRails;User ID=sa;Password=OdoriRails123;";
-        
+        private const string ConnectionString =
+            @"Data Source=192.168.20.189;Initial Catalog=OdoriRails;User ID=sa;Password=OdoriRails123;";
+
         public static DataTable GetData(SqlCommand command)
         {
             try

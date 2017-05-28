@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web.Mvc;
-using OdoriRails.Helpers;
 using OdoriRails.Helpers.DAL.Repository;
 using OdoriRails.Helpers.Objects;
 using OdoriRails.Models;
@@ -10,12 +9,13 @@ namespace OdoriRails.Controllers
     public class LoginController : Controller
     {
         private readonly LoginRepository _repository = new LoginRepository();
+
         public ActionResult Index()
         {
             var conn = BaseRepository.TestConnection();
             if (conn != null)
             {
-                var errorModel = new LoginModel { Error = "Kan niet met de database verbinden." };
+                var errorModel = new LoginModel {Error = "Kan niet met de database verbinden."};
                 return View(errorModel);
             }
             var result = TrySignInWithCookies();
@@ -30,7 +30,7 @@ namespace OdoriRails.Controllers
             var conn = BaseRepository.TestConnection();
             if (conn != null)
             {
-                var errorModel = new LoginModel { Error = "Kan niet met de database verbinden." };
+                var errorModel = new LoginModel {Error = "Kan niet met de database verbinden."};
                 return View(errorModel);
             }
 
@@ -89,11 +89,9 @@ namespace OdoriRails.Controllers
         }
 
 
-
         private ActionResult LogIn(string username, string password, bool rememberme, bool isAutomatic = false)
         {
             if (!isAutomatic)
-            {
                 if (rememberme)
                 {
                     Response.Cookies["UserSettings"]["Username"] = username;
@@ -105,18 +103,17 @@ namespace OdoriRails.Controllers
                 {
                     Response.Cookies["UserSettings"].Expires = DateTime.Now.AddDays(-1);
                 }
-            }
 
             Session["User"] = _repository.FetchUser(username);
-            //return RedirectToAction("Index", "Home");
 
             //Adh van de user.role de juiste view teruggeven.
 
-            switch (((User)Session["User"]).Role)
+            switch (((User) Session["User"]).Role)
             {
                 case Role.Administrator:
                     return RedirectToAction("Index", "UserBeheersysteem");
                 case Role.Logistic:
+                    //TODO: Add
                     break;
                 case Role.Driver:
                     return RedirectToAction("Index", "Driver");
@@ -134,7 +131,6 @@ namespace OdoriRails.Controllers
 
 
             return null;
-
         }
     }
 }

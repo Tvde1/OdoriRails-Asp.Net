@@ -16,44 +16,7 @@ namespace OdoriRails.Helpers.Objects
     public class User
     {
         /// <summary>
-        /// Database ID van de User.
-        /// </summary>
-        public int Id { get; private set; }
-
-        /// <summary>
-        /// Ophalen naam van User
-        /// </summary>
-        public string Name { get; }
-
-        /// <summary>
-        /// Ophalen emailadres van User
-        /// </summary>
-        public string Email { get; }
-
-        /// <summary>
-        /// Ophalen rol van User
-        /// </summary>
-        public Role Role { get; }
-
-        /// <summary>
-        /// Ophalen username van User
-        /// </summary>
-        public string Username { get; }
-
-        /// <summary>
-        /// Ophalen password van User
-        /// </summary>
-        public string Password { get; }
-
-        /// <summary>
-        /// Ophalen manager van User
-        /// </summary>
-        public string ManagerUsername { get; }
-
-        public List<int> TramIds { get; protected set; }
-
-        /// <summary>
-        /// Toevoegen User, minimale hoeveelheid benodigde data.
+        ///     Toevoegen User, minimale hoeveelheid benodigde data.
         /// </summary>
         public User(string name, string email, Role role)
         {
@@ -69,9 +32,10 @@ namespace OdoriRails.Helpers.Objects
         }
 
         /// <summary>
-        /// Toevoegen User, alle benodigde data.
+        ///     Toevoegen User, alle benodigde data.
         /// </summary>
-        public User(int id, string name, string username, string email, string password, Role role, string managedByUsername, List<int> tramIds = null)
+        public User(int id, string name, string username, string email, string password, Role role,
+            string managedByUsername, List<int> tramIds = null)
         {
             Id = id;
             Name = name;
@@ -95,6 +59,43 @@ namespace OdoriRails.Helpers.Objects
             ManagerUsername = oldUser.ManagerUsername;
             TramIds = oldUser.TramIds;
         }
+
+        /// <summary>
+        ///     Database ID van de User.
+        /// </summary>
+        public int Id { get; private set; }
+
+        /// <summary>
+        ///     Ophalen naam van User
+        /// </summary>
+        public string Name { get; }
+
+        /// <summary>
+        ///     Ophalen emailadres van User
+        /// </summary>
+        public string Email { get; }
+
+        /// <summary>
+        ///     Ophalen rol van User
+        /// </summary>
+        public Role Role { get; }
+
+        /// <summary>
+        ///     Ophalen username van User
+        /// </summary>
+        public string Username { get; }
+
+        /// <summary>
+        ///     Ophalen password van User
+        /// </summary>
+        public string Password { get; }
+
+        /// <summary>
+        ///     Ophalen manager van User
+        /// </summary>
+        public string ManagerUsername { get; }
+
+        public List<int> TramIds { get; protected set; }
 
         public void SetId(int id)
         {

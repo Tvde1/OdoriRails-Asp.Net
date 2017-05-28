@@ -4,18 +4,17 @@ using OdoriRails.Helpers.DAL.ContextInterfaces;
 using OdoriRails.Helpers.DAL.Contexts;
 using OdoriRails.Helpers.Objects;
 
-
 namespace OdoriRails.Helpers.DAL.Repository
 {
     public class UserBeheerRepository : BaseRepository
     {
-        private readonly IUserContext _userContext = new UserContext();
-        private readonly ITramContext _tramContext = new TramContext();
         private readonly ILoginContext _loginContext = new LoginContext();
         private readonly ObjectCreator _objectCreator = new ObjectCreator();
+        private readonly ITramContext _tramContext = new TramContext();
+        private readonly IUserContext _userContext = new UserContext();
 
         /// <summary>
-        /// Voegt een User toe aan de database.
+        ///     Voegt een User toe aan de database.
         /// </summary>
         /// <param name="user"></param>
         public User AddUser(User user)
@@ -24,7 +23,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Haalt alle users op.
+        ///     Haalt alle users op.
         /// </summary>
         /// <returns></returns>
         public List<User> GetAllUsers()
@@ -33,7 +32,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Verwijdert een User uit de database.
+        ///     Verwijdert een User uit de database.
         /// </summary>
         /// <param name="user"></param>
         public void RemoveUser(User user)
@@ -42,7 +41,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Haal een User op aan de hand van de userid.
+        ///     Haal een User op aan de hand van de userid.
         /// </summary>
         /// <param name="id"></param>
         public User GetUser(int id)
@@ -51,7 +50,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Get de user ID via de username.
+        ///     Get de user ID via de username.
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
@@ -61,7 +60,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Slaat de bestaande user op in de database.
+        ///     Slaat de bestaande user op in de database.
         /// </summary>
         /// <param name="user"></param>
         public void UpdateUser(User user)
@@ -71,7 +70,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Haal een User op aan de hand van de username.
+        ///     Haal een User op aan de hand van de username.
         /// </summary>
         /// <param name="userName"></param>
         public User GetUser(string userName)
@@ -80,13 +79,14 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Haalt alle users op die deze rol hebben.
+        ///     Haalt alle users op die deze rol hebben.
         /// </summary>
         /// <param name="role"></param>
         /// <returns></returns>
         public List<User> GetAllUsersWithFunction(Role role)
         {
-            return ObjectCreator.GenerateListWithFunction(_userContext.GetAllUsersWithFunction(role), _objectCreator.CreateUser);
+            return ObjectCreator.GenerateListWithFunction(_userContext.GetAllUsersWithFunction(role),
+                _objectCreator.CreateUser);
         }
 
         public bool DoesTramExist(int id)
@@ -96,25 +96,23 @@ namespace OdoriRails.Helpers.DAL.Repository
 
         public List<int> GetTramIdByDriverId(int id)
         {
-            return ObjectCreator.GenerateListWithFunction(_tramContext.GetTramIdsByDriverId(id), row => (int)row.ItemArray[0]);
+            return ObjectCreator.GenerateListWithFunction(_tramContext.GetTramIdsByDriverId(id),
+                row => (int) row.ItemArray[0]);
         }
 
         public void SetUserToTrams(User user)
         {
-            var tramsWithUser = ObjectCreator.GenerateListWithFunction(_tramContext.GetTramsByDriver(user), row => (int)row["TramPk"]);
+            var tramsWithUser =
+                ObjectCreator.GenerateListWithFunction(_tramContext.GetTramsByDriver(user), row => (int) row["TramPk"]);
             foreach (var tram in tramsWithUser.Where(x => !user.TramIds.Contains(x)))
-            {
                 _tramContext.SetUserToTram(tram, null);
-            }
 
             foreach (var userTramId in user.TramIds)
-            {
                 _tramContext.SetUserToTram(userTramId, user.Id);
-            }
         }
 
         /// <summary>
-        /// Returns true if there already is an user with such name.
+        ///     Returns true if there already is an user with such name.
         /// </summary>
         /// <param name="userName"></param>
         /// <returns></returns>

@@ -7,13 +7,13 @@ namespace OdoriRails.Helpers.DAL.Repository
 {
     public class InUitrijRepository : BaseRepository
     {
-        private readonly IUserContext _userContext = new UserContext();
+        private readonly ObjectCreator _objectCreator = new ObjectCreator();
         private readonly IServiceContext _serviceContext = new ServiceContext();
         private readonly ITramContext _tramContext = new TramContext();
-        private readonly ObjectCreator _objectCreator = new ObjectCreator();
+        private readonly IUserContext _userContext = new UserContext();
 
         /// <summary>
-        /// Voegt een Schoonmaak toe en geeft de schoonmaak met ID terug.
+        ///     Voegt een Schoonmaak toe en geeft de schoonmaak met ID terug.
         /// </summary>
         /// <param name="cleaning"></param>
         /// <returns></returns>
@@ -23,7 +23,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Voegt een Repair toe en geeft de repair met ID terug.
+        ///     Voegt een Repair toe en geeft de repair met ID terug.
         /// </summary>
         /// <param name="repair"></param>
         /// <returns></returns>
@@ -33,7 +33,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Get de user ID via de username.
+        ///     Get de user ID via de username.
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
@@ -43,17 +43,18 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Haal de tram op waar deze meneer in rijdt.
+        ///     Haal de tram op waar deze meneer in rijdt.
         /// </summary>
         /// <param name="driver"></param>
         /// <returns></returns>
         public List<Tram> GetTramByDriver(User driver)
         {
-            return ObjectCreator.GenerateListWithFunction(_tramContext.GetTramsByDriver(driver), _objectCreator.CreateTram);
+            return ObjectCreator.GenerateListWithFunction(_tramContext.GetTramsByDriver(driver),
+                _objectCreator.CreateTram);
         }
 
         /// <summary>
-        /// Haal de sector op waar deze tram op staat.
+        ///     Haal de sector op waar deze tram op staat.
         /// </summary>
         /// <param name="tram"></param>
         /// <returns></returns>
@@ -65,7 +66,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
-        /// Edit tram.
+        ///     Edit tram.
         /// </summary>
         /// <param name="tram"></param>
         public void EditTram(Tram tram)

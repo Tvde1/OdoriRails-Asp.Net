@@ -7,8 +7,8 @@ namespace OdoriRails.Helpers.DAL.Repository
     public class LoginRepository : BaseRepository
     {
         private readonly ILoginContext _loginContext = new LoginContext();
-        private readonly IUserContext _userContext = new UserContext();
         private readonly ObjectCreator _objectCreator = new ObjectCreator();
+        private readonly IUserContext _userContext = new UserContext();
 
         public int ValidateUser(string username, string password)
         {

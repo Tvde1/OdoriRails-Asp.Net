@@ -11,18 +11,16 @@ namespace OdoriRails.Helpers.Objects
 
     public class Repair : Service
     {
-        public RepairType Type { get; }
-        public string Defect { get; }
-        public string Solution { get; }
-
-        public Repair(DateTime startDate, DateTime? endDate, RepairType type, string defect, string solution, List<User> users, int tramId) : base(users, startDate, endDate, tramId)
+        public Repair(DateTime startDate, DateTime? endDate, RepairType type, string defect, string solution,
+            List<User> users, int tramId) : base(users, startDate, endDate, tramId)
         {
             Type = type;
             Defect = defect;
             Solution = solution;
         }
 
-        public Repair(int id, DateTime startDate, DateTime? endDate, RepairType type, string defect, string solution, List<User> users, int tramId) : base(id, users, startDate, endDate, tramId)
+        public Repair(int id, DateTime startDate, DateTime? endDate, RepairType type, string defect, string solution,
+            List<User> users, int tramId) : base(id, users, startDate, endDate, tramId)
         {
             Type = type;
             Defect = defect;
@@ -34,5 +32,9 @@ namespace OdoriRails.Helpers.Objects
             Defect = defect;
             Type = RepairType.Repair;
         }
+
+        public RepairType Type { get; }
+        public string Defect { get; }
+        public string Solution { get; }
     }
 }

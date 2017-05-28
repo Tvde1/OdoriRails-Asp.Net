@@ -13,7 +13,7 @@ namespace OdoriRails.Helpers
 
         protected ActionResult NotLoggedIn()
         {
-            TempData["SigninModel"] = new LoginModel { Error = "U bent niet ingelogd." };
+            TempData["SigninModel"] = new LoginModel {Error = "U bent niet ingelogd."};
             return RedirectToAction("Index", "Login");
         }
     }

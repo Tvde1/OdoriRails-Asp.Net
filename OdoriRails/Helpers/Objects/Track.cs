@@ -11,15 +11,8 @@ namespace OdoriRails.Helpers.Objects
 
     public class Track
     {
-        public List<Sector> Sectors { get; } = new List<Sector>();
-
-        public int Number { get; private set; }
-        public int? Line { get; private set; }
-
-        public TrackType Type { get; private set; }
-
         /// <summary>
-        /// Voledige constructor.
+        ///     Voledige constructor.
         /// </summary>
         /// <param name="number"></param>
         /// <param name="line"></param>
@@ -39,8 +32,15 @@ namespace OdoriRails.Helpers.Objects
             Type = type;
         }
 
+        public List<Sector> Sectors { get; } = new List<Sector>();
+
+        public int Number { get; }
+        public int? Line { get; }
+
+        public TrackType Type { get; }
+
         /// <summary>
-        /// Voegt een nieuwe sector toe aan het track.
+        ///     Voegt een nieuwe sector toe aan het track.
         /// </summary>
         /// <param name="sector"></param>
         public void AddSector(Sector sector)

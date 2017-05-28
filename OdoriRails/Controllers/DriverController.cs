@@ -1,6 +1,6 @@
-﻿using OdoriRails.Models;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using OdoriRails.Helpers;
+using OdoriRails.Models;
 
 namespace OdoriRails.Controllers
 {
@@ -12,7 +12,7 @@ namespace OdoriRails.Controllers
             var user = GetLoggedInUser();
             if (user == null) return NotLoggedIn();
 
-            var model = new DriverModel { User = user };
+            var model = new DriverModel {User = user};
 
             return View(model);
         }

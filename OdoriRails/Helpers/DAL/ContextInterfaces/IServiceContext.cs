@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using OdoriRails.Helpers.Objects;
 
@@ -18,7 +17,7 @@ namespace OdoriRails.Helpers.DAL.ContextInterfaces
         DataTable GetAllCleansWithoutUsers();
 
         /// <summary>
-        /// Edit de service in de database.
+        ///     Edit de service in de database.
         /// </summary>
         /// <param name="service"></param>
         void EditService(Service service);
@@ -42,14 +41,14 @@ namespace OdoriRails.Helpers.DAL.ContextInterfaces
         bool HadSmallMaintenance(Tram tram);
 
         /// <summary>
-        /// Returnt een int[] met Repairs,Queries
+        ///     Returnt een int[] met Repairs,Queries
         /// </summary>
         /// <param name="day"></param>
         /// <returns></returns>
         int[] RepairsForDate(DateTime day);
 
         /// <summary>
-        /// Returnt een int[] met bigclean, smallclean
+        ///     Returnt een int[] met bigclean, smallclean
         /// </summary>
         /// <param name="day"></param>
         /// <returns></returns>
