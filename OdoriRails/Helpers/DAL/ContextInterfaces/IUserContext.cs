@@ -9,7 +9,7 @@ namespace OdoriRails.Helpers.DAL.ContextInterfaces
 
         DataRow GetUser(int userId);
 
-        int? GetUserId(string userName);
+        DataRow GetUserId(string userName);
 
         int? GetUserIdByName(string name);
 

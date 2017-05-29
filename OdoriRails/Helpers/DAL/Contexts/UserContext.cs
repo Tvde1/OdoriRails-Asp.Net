@@ -19,12 +19,12 @@ namespace OdoriRails.Helpers.DAL.Contexts
             query.Parameters.AddWithValue("@username", user.Username);
             query.Parameters.AddWithValue("@pass", user.Password);
             query.Parameters.AddWithValue("@email", user.Email);
-            query.Parameters.AddWithValue("@role", (int) user.Role);
+            query.Parameters.AddWithValue("@role", (int)user.Role);
 
             if (string.IsNullOrEmpty(user.ManagerUsername)) query.Parameters.AddWithValue("@managedBy", DBNull.Value);
             else query.Parameters.AddWithValue("@managedBy", GetUserId(user.ManagerUsername));
 
-            user.SetId(Convert.ToInt32((decimal) DatabaseHandler.GetData(query).Rows[0][0]));
+            user.SetId(Convert.ToInt32((decimal)DatabaseHandler.GetData(query).Rows[0][0]));
             return user;
         }
 
@@ -47,7 +47,7 @@ namespace OdoriRails.Helpers.DAL.Contexts
             query.Parameters.AddWithValue("@name", user.Name);
             query.Parameters.AddWithValue("@password", user.Password);
             query.Parameters.AddWithValue("@email", user.Email);
-            query.Parameters.AddWithValue("@role", (int) user.Role);
+            query.Parameters.AddWithValue("@role", (int)user.Role);
             if (string.IsNullOrEmpty(user.ManagerUsername)) query.Parameters.AddWithValue("@managedby", DBNull.Value);
             else query.Parameters.AddWithValue("@managedby", GetUserId(user.ManagerUsername));
             query.Parameters.AddWithValue("@id", user.Id);
@@ -56,7 +56,7 @@ namespace OdoriRails.Helpers.DAL.Contexts
 
         public DataTable GetAllUsersWithFunction(Role role)
         {
-            return DatabaseHandler.GetData(new SqlCommand($"SELECT * FROM [User] WHERE Role = {(int) role}"));
+            return DatabaseHandler.GetData(new SqlCommand($"SELECT * FROM [User] WHERE Role = {(int)role}"));
         }
 
         public DataRow GetUser(int id)
@@ -67,24 +67,25 @@ namespace OdoriRails.Helpers.DAL.Contexts
 
         public DataRow GetUser(string userName)
         {
-            var command = new SqlCommand("SELECT * FROM [User] WHERE UserPk = @id");
-            command.Parameters.AddWithValue("@id", GetUserId(userName));
+            var command = new SqlCommand("SELECT * FROM [User] WHERE Username = @username");
+            command.Parameters.AddWithValue("@username", userName);
             var data = DatabaseHandler.GetData(command);
             return data.Rows.Count == 0 ? null : data.Rows[0];
         }
 
-        public int? GetUserId(string username)
+        public DataRow GetUserId(string username)
         {
             var query = new SqlCommand("SELECT UserPk FROM [User] WHERE Username = @username");
             query.Parameters.AddWithValue("@username", username);
-            return (int?) DatabaseHandler.GetData(query).Rows[0]?["UserPk"];
+            var data = DatabaseHandler.GetData(query);
+            return data.Rows.Count > 0 ? data.Rows[0] : null;
         }
 
         public int? GetUserIdByName(string name)
         {
-           var query = new SqlCommand("SELECT UserPk FROM [User] WHERE Name = @name");
+            var query = new SqlCommand("SELECT UserPk FROM [User] WHERE Name = @name");
             query.Parameters.AddWithValue("@name", name);
-            return (int?) DatabaseHandler.GetData(query).Rows[0]?["UserPk"];
+            return (int?)DatabaseHandler.GetData(query).Rows[0]?["UserPk"];
         }
     }
 }

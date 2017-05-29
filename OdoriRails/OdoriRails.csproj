@@ -98,7 +98,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\huisstijl.css" />
+    <Content Include="Scripts\Housestyle.css" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jsgrid-theme.css" />
@@ -115,7 +115,7 @@
     <Compile Include="Controllers\DriverController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\SRMainMenuController.cs" />
-    <Compile Include="Controllers\UserBeheersysteemController.cs" />
+    <Compile Include="Controllers\UserBeheerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -164,8 +164,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\SRMainMenu\Index.cshtml" />
     <Content Include="Views\Driver\Index.cshtml" />
-    <Content Include="Views\UserBeheersysteem\Index.cshtml" />
-    <Content Include="Views\UserBeheersysteem\Edit.cshtml" />
+    <Content Include="Views\UserBeheer\Index.cshtml" />
+    <Content Include="Views\UserBeheer\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

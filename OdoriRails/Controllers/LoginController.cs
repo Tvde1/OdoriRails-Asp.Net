@@ -111,7 +111,7 @@ namespace OdoriRails.Controllers
             switch (((User) Session["User"]).Role)
             {
                 case Role.Administrator:
-                    return RedirectToAction("Index", "UserBeheersysteem");
+                    return RedirectToAction("Index", "UserBeheer");
                 case Role.Logistic:
                     //TODO: Add
                     break;
