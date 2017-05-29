@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Configuration;
 
 namespace OdoriRails.Helpers.Objects
 {
@@ -68,26 +71,32 @@ namespace OdoriRails.Helpers.Objects
         /// <summary>
         ///     Ophalen naam van User
         /// </summary>
+        [Required]
         public string Name { get; set; }
 
         /// <summary>
         ///     Ophalen emailadres van User
         /// </summary>
+        [Required]
+        [EmailAddress]
         public string Email { get; set; }
 
         /// <summary>
         ///     Ophalen rol van User
         /// </summary>
+        [Required]
         public Role Role { get; set; }
 
         /// <summary>
         ///     Ophalen username van User
         /// </summary>
+        [Required]
         public string Username { get; set; }
 
         /// <summary>
         ///     Ophalen password van User
         /// </summary>
+        [Required]
         public string Password { get; set; }
 
         /// <summary>
@@ -95,6 +104,7 @@ namespace OdoriRails.Helpers.Objects
         /// </summary>
         public string ManagerUsername { get; set; }
 
+        [IntegerValidator]
         public int? TramId { get; set; }
 
         public void SetId(int id)

@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 using OdoriRails.Helpers.Objects;
 using OdoriRails.Models;
 
@@ -6,9 +8,10 @@ namespace OdoriRails.Helpers
 {
     public abstract class BaseControllerFunctions : Controller
     {
-        protected User GetLoggedInUser()
+        protected User GetLoggedInUser(IEnumerable<Role> roles)
         {
-            return (User) Session["User"];
+            var user  = (User) Session["User"];
+            return user != null && roles.Contains(user.Role) ? user : null;
         }
 
         protected ActionResult NotLoggedIn()

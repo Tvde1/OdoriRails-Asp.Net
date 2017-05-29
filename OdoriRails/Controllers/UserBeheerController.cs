@@ -1,8 +1,8 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using OdoriRails.Helpers;
 using OdoriRails.Helpers.DAL.Repository;
-using OdoriRails.Models;
+using OdoriRails.Helpers.Objects;
+using OdoriRails.Models.UserBeheer;
 
 namespace OdoriRails.Controllers
 {
@@ -11,7 +11,7 @@ namespace OdoriRails.Controllers
         [HttpGet]
         public ActionResult Index(int? id)
         {
-            var user = GetLoggedInUser();
+            var user = GetLoggedInUser(new[] { Role.Administrator });
             if (user == null) return NotLoggedIn();
 
             var model = TempData["BeheerModel"] as UserBeheerModel ?? new UserBeheerModel { User = user };
@@ -22,7 +22,7 @@ namespace OdoriRails.Controllers
         [HttpPost]
         public ActionResult Index(UserBeheerModel model)
         {
-            var user = GetLoggedInUser();
+            var user = GetLoggedInUser(new[] { Role.Administrator });
             if (user == null) return NotLoggedIn();
 
             model.User = user;
@@ -35,7 +35,7 @@ namespace OdoriRails.Controllers
         [HttpGet]
         public ActionResult Edit(int? id)
         {
-            var user = GetLoggedInUser();
+            var user = GetLoggedInUser(new[] { Role.Administrator });
             if (user == null) return NotLoggedIn();
 
             var editUser = id == null ? null : new UserBeheerRepository().GetUser(id.Value);
@@ -47,7 +47,7 @@ namespace OdoriRails.Controllers
         [HttpPost]
         public ActionResult Edit(EditUserModel model)
         {
-            var user = GetLoggedInUser();
+            var user = GetLoggedInUser(new[] { Role.Administrator });
             if (user == null) return NotLoggedIn();
 
             model.User = user;
@@ -56,7 +56,7 @@ namespace OdoriRails.Controllers
 
             if (result != null) return result;
 
-            var newModel = new UserBeheerModel { Sucess = "De gebruiker is aangemaakt/aangepast."};
+            var newModel = new UserBeheerModel { Sucess = "De gebruiker is aangemaakt/aangepast." };
             TempData["UserBeheerModel"] = newModel;
             return RedirectToAction("Index");
         }

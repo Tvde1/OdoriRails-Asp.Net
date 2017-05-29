@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using OdoriRails.Helpers;
+using OdoriRails.Helpers.Objects;
 using OdoriRails.Models;
 
 namespace OdoriRails.Controllers
@@ -9,7 +10,7 @@ namespace OdoriRails.Controllers
         // GET: Driver
         public ActionResult Index()
         {
-            var user = GetLoggedInUser();
+            var user = GetLoggedInUser(new[] { Role.Driver });
             if (user == null) return NotLoggedIn();
 
             var model = new DriverModel(user);

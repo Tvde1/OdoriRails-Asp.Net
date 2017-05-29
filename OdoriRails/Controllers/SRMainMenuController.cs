@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using OdoriRails.Helpers;
+using OdoriRails.Helpers.Objects;
 
 namespace OdoriRails.Controllers
 {
@@ -8,7 +9,7 @@ namespace OdoriRails.Controllers
         // GET: SchoonmaakReparatie
         public ActionResult Index()
         {
-            var user = GetLoggedInUser();
+            var user = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (user == null) return NotLoggedIn();
 
 
