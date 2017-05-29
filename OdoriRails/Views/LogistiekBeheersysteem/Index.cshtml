@@ -1,0 +1,46 @@
+﻿@model OdoriRails.Models.LogistiekBeheerModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/signin.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js" language="javascript"></script>
+    <script src="~/Scripts/jquery-1.10.2.js" language="javascript"></script>
+</head>
+<body>
+    <div class="table table-striped table-hover">
+        <table>
+
+            @foreach (var track in Model.Tracks)
+            {
+                <tr>
+                    <td>
+                        @track.Number
+                    </td>
+                    @foreach (var sector in track.Sectors)
+                    {
+                        <td>
+                            @if (sector.OccupyingTram != null)
+                            {
+                                @sector.OccupyingTram.Number
+                            }
+                            else
+                            {
+                                <p>Empty</p>
+                            }
+                        </td>
+                    }
+                    </tr>
+                    }
+                </table>
+            </div>
+        </body>
+    </html>
