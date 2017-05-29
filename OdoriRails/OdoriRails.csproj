@@ -114,13 +114,23 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DriverController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\LogistiekBeheersysteemController.cs" />
     <Compile Include="Controllers\SRMainMenuController.cs" />
+    <Compile Include="Controllers\UserBeheerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BaseControllerFunctions.cs" />
     <Compile Include="Helpers\DAL\Repository\BaseRepository.cs" />
     <Compile Include="Helpers\Driver\InUitRitTram.cs" />
+    <Compile Include="Helpers\LogistiekBeheersysteem\CSV\CSVContext.cs" />
+    <Compile Include="Helpers\LogistiekBeheersysteem\CSV\I_CSVContext.cs" />
+    <Compile Include="Helpers\LogistiekBeheersysteem\LogistiekLogic.cs" />
+    <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\BeheerSector.cs" />
+    <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\BeheerTrack.cs" />
+    <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\BeheerTram.cs" />
+    <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\InUItRijSchema.cs" />
+    <Compile Include="Helpers\LogistiekBeheersysteem\SortingAlgoritm.cs" />
     <Compile Include="Helpers\Objects\Cleaning.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\ILoginContext.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\IServiceContext.cs" />
@@ -149,6 +159,7 @@
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\DriverModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\LogistiekBeheerModel.cs" />
     <Compile Include="Models\UserBeheerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
