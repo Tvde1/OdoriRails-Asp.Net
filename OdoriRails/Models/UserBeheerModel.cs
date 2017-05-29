@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using OdoriRails.Controllers;
 using OdoriRails.Helpers.DAL.Repository;
 using OdoriRails.Helpers.Objects;
 
@@ -94,9 +96,9 @@ namespace OdoriRails.Models
             EditUser = new User(null);
         }
 
-        public EditUserModel(int user)
+        public EditUserModel(User user)
         {
-            _oldUser = _repository.GetUser(user);
+            _oldUser = user;
             EditUser = new User(_oldUser);
         }
 
@@ -110,29 +112,33 @@ namespace OdoriRails.Models
             return _repository.GetUserIdByFullName(username);
         }
 
-        public ActionResult Save()
+        public ActionResult Save(UserBeheerController controller)
         {
-            var existingUser = _repository.GetUserId(User.Username);
+            var existingUser = _repository.GetUserId(EditUser.Username);
 
             if (string.IsNullOrEmpty(EditUser.Username))
             {
                 Error = "De username mag niet leeg zijn.";
-                return new RedirectToRouteResult("Edit", new RouteValueDictionary(this));
+                controller.TempData["EditModel"] = this;
+                return new RedirectResult("Edit");
             }
             if (_repository.DoesUserExist(EditUser.Username) && existingUser != EditUser.Id)
             {
                 Error = "Deze username is al in gebruik.";
-                return new RedirectToRouteResult("Edit", new RouteValueDictionary(this));
+                controller.TempData["EditModel"] = this;
+                return new RedirectResult("Edit");
             }
-            if (EditUser.TramIds.Any(x => !_repository.DoesTramExist(x)))
+            if (EditUser.TramIds.Count != 0 && EditUser.TramIds.Any(x => !_repository.DoesTramExist(x)))
             {
                 Error = "Een van de gekozen tramnummers bestaat niet.";
-                return new RedirectToRouteResult("Edit", new RouteValueDictionary(this));
+                controller.TempData["EditModel"] = this;
+                return new RedirectResult("Edit");
             }
             if (string.IsNullOrEmpty(EditUser.Password))
             {
                 Error = "Het wachtwoord kan niet leeg zijn.";
-                return new RedirectToRouteResult("Edit", new RouteValueDictionary(this));
+                controller.TempData["EditModel"] = this;
+                return new RedirectResult("Edit");
             }
 
             if (_oldUser == null)

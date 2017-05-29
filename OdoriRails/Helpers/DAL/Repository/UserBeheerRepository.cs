@@ -56,7 +56,8 @@ namespace OdoriRails.Helpers.DAL.Repository
         /// <returns></returns>
         public int? GetUserId(string username)
         {
-            return _userContext.GetUserId(username);
+            var data = _userContext.GetUserId(username);
+            return (int?) data?["UserPk"];
         }
 
         public int? GetUserIdByFullName(string name)

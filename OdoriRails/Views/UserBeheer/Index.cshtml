@@ -7,13 +7,13 @@
 
 <h2>Welkom, @Model.User.Name</h2>
 
-@using (Html.BeginForm("Index", "UserBeheersysteem", FormMethod.Post))
+@using (Html.BeginForm("Index", "UserBeheer", FormMethod.Post))
 {
-    @Html.EnumDropDownListFor(x => x.SortMethod, new { Id = "DropDownRole" })<br/><br/>
-    <input type="submit" value="Refresh" class="btn btn-primary pull-left"/>
+    @Html.EnumDropDownListFor(x => x.SortMethod, new { Id = "DropDownRole" })<br /><br />
+    <input type="submit" value="Refresh" class="btn btn-primary pull-left" />
 }
 
-<input type="button" value="Voeg Toe" class="btn btn-default pull-right" onclick="location.href='/UserBeheerSysteem/Edit'"/>
+<input type="button" value="Voeg Toe" class="btn btn-default pull-right" onclick="location.href='/UserBeheer/Edit'" />
 
 <script type="text/javascript">
     document.getElementById('DropDownRole').Value = @Model.SortMethod;
