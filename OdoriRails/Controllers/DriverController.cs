@@ -11,7 +11,7 @@ namespace OdoriRails.Controllers
         public ActionResult Index()
         {
             var result = GetLoggedInUser(new[] { Role.Driver });
-            if (result.GetType() == typeof(ActionResult)) return result as ActionResult;
+            if (result is ActionResult) return result as ActionResult;
             var user = result as User;
 
             var model = new DriverModel(user);

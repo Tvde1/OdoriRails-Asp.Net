@@ -12,7 +12,7 @@ namespace OdoriRails.Controllers
         public ActionResult Index(int? id)
         {
             var result = GetLoggedInUser(new[] { Role.Administrator });
-            if (result.GetType() == typeof(ActionResult)) return result as ActionResult;
+            if (result is ActionResult) return result as ActionResult;
             var user = result as User;
 
             var model = TempData["BeheerModel"] as UserBeheerModel ?? new UserBeheerModel { User = user };
@@ -24,7 +24,7 @@ namespace OdoriRails.Controllers
         public ActionResult Index(UserBeheerModel model)
         {
             var result = GetLoggedInUser(new[] { Role.Administrator });
-            if (result.GetType() == typeof(ActionResult)) return result as ActionResult;
+            if (result is ActionResult) return result as ActionResult;
             var user = result as User;
 
             model.User = user;
@@ -37,7 +37,7 @@ namespace OdoriRails.Controllers
         public ActionResult Edit(int? id)
         {
             var result = GetLoggedInUser(new[] { Role.Administrator });
-            if (result.GetType() == typeof(ActionResult)) return result as ActionResult;
+            if (result is ActionResult) return result as ActionResult;
             var user = result as User;
 
             var editUser = id == null ? null : new UserBeheerRepository().GetUser(id.Value);
