@@ -89,6 +89,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\signin.css" />
@@ -97,6 +99,11 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Housestyle.css" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -114,6 +121,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DriverController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\LogistiekBeheersysteemController.cs" />
     <Compile Include="Controllers\SRMainMenuController.cs" />
     <Compile Include="Controllers\UserBeheersysteemController.cs" />
     <Compile Include="Global.asax.cs">
@@ -121,6 +129,14 @@
     </Compile>
     <Compile Include="Helpers\BaseControllerFunctions.cs" />
     <Compile Include="Helpers\DAL\Repository\BaseRepository.cs" />
+    <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\BeheerSector.cs" />
+    <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\BeheerTrack.cs" />
+    <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\BeheerTram.cs" />
+    <Compile Include="Helpers\LogistiekBeheersysteem\CSV\CSVContext.cs" />
+    <Compile Include="Helpers\LogistiekBeheersysteem\CSV\I_CSVContext.cs" />
+    <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\InUitRijSchema.cs" />
+    <Compile Include="Helpers\LogistiekBeheersysteem\LogistiekLogic.cs" />
+    <Compile Include="Helpers\LogistiekBeheersysteem\SortingAlgoritm.cs" />
     <Compile Include="Helpers\Objects\Cleaning.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\ILoginContext.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\IServiceContext.cs" />
@@ -176,6 +192,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\i18n\" />
+    <Folder Include="Views\LogistiekBeheersysteem\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
