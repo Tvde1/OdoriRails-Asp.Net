@@ -1,7 +1,17 @@
-﻿@model OdoriRails.Models.DriverModel
+﻿@using OdoriRails.Models
+@model OdoriRails.Models.DriverModel
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Welkom, @Model.User.Name</h2>
+
+@using (Html.BeginForm("Driver", "Driver", FormMethod.Post))
+{
+    <center><label for="lblDetails">Details:</label></center>
+    <center><textarea class="text-info"></textarea></center>
+    @Html.TextAreaFor(model => model)
+    <button type="button" class="btn btn-lg btn-primary pull-right" style="margin: 5px">Meld tram aan bij remise</button>
+    <button type="button" class="btn btn-lg btn-primary pull-right" style="margin: 5px">Meld tram aan voor vertrek</button>
+}

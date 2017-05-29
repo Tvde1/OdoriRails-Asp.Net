@@ -89,8 +89,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\signin.css" />
@@ -99,11 +97,6 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Housestyle.css" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -121,22 +114,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DriverController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
-    <Compile Include="Controllers\LogistiekBeheersysteemController.cs" />
     <Compile Include="Controllers\SRMainMenuController.cs" />
-    <Compile Include="Controllers\UserBeheerController.cs" />
+    <Compile Include="Controllers\UserBeheersysteemController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BaseControllerFunctions.cs" />
     <Compile Include="Helpers\DAL\Repository\BaseRepository.cs" />
-    <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\BeheerSector.cs" />
-    <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\BeheerTrack.cs" />
-    <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\BeheerTram.cs" />
-    <Compile Include="Helpers\LogistiekBeheersysteem\CSV\CSVContext.cs" />
-    <Compile Include="Helpers\LogistiekBeheersysteem\CSV\I_CSVContext.cs" />
-    <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\InUitRijSchema.cs" />
-    <Compile Include="Helpers\LogistiekBeheersysteem\LogistiekLogic.cs" />
-    <Compile Include="Helpers\LogistiekBeheersysteem\SortingAlgoritm.cs" />
+    <Compile Include="Helpers\Driver\InUitRitTram.cs" />
     <Compile Include="Helpers\Objects\Cleaning.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\ILoginContext.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\IServiceContext.cs" />
@@ -165,7 +150,6 @@
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\DriverModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
-    <Compile Include="Models\LogistiekBeheerModel.cs" />
     <Compile Include="Models\UserBeheerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -181,8 +165,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\SRMainMenu\Index.cshtml" />
     <Content Include="Views\Driver\Index.cshtml" />
-    <Content Include="Views\UserBeheer\Index.cshtml" />
-    <Content Include="Views\UserBeheer\Edit.cshtml" />
+    <Content Include="Views\UserBeheersysteem\Index.cshtml" />
+    <Content Include="Views\UserBeheersysteem\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

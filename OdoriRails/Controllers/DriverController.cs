@@ -12,7 +12,7 @@ namespace OdoriRails.Controllers
             var user = GetLoggedInUser();
             if (user == null) return NotLoggedIn();
 
-            var model = new DriverModel {User = user};
+            var model = new DriverModel(user);
 
             return View(model);
         }
