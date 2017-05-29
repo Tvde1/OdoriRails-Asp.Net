@@ -33,10 +33,10 @@ namespace OdoriRails.Helpers.DAL.Contexts
             return DatabaseHandler.GetData(new SqlCommand("SELECT * FROM [User]"));
         }
 
-        public void RemoveUser(User user)
+        public void RemoveUser(int userId)
         {
-            DatabaseHandler.GetData(new SqlCommand($"UPDATE [User] SET ManagedBy = null WHERE ManagedBy = {user.Id}"));
-            DatabaseHandler.GetData(new SqlCommand($"DELETE FROM [User] WHERE UserPk = {user.Id}"));
+            DatabaseHandler.GetData(new SqlCommand($"UPDATE [User] SET ManagedBy = null WHERE ManagedBy = {userId}"));
+            DatabaseHandler.GetData(new SqlCommand($"DELETE FROM [User] WHERE UserPk = {userId}"));
         }
 
         public void UpdateUser(User user)
@@ -73,11 +73,18 @@ namespace OdoriRails.Helpers.DAL.Contexts
             return data.Rows.Count == 0 ? null : data.Rows[0];
         }
 
-        public int GetUserId(string username)
+        public int? GetUserId(string username)
         {
             var query = new SqlCommand("SELECT UserPk FROM [User] WHERE Username = @username");
             query.Parameters.AddWithValue("@username", username);
-            return (int) DatabaseHandler.GetData(query).Rows[0].ItemArray[0];
+            return (int?) DatabaseHandler.GetData(query).Rows[0]?["UserPk"];
+        }
+
+        public int? GetUserIdByName(string name)
+        {
+           var query = new SqlCommand("SELECT UserPk FROM [User] WHERE Name = @name");
+            query.Parameters.AddWithValue("@name", name);
+            return (int?) DatabaseHandler.GetData(query).Rows[0]?["UserPk"];
         }
     }
 }

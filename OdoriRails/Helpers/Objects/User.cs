@@ -63,39 +63,39 @@ namespace OdoriRails.Helpers.Objects
         /// <summary>
         ///     Database ID van de User.
         /// </summary>
-        public int Id { get; private set; }
+        public int Id { get; set; }
 
         /// <summary>
         ///     Ophalen naam van User
         /// </summary>
-        public string Name { get; }
+        public string Name { get; set; }
 
         /// <summary>
         ///     Ophalen emailadres van User
         /// </summary>
-        public string Email { get; }
+        public string Email { get; set; }
 
         /// <summary>
         ///     Ophalen rol van User
         /// </summary>
-        public Role Role { get; }
+        public Role Role { get; set; }
 
         /// <summary>
         ///     Ophalen username van User
         /// </summary>
-        public string Username { get; }
+        public string Username { get; set; }
 
         /// <summary>
         ///     Ophalen password van User
         /// </summary>
-        public string Password { get; }
+        public string Password { get; set; }
 
         /// <summary>
         ///     Ophalen manager van User
         /// </summary>
-        public string ManagerUsername { get; }
+        public string ManagerUsername { get; set; }
 
-        public List<int> TramIds { get; protected set; }
+        public List<int> TramIds { get; set; }
 
         public void SetId(int id)
         {

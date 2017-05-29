@@ -9,13 +9,15 @@ namespace OdoriRails.Helpers.DAL.ContextInterfaces
 
         DataRow GetUser(int userId);
 
-        int GetUserId(string userName);
+        int? GetUserId(string userName);
+
+        int? GetUserIdByName(string name);
 
         User AddUser(User user);
 
         DataTable GetAllUsers();
 
-        void RemoveUser(User user);
+        void RemoveUser(int userId);
 
         void UpdateUser(User user);
 

@@ -37,8 +37,7 @@ namespace OdoriRails.Models
 
         public void UpdateUserList()
         {
-            if (_allUsers == null)
-                _allUsers = _repository.GetAllUsers();
+            _allUsers = _repository.GetAllUsers();
 
             switch (SortMethod)
             {
@@ -73,44 +72,54 @@ namespace OdoriRails.Models
 
         public void DeleteUser(int delIndex)
         {
-            _repository.RemoveUser(Users[delIndex]);
+            _repository.RemoveUser(delIndex);
         }
     }
+
+
+
+
+
+
+
+
 
     public class EditUserModel : BaseModel
     {
         private readonly UserBeheerRepository _repository = new UserBeheerRepository();
 
-        public EditUserModel() : this(null, null)
+        public EditUserModel()
         {
+            _oldUser = null;
+            EditUser = new User(null);
         }
 
-        public EditUserModel(UserBeheerModel model, User user)
+        public EditUserModel(int user)
         {
-            CopyBaseModel(model);
-
-            OldUser = user;
-            EditUser = new User(OldUser);
+            _oldUser = _repository.GetUser(user);
+            EditUser = new User(_oldUser);
         }
 
-        public User OldUser { get; set; }
+        private readonly User _oldUser;
         public User EditUser { get; set; }
 
-        public IReadOnlyCollection<User> AllUsers => _repository.GetAllUsers();
+        public IEnumerable<User> AllUsers => _repository.GetAllUsers();
 
-        public int GetIndex(string username)
+        public int? GetUserId(string username)
         {
-            return _repository.GetUserId(username);
+            return _repository.GetUserIdByFullName(username);
         }
 
         public ActionResult Save()
         {
+            var existingUser = _repository.GetUserId(User.Username);
+
             if (string.IsNullOrEmpty(EditUser.Username))
             {
                 Error = "De username mag niet leeg zijn.";
                 return new RedirectToRouteResult("Edit", new RouteValueDictionary(this));
             }
-            if (_repository.DoesUserExist(EditUser.Username) && _repository.GetUserId(User.Username) != EditUser.Id)
+            if (_repository.DoesUserExist(EditUser.Username) && existingUser != EditUser.Id)
             {
                 Error = "Deze username is al in gebruik.";
                 return new RedirectToRouteResult("Edit", new RouteValueDictionary(this));
@@ -126,7 +135,7 @@ namespace OdoriRails.Models
                 return new RedirectToRouteResult("Edit", new RouteValueDictionary(this));
             }
 
-            if (OldUser == null)
+            if (_oldUser == null)
                 _repository.AddUser(EditUser);
             else
                 _repository.UpdateUser(EditUser);

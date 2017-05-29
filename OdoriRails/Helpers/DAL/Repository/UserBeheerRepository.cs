@@ -35,9 +35,9 @@ namespace OdoriRails.Helpers.DAL.Repository
         ///     Verwijdert een User uit de database.
         /// </summary>
         /// <param name="user"></param>
-        public void RemoveUser(User user)
+        public void RemoveUser(int userId)
         {
-            _userContext.RemoveUser(user);
+            _userContext.RemoveUser(userId);
         }
 
         /// <summary>
@@ -54,9 +54,14 @@ namespace OdoriRails.Helpers.DAL.Repository
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        public int GetUserId(string username)
+        public int? GetUserId(string username)
         {
             return _userContext.GetUserId(username);
+        }
+
+        public int? GetUserIdByFullName(string name)
+        {
+            return _userContext.GetUserIdByName(name);
         }
 
         /// <summary>
