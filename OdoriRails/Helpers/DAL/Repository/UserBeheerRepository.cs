@@ -57,7 +57,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         public int? GetUserId(string username)
         {
             var data = _userContext.GetUserId(username);
-            return (int?) data?["UserPk"];
+            return (int?)data?["UserPk"];
         }
 
         public int? GetUserIdByFullName(string name)
@@ -100,21 +100,21 @@ namespace OdoriRails.Helpers.DAL.Repository
             return _tramContext.DoesTramExist(id);
         }
 
-        public List<int> GetTramIdByDriverId(int id)
+        public int? GetTramIdByDriverId(int id)
         {
-            return ObjectCreator.GenerateListWithFunction(_tramContext.GetTramIdsByDriverId(id),
-                row => (int) row.ItemArray[0]);
+            var row = _tramContext.GetTramIdByDriverId(id);
+            return (int?) row?["TramFk"];
         }
 
-        public void SetUserToTrams(User user)
+        private void SetUserToTrams(User user)
         {
-            var tramsWithUser =
-                ObjectCreator.GenerateListWithFunction(_tramContext.GetTramsByDriver(user), row => (int) row["TramPk"]);
-            foreach (var tram in tramsWithUser.Where(x => !user.TramIds.Contains(x)))
-                _tramContext.SetUserToTram(tram, null);
+            var tramId = (int?)_tramContext.GetTramByDriver(user)?["TramFk"];
 
-            foreach (var userTramId in user.TramIds)
-                _tramContext.SetUserToTram(userTramId, user.Id);
+            if (tramId != null && tramId != user.TramId)
+                _tramContext.SetUserToTram(tramId.Value, null);
+
+            if (user.TramId != null)
+                _tramContext.SetUserToTram(user.TramId.Value, user.Id);
         }
 
         /// <summary>

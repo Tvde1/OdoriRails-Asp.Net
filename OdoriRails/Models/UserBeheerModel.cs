@@ -128,9 +128,9 @@ namespace OdoriRails.Models
                 controller.TempData["EditModel"] = this;
                 return new RedirectResult("Edit");
             }
-            if (EditUser.TramIds.Count != 0 && EditUser.TramIds.Any(x => !_repository.DoesTramExist(x)))
+            if (EditUser.TramId != null && !_repository.DoesTramExist(EditUser.TramId.Value))
             {
-                Error = "Een van de gekozen tramnummers bestaat niet.";
+                Error = "Deze tram bestaat niet.";
                 controller.TempData["EditModel"] = this;
                 return new RedirectResult("Edit");
             }

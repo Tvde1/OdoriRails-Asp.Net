@@ -46,9 +46,10 @@ namespace OdoriRails.Helpers.DAL.Contexts
             return DatabaseHandler.GetData(new SqlCommand("SELECT * FROM Tram"));
         }
 
-        public DataTable GetTramsByDriver(User driver)
+        public DataRow GetTramByDriver(User driver)
         {
-            return DatabaseHandler.GetData(new SqlCommand($"SELECT * FROM Tram WHERE DriverFk = {driver.Id}"));
+            var data = DatabaseHandler.GetData(new SqlCommand($"SELECT * FROM Tram WHERE DriverFk = {driver.Id}"));
+            return data.Rows.Count == 0 ? null : data.Rows[0];
         }
 
         public void EditTram(Tram tram)
@@ -108,9 +109,10 @@ namespace OdoriRails.Helpers.DAL.Contexts
                 $"UPDATE Tram SET DriverFk = {userId?.ToString() ?? "null"} WHERE TramPk = {tramId}"));
         }
 
-        public DataTable GetTramIdsByDriverId(int driverId)
+        public DataRow GetTramIdByDriverId(int driverId)
         {
-            return DatabaseHandler.GetData(new SqlCommand($"SELECT TramPk FROM Tram WHERE DriverFk = {driverId}"));
+            var data = DatabaseHandler.GetData(new SqlCommand($"SELECT TramPk FROM Tram WHERE DriverFk = {driverId}"));
+            return data.Rows.Count == 0 ? null : data.Rows[0];
         }
 
         public void SetStatusToIdle(int tramId)

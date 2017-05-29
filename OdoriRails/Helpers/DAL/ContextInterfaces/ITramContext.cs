@@ -35,7 +35,7 @@ namespace OdoriRails.Helpers.DAL.ContextInterfaces
         /// </summary>
         /// <param name="user">De bestuurder.</param>
         /// <returns></returns>
-        DataTable GetTramsByDriver(User user);
+        DataRow GetTramByDriver(User user);
 
         /// <summary>
         ///     Edit deze tram in de database.
@@ -72,7 +72,7 @@ namespace OdoriRails.Helpers.DAL.ContextInterfaces
 
         void SetUserToTram(int tramId, int? userId);
 
-        DataTable GetTramIdsByDriverId(int driverId);
+        DataRow GetTramIdByDriverId(int driverId);
 
         void SetStatusToIdle(int tramId);
     }
