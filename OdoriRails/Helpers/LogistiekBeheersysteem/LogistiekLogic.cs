@@ -21,7 +21,6 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
         private LogisticRepository repo = new LogisticRepository();
         private List<InUitRijSchema> schema;
 
-
         /// <summary>
         /// Constructor: Voert alles uit dat bij de launch uitgevoerd moet worden.
         /// </summary>
@@ -36,6 +35,7 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             csv = new CSVContext();
             schema = csv.getSchema();
         }
+        
 
         public void FetchUpdates()
         {

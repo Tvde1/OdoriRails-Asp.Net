@@ -16,25 +16,31 @@
     <script src="~/Scripts/jquery-1.10.2.js" language="javascript"></script>
 </head>
 <body>
-    <div class="container">
+    <div class="table table-striped table-hover">
         <table>
-            <tr>
-                @foreach (var track in Model.Tracks)
-                {
+
+            @foreach (var track in Model.Tracks)
+            {
+                <tr>
                     <td>
                         @track.Number
                     </td>
-                }
-            </tr>
-            <tr>
-                @foreach (var tram in Model.Trams)
-                {
-                    <td>
-                        @tram.Number
-                    </td>
-                }
-            </tr>
-        </table>
-    </div>
-</body>
-</html>
+                    @foreach (var sector in track.Sectors)
+                    {
+                        <td>
+                            @if (sector.OccupyingTram != null)
+                            {
+                                @sector.OccupyingTram.Number
+                            }
+                            else
+                            {
+                                <p>Empty</p>
+                            }
+                        </td>
+                    }
+                    </tr>
+                    }
+                </table>
+            </div>
+        </body>
+    </html>

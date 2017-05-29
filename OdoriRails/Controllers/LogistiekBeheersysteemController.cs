@@ -16,13 +16,14 @@ namespace OdoriRails.Controllers
         public ActionResult Index(int? id)
         {
             //Check if logged-in
-            var user = GetLoggedInUser();
-            if (user == null) return NotLoggedIn();
+            //var user = GetLoggedInUser();
+            //if (user == null) return NotLoggedIn();
 
             var remise = (LogistiekBeheerModel)Session["Remise"];
 
             if (Session["Remise"] == null)
             {
+                remise = new LogistiekBeheerModel();
                 LogistiekLogic logic = new LogistiekLogic();
 
                 remise.Tracks = logic.AllTracks;
