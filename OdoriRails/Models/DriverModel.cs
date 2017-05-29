@@ -7,7 +7,7 @@ namespace OdoriRails.Models
     public class DriverModel : BaseModel
     {
         public InUitRitTram Tram { get; private set; }
-        private InUitrijRepository _inUitrijRepository = new InUitrijRepository();
+        private readonly InUitrijRepository _inUitrijRepository = new InUitrijRepository();
 
         public DriverModel(User user)
         {
@@ -18,15 +18,8 @@ namespace OdoriRails.Models
 
         public string GetAssingedTramLocation()
         {
-            Sector sector = _inUitrijRepository.GetAssignedSector(Tram);
-            if (sector != null)
-            {
-                return string.Format("Track: {0}, Sector: {1}", sector.TrackNumber, sector.Number + 1);
-            }
-            else
-            {
-                return null;
-            }
+            var sector = _inUitrijRepository.GetAssignedSector(Tram);
+            return sector != null ? $"Track: {sector.TrackNumber}, Sector: {sector.Number + 1}" : null;
         }
 
         public void AddRepair(string defect)

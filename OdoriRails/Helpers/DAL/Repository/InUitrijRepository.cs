@@ -47,10 +47,10 @@ namespace OdoriRails.Helpers.DAL.Repository
         /// </summary>
         /// <param name="driver"></param>
         /// <returns></returns>
-        public int? GetTramByDriver(User driver)
+        public Tram GetTramByDriver(User driver)
         {
             var data = _tramContext.GetTramByDriver(driver);
-            return (int?) data?["TramPk"];
+            return data == null ? null : _objectCreator.CreateTram(_tramContext.GetTram((int)data["TramPk"]));
         }
 
         /// <summary>
