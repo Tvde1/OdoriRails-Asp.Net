@@ -8,15 +8,17 @@ namespace OdoriRails.Helpers
 {
     public abstract class BaseControllerFunctions : Controller
     {
-        protected User GetLoggedInUser(IEnumerable<Role> roles)
+        protected object GetLoggedInUser(IEnumerable<Role> roles)
         {
-            var user  = (User) Session["User"];
-            return user != null && roles.Contains(user.Role) ? user : null;
+            var user = (User) Session["User"];
+            if (user == null) return RedirectToLogin("U bent niet ingelogd.");
+            if (!roles.Contains(user.Role)) return RedirectToLogin("U bent hier niet voor gemachtigd.");
+            return user;
         }
 
-        protected ActionResult NotLoggedIn()
+        private ActionResult RedirectToLogin(string text)
         {
-            TempData["SigninModel"] = new LoginModel {Error = "U bent niet ingelogd."};
+            TempData["SigninModel"] = new LoginModel {Error = text};
             return RedirectToAction("Index", "Login");
         }
     }

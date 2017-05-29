@@ -9,8 +9,9 @@ namespace OdoriRails.Controllers
         // GET: SchoonmaakReparatie
         public ActionResult Index()
         {
-            var user = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
-            if (user == null) return NotLoggedIn();
+            var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
+            if (result.GetType() == typeof(ActionResult)) return result as ActionResult;
+            var user = result as User;
 
 
             return View();

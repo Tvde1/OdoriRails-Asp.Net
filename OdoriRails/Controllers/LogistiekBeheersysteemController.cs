@@ -17,7 +17,7 @@ namespace OdoriRails.Controllers
         {
             //Check if logged-in
             //var user = GetLoggedInUser();
-            //if (user == null) return NotLoggedIn();
+            //if (user == null) return RedirectToLogin();
 
             var remise = (LogistiekBeheerModel)Session["Remise"];
 

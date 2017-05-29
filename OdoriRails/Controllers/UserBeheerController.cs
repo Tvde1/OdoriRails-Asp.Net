@@ -11,8 +11,9 @@ namespace OdoriRails.Controllers
         [HttpGet]
         public ActionResult Index(int? id)
         {
-            var user = GetLoggedInUser(new[] { Role.Administrator });
-            if (user == null) return NotLoggedIn();
+            var result = GetLoggedInUser(new[] { Role.Administrator });
+            if (result.GetType() == typeof(ActionResult)) return result as ActionResult;
+            var user = result as User;
 
             var model = TempData["BeheerModel"] as UserBeheerModel ?? new UserBeheerModel { User = user };
             if (id != null) model.DeleteUser(id.Value);
@@ -22,8 +23,9 @@ namespace OdoriRails.Controllers
         [HttpPost]
         public ActionResult Index(UserBeheerModel model)
         {
-            var user = GetLoggedInUser(new[] { Role.Administrator });
-            if (user == null) return NotLoggedIn();
+            var result = GetLoggedInUser(new[] { Role.Administrator });
+            if (result.GetType() == typeof(ActionResult)) return result as ActionResult;
+            var user = result as User;
 
             model.User = user;
 
@@ -31,12 +33,12 @@ namespace OdoriRails.Controllers
             return View(model);
         }
 
-
         [HttpGet]
         public ActionResult Edit(int? id)
         {
-            var user = GetLoggedInUser(new[] { Role.Administrator });
-            if (user == null) return NotLoggedIn();
+            var result = GetLoggedInUser(new[] { Role.Administrator });
+            if (result.GetType() == typeof(ActionResult)) return result as ActionResult;
+            var user = result as User;
 
             var editUser = id == null ? null : new UserBeheerRepository().GetUser(id.Value);
 
@@ -47,8 +49,9 @@ namespace OdoriRails.Controllers
         [HttpPost]
         public ActionResult Edit(EditUserModel model)
         {
-            var user = GetLoggedInUser(new[] { Role.Administrator });
-            if (user == null) return NotLoggedIn();
+            var userResult = GetLoggedInUser(new[] { Role.Administrator });
+            if (userResult.GetType() == typeof(ActionResult)) return userResult as ActionResult;
+            var user = userResult as User;
 
             model.User = user;
 

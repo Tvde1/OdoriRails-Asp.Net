@@ -10,8 +10,9 @@ namespace OdoriRails.Controllers
         // GET: Driver
         public ActionResult Index()
         {
-            var user = GetLoggedInUser(new[] { Role.Driver });
-            if (user == null) return NotLoggedIn();
+            var result = GetLoggedInUser(new[] { Role.Driver });
+            if (result.GetType() == typeof(ActionResult)) return result as ActionResult;
+            var user = result as User;
 
             var model = new DriverModel(user);
 
