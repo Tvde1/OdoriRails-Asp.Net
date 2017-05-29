@@ -113,8 +113,7 @@ namespace OdoriRails.Controllers
                 case Role.Administrator:
                     return RedirectToAction("Index", "UserBeheersysteem");
                 case Role.Logistic:
-                    //TODO: Add
-                    break;
+                    return RedirectToAction("Index", "LogistiekBeheersysteem");
                 case Role.Driver:
                     return RedirectToAction("Index", "Driver");
                 case Role.Cleaner:

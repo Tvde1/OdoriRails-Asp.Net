@@ -165,6 +165,7 @@
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\DriverModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\LogistiekBeheerModel.cs" />
     <Compile Include="Models\UserBeheerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -182,6 +183,7 @@
     <Content Include="Views\Driver\Index.cshtml" />
     <Content Include="Views\UserBeheersysteem\Index.cshtml" />
     <Content Include="Views\UserBeheersysteem\Edit.cshtml" />
+    <Content Include="Views\LogistiekBeheersysteem\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -192,7 +194,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\i18n\" />
-    <Folder Include="Views\LogistiekBeheersysteem\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

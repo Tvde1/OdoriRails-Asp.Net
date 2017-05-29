@@ -1,0 +1,40 @@
+﻿@model OdoriRails.Models.LogistiekBeheerModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/signin.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js" language="javascript"></script>
+    <script src="~/Scripts/jquery-1.10.2.js" language="javascript"></script>
+</head>
+<body>
+    <div class="container">
+        <table>
+            <tr>
+                @foreach (var track in Model.Tracks)
+                {
+                    <td>
+                        @track.Number
+                    </td>
+                }
+            </tr>
+            <tr>
+                @foreach (var tram in Model.Trams)
+                {
+                    <td>
+                        @tram.Number
+                    </td>
+                }
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
