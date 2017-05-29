@@ -13,7 +13,7 @@ namespace OdoriRails.Models
         {
             User = user;
             var tempTram = _inUitrijRepository.GetTramByDriver(User);
-            Tram = tempTram == null ? null : InUitRitTram.ToInUitRitTram(tempTram[0]);
+            Tram = tempTram == null ? null : InUitRitTram.ToInUitRitTram(tempTram);
         }
 
         public string GetAssingedTramLocation()
