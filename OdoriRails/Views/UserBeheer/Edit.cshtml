@@ -1,4 +1,4 @@
-﻿@model OdoriRails.Models.EditUserModel
+﻿@model OdoriRails.Models.UserBeheer.EditUserModel
 
 @{
     ViewBag.Title = "Edit User";
@@ -12,23 +12,38 @@
         <tbody>
             <tr>
                 <td>Name</td>
-                <td>@Html.TextBoxFor(x => x.EditUser.Name)</td>
+                <td>
+                    @Html.TextBoxFor(x => x.EditUser.Name)
+                    @Html.ValidationMessageFor(x => x.EditUser.Name)
+                </td>
             </tr>
             <tr>
                 <td>Username</td>
-                <td>@Html.TextBoxFor(x => x.EditUser.Username)</td>
+                <td>
+                    @Html.TextBoxFor(x => x.EditUser.Username)
+                    @Html.ValidationMessageFor(x => x.EditUser.Username)
+                </td>
             </tr>
             <tr>
                 <td>Email</td>
-                <td>@Html.TextBoxFor(x => x.EditUser.Email)</td>
+                <td>
+                    @Html.TextBoxFor(x => x.EditUser.Email)
+                    @Html.ValidationMessageFor(x => x.EditUser.Email)
+                </td>
             </tr>
             <tr>
                 <td>Password</td>
-                <td>@Html.TextBoxFor(x => x.EditUser.Password)</td>
+                <td>
+                    @Html.TextBoxFor(x => x.EditUser.Password)
+                    @Html.ValidationMessageFor(x => x.EditUser.Password)
+                </td>
             </tr>
             <tr>
                 <td>Role</td>
-                <td>@Html.EnumDropDownListFor(x => x.EditUser.Role, new { Id = "DropDownRole" })</td>
+                <td>
+                    @Html.EnumDropDownListFor(x => x.EditUser.Role, new { Id = "DropDownRole" })
+                    @Html.ValidationMessageFor(x => x.EditUser.Role)
+                </td>
             </tr>
             <tr>
                 <td>Manager</td>
@@ -36,13 +51,20 @@
                     var userList = new List<SelectListItem> { new SelectListItem() };
                     userList.AddRange(Model.AllUsers.Select(x => new SelectListItem { Text = x.Name }).ToList());
                 }
-                <td>@Html.DropDownListFor(x => x.EditUser.ManagerUsername, userList, new { Id = "DropDownManager" })</td>
+                <td>@Html.DropDownListFor(x => x.EditUser.ManagerUsername, userList, new { Id = "DropDownManager" }) </td> @*Todo: kijken of persoon bestaat.*@
+            </tr>
+            <tr>
+                <td>Tram Id</td>
+                <td>
+                    @Html.TextBoxFor(x => x.EditUser.TramId)
+                @Html.ValidationMessageFor(x => x.EditUser.TramId)
+                </td>
             </tr>
         </tbody>
     </table>
 
     @Html.HiddenFor(x => x.EditUser.Id)
-    @Html.HiddenFor(x => x.EditUser.TramId) //TODO: veld maken
+                    @Html.HiddenFor(x => x.IsNewUser)
 
                     <input type="submit" value="Opslaan" class="btn btn-default" />
                     <input type="button" value="Annuleren" class="btn" onclick="window.location.href='/UserBeheerSysteem/'" />

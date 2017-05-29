@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
-using OdoriRails.Controllers;
 using OdoriRails.Helpers.DAL.Repository;
 using OdoriRails.Helpers.Objects;
 
-namespace OdoriRails.Models
+namespace OdoriRails.Models.UserBeheer
 {
     public class UserBeheerModel : BaseModel
     {
@@ -75,77 +71,7 @@ namespace OdoriRails.Models
         public void DeleteUser(int delIndex)
         {
             _repository.RemoveUser(delIndex);
-        }
-    }
-
-
-
-
-
-
-
-
-
-    public class EditUserModel : BaseModel
-    {
-        private readonly UserBeheerRepository _repository = new UserBeheerRepository();
-
-        public EditUserModel()
-        {
-            _oldUser = null;
-            EditUser = new User(null);
-        }
-
-        public EditUserModel(User user)
-        {
-            _oldUser = user;
-            EditUser = new User(_oldUser);
-        }
-
-        private readonly User _oldUser;
-        public User EditUser { get; set; }
-
-        public IEnumerable<User> AllUsers => _repository.GetAllUsers();
-
-        public int? GetUserId(string username)
-        {
-            return _repository.GetUserIdByFullName(username);
-        }
-
-        public ActionResult Save(UserBeheerController controller)
-        {
-            var existingUser = _repository.GetUserId(EditUser.Username);
-
-            if (string.IsNullOrEmpty(EditUser.Username))
-            {
-                Error = "De username mag niet leeg zijn.";
-                controller.TempData["EditModel"] = this;
-                return new RedirectResult("Edit");
-            }
-            if (_repository.DoesUserExist(EditUser.Username) && existingUser != EditUser.Id)
-            {
-                Error = "Deze username is al in gebruik.";
-                controller.TempData["EditModel"] = this;
-                return new RedirectResult("Edit");
-            }
-            if (EditUser.TramId != null && !_repository.DoesTramExist(EditUser.TramId.Value))
-            {
-                Error = "Deze tram bestaat niet.";
-                controller.TempData["EditModel"] = this;
-                return new RedirectResult("Edit");
-            }
-            if (string.IsNullOrEmpty(EditUser.Password))
-            {
-                Error = "Het wachtwoord kan niet leeg zijn.";
-                controller.TempData["EditModel"] = this;
-                return new RedirectResult("Edit");
-            }
-
-            if (_oldUser == null)
-                _repository.AddUser(EditUser);
-            else
-                _repository.UpdateUser(EditUser);
-            return null;
+            UpdateUserList();
         }
     }
 }

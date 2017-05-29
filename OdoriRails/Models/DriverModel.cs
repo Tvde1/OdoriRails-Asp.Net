@@ -16,7 +16,7 @@ namespace OdoriRails.Models
             Tram = tempTram == null ? null : InUitRitTram.ToInUitRitTram(tempTram);
         }
 
-        public string GetAssingedTramLocation()
+        public string GetAssignedTramLocation()
         {
             var sector = _inUitrijRepository.GetAssignedSector(Tram);
             return sector != null ? $"Track: {sector.TrackNumber}, Sector: {sector.Number + 1}" : null;
