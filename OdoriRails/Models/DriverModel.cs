@@ -1,4 +1,5 @@
-﻿using OdoriRails.Helpers.Objects;
+﻿using System.ComponentModel.DataAnnotations;
+using OdoriRails.Helpers.Objects;
 using OdoriRails.Helpers.DAL.Repository;
 using OdoriRails.Helpers.Driver;
 
@@ -8,6 +9,10 @@ namespace OdoriRails.Models
     {
         public InUitRitTram Tram { get; private set; }
         private readonly InUitrijRepository _inUitrijRepository = new InUitrijRepository();
+        
+        public bool NeedsCleaning;
+        public bool NeedsRepair;
+        public string Comments;
 
         public DriverModel(User user)
         {

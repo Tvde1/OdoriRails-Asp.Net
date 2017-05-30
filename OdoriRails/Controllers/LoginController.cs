@@ -45,6 +45,8 @@ namespace OdoriRails.Controllers
         [HttpPost]
         public ActionResult Index(LoginModel model)
         {
+            if (model.Username == null && model.Password == null) return View(model);
+
             var conn = BaseRepository.TestConnection();
             if (conn != null)
             {
