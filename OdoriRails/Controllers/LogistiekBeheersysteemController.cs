@@ -60,24 +60,35 @@ namespace OdoriRails.Controllers
         {
             if (result.RadioButton == 1)
             {
-                logic.Lock(result.TrackNumber, result.SectorNumber);
+                logic.Lock(result.TrackNumbers, result.SectorNumbers);
             }
             else
             {
-                logic.Unlock(result.TrackNumber, result.SectorNumber);
+                logic.Unlock(result.TrackNumbers, result.SectorNumbers);
             }
+            Session["Remise"] = null;
             return RedirectToAction("Index");
         }
 
         public ActionResult MoveTram(FormResultModel result)
         {
-            logic.MoveTram(result.TramNumber, result.TrackNumber, result.SectorNumber);
+            if (logic.MoveTram(result.TramNumber, result.TrackNumber, result.SectorNumber) == false)
+            {
+                var remise = (LogistiekBeheerModel)Session["Remise"];
+                remise.Error = "Failed to move the tram";
+            }
+            else
+            {
+                Session["Remise"] = null; //Reload Display after update
+            }
+            
             return RedirectToAction("Index");
         }
 
         public ActionResult ToggleDisabled(FormResultModel result)
         {
-            logic.ToggleDisabled(result.TramNumber);
+            logic.ToggleDisabled(result.TramNumbers);
+            Session["Remise"] = null;
             return RedirectToAction("Index");
         }
 
@@ -85,23 +96,42 @@ namespace OdoriRails.Controllers
         public ActionResult AddTram(FormResultModel result)
         {
             logic.AddTram(result.TramNumber, result.DefaultLine, result.TramModel);
+            Session["Remise"] = null;
             return RedirectToAction("Index");
         }
 
         public ActionResult DeleteTram(FormResultModel result)
         {
-            logic.DeleteTram(result.TramNumber);
+            if (logic.DeleteTram(result.TramNumber) == false)
+            {
+                var remise = (LogistiekBeheerModel)Session["Remise"];
+                remise.Error = "Failed to delete the tram";
+            }
+            else
+            {
+                Session["Remise"] = null; //Reload Display after update
+            }
             return RedirectToAction("Index");
         }
 
         public ActionResult AddTrack(FormResultModel result)
         {
             logic.AddTrack(result.TrackNumber, result.SectorAmount, result.TrackType, result.DefaultLine);
+            Session["Remise"] = null;
             return RedirectToAction("Index");
         }
+
         public ActionResult DeleteTrack(FormResultModel result)
         {
-            logic.DeleteTram(result.TrackNumber);
+            if (logic.DeleteTram(result.TrackNumber) == false)
+            {
+                var remise = (LogistiekBeheerModel)Session["Remise"];
+                remise.Error = "Failed to delete the track";
+            }
+            else
+            {
+                Session["Remise"] = null; //Reload Display after update
+            }
             return RedirectToAction("Index");
         }
 
@@ -109,11 +139,27 @@ namespace OdoriRails.Controllers
         {
             if(result.RadioButton == 1)
             {
-                logic.DeleteSector(result.TrackNumber);
+                if (logic.DeleteSector(result.TrackNumber) == false)
+                {
+                    var remise = (LogistiekBeheerModel)Session["Remise"];
+                    remise.Error = "Failed to add the sector to the track";
+                }
+                else
+                {
+                    Session["Remise"] = null; //Reload Display after update
+                }
             }
             else
             {
-                logic.AddSector(result.TrackNumber);
+                if (logic.AddSector(result.TrackNumber) == false)
+                {
+                    var remise = (LogistiekBeheerModel)Session["Remise"];
+                    remise.Error = "Failed to delete the sector from the track";
+                }
+                else
+                {
+                    Session["Remise"] = null; //Reload Display after update
+                }
             }
             return RedirectToAction("Index");
         }

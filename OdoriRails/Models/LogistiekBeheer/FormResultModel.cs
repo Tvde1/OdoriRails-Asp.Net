@@ -7,13 +7,20 @@ namespace OdoriRails.Models
 {
     public class FormResultModel
     {
-        public string TramNumber { get; set; }
+        //Tram
+        public int TramNumber { get; set; }
+        public string TramNumbers { get; set; }
         public string TramModel { get; set; }
-        public string TrackNumber { get; set; }
+        //Track
+        public int TrackNumber { get; set; }
+        public string TrackNumbers { get; set; }
         public string TrackType { get; set; }
-        public string SectorNumber { get; set; }
-        public string SectorAmount { get; set; }
-        public string DefaultLine { get; set; }
+        //Sector
+        public int SectorNumber { get; set; }
+        public string SectorNumbers { get; set; }
+        public int SectorAmount { get; set; }
+        //Other
+        public int? DefaultLine { get; set; }
         public int RadioButton { get; set; }
     }
 }
