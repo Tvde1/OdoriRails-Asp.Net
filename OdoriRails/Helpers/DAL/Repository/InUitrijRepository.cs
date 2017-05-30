@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using OdoriRails.Helpers.DAL.ContextInterfaces;
 using OdoriRails.Helpers.DAL.Contexts;
+using OdoriRails.Helpers.Driver;
 using OdoriRails.Helpers.Objects;
 
 namespace OdoriRails.Helpers.DAL.Repository
@@ -61,7 +62,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         public Sector GetAssignedSector(Tram tram)
         {
             var sector = _objectCreator.CreateSector(_tramContext.GetAssignedSector(tram));
-            sector.SetTram(tram);
+            sector?.SetTram(tram);
             return sector;
         }
 
@@ -77,6 +78,12 @@ namespace OdoriRails.Helpers.DAL.Repository
         public Tram FetchTram(Tram tram)
         {
             return _objectCreator.CreateTram(_tramContext.FetchTram(tram));
+        }
+
+        public TramLocation? GetLocation(InUitRitTram tram)
+        {
+            var data = _tramContext.GetLocation(tram.Number);
+            return data == null ? null : (TramLocation?) (int) data?["Location"];
         }
     }
 }

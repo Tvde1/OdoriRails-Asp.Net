@@ -1,4 +1,5 @@
-﻿@model OdoriRails.Models.DriverModel
+﻿@using OdoriRails.Helpers.Objects
+@model OdoriRails.Models.DriverModel
 
 @{
     ViewBag.Title = "Index";
@@ -23,7 +24,7 @@
                     <h4>Locatie:</h4>
                 </div>
                 <div class="panel-body">
-                    <p style="text-align:center; font-size:xx-large"> @Html.Raw(Model.Tram?.Number.ToString() ?? "Niet Bekend")</p>
+                    <p style="text-align:center; font-size:xx-large"> @Html.Raw(Model.GetAssignedTramLocation() ?? "Niet Bekend")</p>
                 </div>
             </div>
         </div>
@@ -38,12 +39,12 @@
                 <div class="panel-body">
                     <div class="pull-right">
                         <label>Comments</label><br />
-                        @Html.TextAreaFor(x => x.Comments)
+                        @Html.TextAreaFor(x => x.Comments, Model.Tram?.Location == TramLocation.Out ? new { } : (object)new { @disabled = "true" })
                     </div>
                     <div class="pull-left">
-                        <label>@Html.CheckBoxFor(x => x.NeedsCleaning) Schoonmaak</label>
+                        <label>@Html.CheckBoxFor(x => x.NeedsCleaning, Model.Tram?.Location == TramLocation.Out ? new { } : (object)new { @disabled = "true" }) Schoonmaak</label>
                         <br />
-                        <label>@Html.CheckBoxFor(x => x.NeedsRepair) Reparatie</label>
+                        <label>@Html.CheckBoxFor(x => x.NeedsRepair, Model.Tram?.Location == TramLocation.Out ? new { } : (object)new { @disabled = "true" }) Reparatie</label>
                     </div>
                     <br><br />
                 </div>
@@ -54,9 +55,9 @@
                 <div class="panel-heading">
                     @Html.Label("Tram aanmelden:")
                 </div>
-                <div class="panel-body">
-                    <button type="submit" class="btn btn-lg navbar-btn" style="margin: 5px">Vertrek</button>
-                    <button type="submit" class="btn btn-lg btn-primary" style="margin: 5px">Remise</button>
+                <div class="panel-body text-center">
+                    <button type="submit" class="btn btn-lg navbar-btn" style="margin: 5px" value="leave" @Html.Raw(Model.Tram?.Location == TramLocation.In ? "" : "disabled")>Vertrek</button>
+                    <button type="submit" class="btn btn-lg btn-primary" style="margin: 5px" value="remise" @Html.Raw(Model.Tram?.Location == TramLocation.Out ? "" : "disabled")>Remise</button>
                 </div>
             </div>
         </div>
