@@ -58,7 +58,7 @@ namespace OdoriRails.Controllers
         //Main Actions
         public ActionResult LockTrack(FormResultModel result)
         {
-            if (result.RadioButton = 1)
+            if (result.RadioButton == 1)
             {
                 logic.Lock(result.TrackNumber, result.SectorNumber);
             }
@@ -77,7 +77,7 @@ namespace OdoriRails.Controllers
 
         public ActionResult ToggleDisabled(FormResultModel result)
         {
-            logic.ToggleDisable(result.TramNumber);
+            logic.ToggleDisabled(result.TramNumber);
             return RedirectToAction("Index");
         }
 
@@ -107,7 +107,7 @@ namespace OdoriRails.Controllers
 
         public ActionResult AddDeleteSector(FormResultModel result)
         {
-            if(result.RadioButton = 1)
+            if(result.RadioButton == 1)
             {
                 logic.DeleteSector(result.TrackNumber);
             }
