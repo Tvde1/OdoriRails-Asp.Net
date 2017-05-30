@@ -51,13 +51,13 @@
                     var userList = new List<SelectListItem> { new SelectListItem() };
                     userList.AddRange(Model.AllUsers.Select(x => new SelectListItem { Text = x.Name }).ToList());
                 }
-                <td>@Html.DropDownListFor(x => x.EditUser.ManagerUsername, userList, new { Id = "DropDownManager" }) </td> @*Todo: kijken of persoon bestaat.*@
+                <td>@Html.DropDownListFor(x => x.EditUser.ManagerName, userList, new { Id = "DropDownManager" }) </td> @*Todo: kijken of persoon bestaat.*@
             </tr>
             <tr>
                 <td>Tram Id</td>
                 <td>
                     @Html.TextBoxFor(x => x.EditUser.TramId)
-                @Html.ValidationMessageFor(x => x.EditUser.TramId)
+                    @Html.ValidationMessageFor(x => x.EditUser.TramId)
                 </td>
             </tr>
         </tbody>
@@ -67,10 +67,10 @@
                     @Html.HiddenFor(x => x.IsNewUser)
 
                     <input type="submit" value="Opslaan" class="btn btn-default" />
-                    <input type="button" value="Annuleren" class="btn" onclick="window.location.href='/UserBeheerSysteem/'" />
+                    <input type="button" value="Annuleren" class="btn" onclick="window.location.href='/UserBeheer/'" />
                     }
 
 <script type="text/javascript">
     document.getElementById('DropDownRole').Value = @Model.EditUser.Role;
-    document.getElementById('DropDownManager').Value = @Model.EditUser.ManagerUsername;
+    document.getElementById('DropDownManager').Value = @Model.EditUser.ManagerName;
 </script>

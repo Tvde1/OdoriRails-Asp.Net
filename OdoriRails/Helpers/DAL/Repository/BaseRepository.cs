@@ -6,7 +6,7 @@ namespace OdoriRails.Helpers.DAL.Repository
     public abstract class BaseRepository
     {
         private const string ConnectionString =
-            "Data Source=192.168.20.189;Initial Catalog=OdoriRails;User ID=sa;Password=OdoriRails123;";
+            "Data Source=192.168.20.189;Initial Catalog=OdoriRails;User ID=sa;Password=OdoriRails123;Connect Timeout=1";
 
         public static Exception TestConnection()
         {

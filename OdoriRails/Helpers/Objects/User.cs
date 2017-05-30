@@ -38,7 +38,7 @@ namespace OdoriRails.Helpers.Objects
         ///     Toevoegen User, alle benodigde data.
         /// </summary>
         public User(int id, string name, string username, string email, string password, Role role,
-            string managedByUsername, int? tramId = null)
+            string managedByName, int? tramId = null)
         {
             Id = id;
             Name = name;
@@ -46,7 +46,7 @@ namespace OdoriRails.Helpers.Objects
             Role = role;
             Username = username;
             Password = password;
-            ManagerUsername = managedByUsername;
+            ManagerName = managedByName;
             TramId = tramId;
         }
 
@@ -59,7 +59,7 @@ namespace OdoriRails.Helpers.Objects
             Role = oldUser.Role;
             Username = oldUser.Username;
             Password = oldUser.Password;
-            ManagerUsername = oldUser.ManagerUsername;
+            ManagerName = oldUser.ManagerName;
             TramId = oldUser.TramId;
         }
 
@@ -102,7 +102,7 @@ namespace OdoriRails.Helpers.Objects
         /// <summary>
         ///     Ophalen manager van User
         /// </summary>
-        public string ManagerUsername { get; set; }
+        public string ManagerName { get; set; }
 
         [IntegerValidator]
         public int? TramId { get; set; }

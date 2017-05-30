@@ -13,7 +13,6 @@ namespace OdoriRails.Models.UserBeheer
 
         public EditUserModel()
         {
-            
         }
 
         public EditUserModel(User user)

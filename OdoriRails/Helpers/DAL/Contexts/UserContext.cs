@@ -21,8 +21,8 @@ namespace OdoriRails.Helpers.DAL.Contexts
             query.Parameters.AddWithValue("@email", user.Email);
             query.Parameters.AddWithValue("@role", (int)user.Role);
 
-            if (string.IsNullOrEmpty(user.ManagerUsername)) query.Parameters.AddWithValue("@managedBy", DBNull.Value);
-            else query.Parameters.AddWithValue("@managedBy", GetUserId(user.ManagerUsername));
+            if (string.IsNullOrEmpty(user.ManagerName)) query.Parameters.AddWithValue("@managedBy", DBNull.Value);
+            else query.Parameters.AddWithValue("@managedBy", GetUserId(user.ManagerName));
 
             user.SetId(Convert.ToInt32((decimal)DatabaseHandler.GetData(query).Rows[0][0]));
             return user;
@@ -48,8 +48,8 @@ namespace OdoriRails.Helpers.DAL.Contexts
             query.Parameters.AddWithValue("@password", user.Password);
             query.Parameters.AddWithValue("@email", user.Email);
             query.Parameters.AddWithValue("@role", (int)user.Role);
-            if (string.IsNullOrEmpty(user.ManagerUsername)) query.Parameters.AddWithValue("@managedby", DBNull.Value);
-            else query.Parameters.AddWithValue("@managedby", GetUserId(user.ManagerUsername));
+            if (string.IsNullOrEmpty(user.ManagerName)) query.Parameters.AddWithValue("@managedby", DBNull.Value);
+            else query.Parameters.AddWithValue("@managedby", GetUserIdByName(user.ManagerName));
             query.Parameters.AddWithValue("@id", user.Id);
             DatabaseHandler.GetData(query);
         }
