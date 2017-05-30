@@ -1,5 +1,4 @@
-﻿@using OdoriRails.Models
-@model OdoriRails.Models.DriverModel
+﻿@model OdoriRails.Models.DriverModel
 
 @{
     ViewBag.Title = "Index";
@@ -11,20 +10,20 @@
         <div class="col-md-6 col-sm-6 col-xs-6 pull-left">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    @Html.Label("Tramnummer:")
+                    <h4>Tramnummer:</h4>
                 </div>
                 <div class="panel-body">
-                    <p style="text-align:center; font-size:xx-large"> @Html.DisplayText("dtTramNumber")Niet bekend</p>
+                    <p style="text-align:center; font-size:xx-large"> @Html.Raw(Model.Tram?.Number.ToString() ?? "Niet Bekend")</p>
                 </div>
             </div>
         </div>
         <div class="col-md-6 col-sm-6 col-xs-6 pull-right">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    @Html.Label("Locatie:")
+                    <h4>Locatie:</h4>
                 </div>
                 <div class="panel-body">
-                    <p style="text-align:center; font-size:xx-large"> @Html.DisplayText("dtTramLocation")Niet bekend</p>
+                    <p style="text-align:center; font-size:xx-large"> @Html.Raw(Model.Tram?.Number.ToString() ?? "Niet Bekend")</p>
                 </div>
             </div>
         </div>
@@ -34,14 +33,19 @@
         <div class="col-md-10 col-sm-12 col-xs-12 pull-left">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    @Html.Label("Benodigde service:")
+                    <h4>Benodigde service:</h4>
                 </div>
                 <div class="panel-body">
-                    <label for="lblCleaning" class="pull-left">@Html.CheckBox("cbCleaning", new bool { }) Schoonmaak</label>
-                    <textarea rows="5" cols="100" class="pull-right"></textarea>
-                    <label class="pull-right" ; style="margin-right: 10px" for="lblDetails">Details:</label>
+                    <div class="pull-right">
+                        <label>Comments</label><br />
+                        @Html.TextAreaFor(x => x.Comments)
+                    </div>
+                    <div class="pull-left">
+                        @Html.CheckBoxFor(x => x.NeedsCleaning) <label>Schoonmaak</label>
+                        <br />
+                        @Html.CheckBoxFor(x => x.NeedsRepair) <label>Reparatie</label>
+                    </div>
                     <br><br />
-                    <label class="pull-left" ; for="lblReparation">@Html.CheckBox("cbReparation", new bool { }) Reparatie</label>
                 </div>
             </div>
         </div>
