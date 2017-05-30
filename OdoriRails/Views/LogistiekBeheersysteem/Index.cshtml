@@ -114,6 +114,162 @@
                 </div>
             }
         }
+        else
+        {
+            using (Html.BeginForm("AddTram", "LogistiekBeheerModel", FormMethod.Post))
+            {
+                <div class="panel panel-default" style="margin-top: -10px">
+                    <div class="panel-heading">
+                        @Html.Label("Add Tram")
+                        <button type="submit" class="btn btn-md btn-primary pull-right" style="margin-top: -5px">Confirm</button>
+                    </div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td>
+                                    @Html.Label("Tram Number:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.TramNumber, new { type = "number" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Default Line:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.DefaultLine, new { type = "number" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Tram Model:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.TramModel)
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            }
+            using (Html.BeginForm("DeleteTram", "LogistiekBeheerModel", FormMethod.Post))
+            {
+                <div class="panel panel-default" style="margin-top: -10px">
+                    <div class="panel-heading">
+                        @Html.Label("Delete Tram")
+                        <button type="submit" class="btn btn-md btn-primary pull-right" style="margin-top: -5px">Confirm</button>
+                    </div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td>
+                                    @Html.Label("Tram Number:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.TramNumber, new { type = "number" })
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            }
+            using (Html.BeginForm("AddTrack", "LogistiekBeheerModel", FormMethod.Post))
+            {
+                <div class="panel panel-default" style="margin-top: -10px">
+                    <div class="panel-heading">
+                        @Html.Label("Add Track")
+                        <button type="submit" class="btn btn-md btn-primary pull-right" style="margin-top: -5px">Confirm</button>
+                    </div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td>
+                                    @Html.Label("Track Number:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.TrackNumber, new { type = "number" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Sector Amount:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.SectorAmount, new { type = "number" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Track Type:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.TrackType)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Default Line:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.DefaultLine, new { type = "number" })
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            }
+            using (Html.BeginForm("DeleteTrack", "LogistiekBeheerModel", FormMethod.Post))
+            {
+                <div class="panel panel-default" style="margin-top: -10px">
+                    <div class="panel-heading">
+                        @Html.Label("Remove Track")
+                        <button type="submit" class="btn btn-md btn-primary pull-right" style="margin-top: -5px">Confirm</button>
+                    </div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td>
+                                    @Html.Label("Track Number:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.TrackNumber, new { type = "number" })
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            }
+            using (Html.BeginForm("AddDeleteSector", "LogistiekBeheerModel", FormMethod.Post))
+            {
+                <div class="panel panel-default" style="margin-top: -10px">
+                    <div class="panel-heading">
+                        @Html.Label("Add/Delete Sector")
+                        <button type="submit" class="btn btn-md btn-primary pull-right" style="margin-top: -5px">Confirm</button>
+                    </div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td>
+                                    @Html.Label("Track Number:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.TrackNumber, new { type = "number" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Add:") @Html.RadioButtonFor(m => m.Form.RadioButton, new { id = 0 }, true)
+                                </td>
+                                <td>
+                                    @Html.Label("Delete:") @Html.RadioButtonFor(m => m.Form.RadioButton, new { id = 0 }, true)
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            }
+        }
     </div>
     <div class="col-md-8">
         Here be display
