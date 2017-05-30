@@ -31,9 +31,27 @@ namespace OdoriRails.Controllers
 
                 Session["Remise"] = remise;
             }
-
-
             return View(remise);
         }
+
+        public ActionResult SetStateMain()
+        {
+            var remise = (LogistiekBeheerModel)Session["Remise"];
+            if (Session["Remise"] == null) return RedirectToAction("Index");
+            remise.State = LogistiekState.Main;
+            Session["Remise"] = remise;
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult SetStateEdit()
+        {
+            var remise = (LogistiekBeheerModel)Session["Remise"];
+            if (Session["Remise"] == null) return RedirectToAction("Index");
+            remise.State = LogistiekState.Edit;
+            Session["Remise"] = remise;
+            return RedirectToAction("Index");
+        }
+
+
     }
 }

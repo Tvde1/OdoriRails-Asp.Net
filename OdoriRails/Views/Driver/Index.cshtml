@@ -5,12 +5,56 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Welkom, @Model.User.Name</h2>
-
 @using (Html.BeginForm("Index", "Driver", FormMethod.Post))
 {
-    <center><label for="lblDetails">Details:</label></center>
-    <center><textarea class="text-info"></textarea></center>
-    <button type="button" class="btn btn-lg btn-primary pull-right" style="margin: 5px">Meld tram aan bij remise</button>
-    <button type="button" class="btn btn-lg btn-primary pull-right" style="margin: 5px">Meld tram aan voor vertrek</button>
+    <div class="row" style="margin-top: 20px">
+        <div class="col-md-6 col-sm-6 col-xs-6 pull-left">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    @Html.Label("Tramnummer:")
+                </div>
+                <div class="panel-body">
+                    <p style="text-align:center; font-size:xx-large"> @Html.DisplayText("dtTramNumber")Niet bekend</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-6 pull-right">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    @Html.Label("Locatie:")
+                </div>
+                <div class="panel-body">
+                    <p style="text-align:center; font-size:xx-large"> @Html.DisplayText("dtTramLocation")Niet bekend</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 10px">
+        <div class="col-md-10 col-sm-12 col-xs-12 pull-left">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    @Html.Label("Benodigde service:")
+                </div>
+                <div class="panel-body">
+                    <label for="lblCleaning" class="pull-left">@Html.CheckBox("cbCleaning", new bool { }) Schoonmaak</label>
+                    <textarea rows="5" cols="100" class="pull-right"></textarea>
+                    <label class="pull-right" ; style="margin-right: 10px" for="lblDetails">Details:</label>
+                    <br><br />
+                    <label class="pull-left" ; for="lblReparation">@Html.CheckBox("cbReparation", new bool { }) Reparatie</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 pull-right">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    @Html.Label("Tram aanmelden:")
+                </div>
+                <div class="panel-body">
+                    <button type="submit" class="btn btn-lg navbar-btn" style="margin: 5px">Vertrek</button>
+                    <button type="submit" class="btn btn-lg btn-primary" style="margin: 5px">Remise</button>
+                </div>
+            </div>
+        </div>
+    </div>
 }

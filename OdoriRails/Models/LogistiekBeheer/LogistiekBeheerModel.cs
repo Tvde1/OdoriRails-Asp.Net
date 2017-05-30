@@ -7,9 +7,18 @@ using System.Web;
 
 namespace OdoriRails.Models
 {
+    public enum LogistiekState
+    {
+        Main,
+        Edit
+    }
+
+
     public class LogistiekBeheerModel : BaseModel
     {
+        public LogistiekState State { get; set; }
         public List<BeheerTrack> Tracks { get; set; }
         public List<BeheerTram> Trams { get; set; }
+        public FormResultModel Form { get; set; } = new FormResultModel();
     }
 }

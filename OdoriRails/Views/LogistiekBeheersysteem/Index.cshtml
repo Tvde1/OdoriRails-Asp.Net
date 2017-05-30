@@ -1,46 +1,277 @@
 ﻿@model OdoriRails.Models.LogistiekBeheerModel
 
-@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Login</title>
-    <link href="~/Content/bootstrap.css" rel="stylesheet" />
-    <link href="~/Content/signin.css" rel="stylesheet" />
-    <script src="~/Scripts/bootstrap.js" language="javascript"></script>
-    <script src="~/Scripts/jquery-1.10.2.js" language="javascript"></script>
-</head>
-<body>
-    <div class="table table-striped table-hover">
-        <table>
-
-            @foreach (var track in Model.Tracks)
-            {
-                <tr>
-                    <td>
-                        @track.Number
-                    </td>
-                    @foreach (var sector in track.Sectors)
-                    {
-                        <td>
-                            @if (sector.OccupyingTram != null)
-                            {
-                                @sector.OccupyingTram.Number
-                            }
-                            else
-                            {
-                                <p>Empty</p>
-                            }
-                        </td>
-                    }
-                    </tr>
-                    }
-                </table>
+<div class="container">
+    <div class="col-md-4 pull-left">
+        <div class="panel panel-default" style="margin-top: 10px">
+            <div class="panel-heading">
+                @Html.ActionLink("Main", "SetStateMain", null, new { @class = "btn btn-md btn-primary" })
+                @Html.ActionLink("Edit", "SetStateEdit", null, new { @class = "btn btn-md btn-primary" })
             </div>
-        </body>
-    </html>
+        </div>
+        @if (Model.State == OdoriRails.Models.LogistiekState.Main)
+        {
+            using (Html.BeginForm("LockTrack", "LogistiekBeheerModel", FormMethod.Post))
+            {
+                <div class="panel panel-default" style="margin-top: -10px">
+                    <div class="panel-heading">
+                        @Html.Label("Lock/Unlock Track")
+                        <button type="submit" class="btn btn-md btn-primary pull-right" style="margin-top: -5px">Confirm</button>
+                    </div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td>
+                                    @Html.Label("Track Number:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.TrackNumber, new { type = "number" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Sector Number:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.SectorNumber, new { type = "number" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Lock:") @Html.RadioButtonFor(m => m.Form.RadioButton, new { id = 0 }, true)
+                                </td>
+                                <td>
+                                    @Html.Label("Unlock:") @Html.RadioButtonFor(m => m.Form.RadioButton, new { id = 0 }, true)
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            }
+            using (Html.BeginForm("MoveTram", "LogistiekBeheerModel", FormMethod.Post))
+            {
+                <div class="panel panel-default" style="margin-top: -10px">
+                    <div class="panel-heading">
+                        @Html.Label("Move Tram")
+                        <button type="submit" class="btn btn-md btn-primary pull-right" style="margin-top: -5px">Confirm</button>
+                    </div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td>
+                                    @Html.Label("Tram Number:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.TramNumber, new { type = "number" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Track Number:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.TrackNumber, new { type = "number" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Sector Number:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.SectorNumber, new { type = "number" })
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            }
+            using (Html.BeginForm("DisableEnableTram", "LogistiekBeheerModel", FormMethod.Post))
+            {
+                <div class="panel panel-default" style="margin-top: -10px">
+                    <div class="panel-heading">
+                        @Html.Label("Disable/Enable Tram")
+                        <button type="submit" class="btn btn-md btn-primary pull-right" style="margin-top: -5px">Confirm</button>
+                    </div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td>
+                                    @Html.Label("Tram Number:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.TramNumber, new { type = "number" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Enable:") @Html.RadioButtonFor(m => m.Form.RadioButton, new { id = 0 }, true)
+                                </td>
+                                <td>
+                                    @Html.Label("Disable:") @Html.RadioButtonFor(m => m.Form.RadioButton, new { id = 0 }, true)
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            using (Html.BeginForm("AddTram", "LogistiekBeheerModel", FormMethod.Post))
+            {
+                <div class="panel panel-default" style="margin-top: -10px">
+                    <div class="panel-heading">
+                        @Html.Label("Add Tram")
+                        <button type="submit" class="btn btn-md btn-primary pull-right" style="margin-top: -5px">Confirm</button>
+                    </div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td>
+                                    @Html.Label("Tram Number:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.TramNumber, new { type = "number" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Default Line:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.DefaultLine, new { type = "number" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Tram Model:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.TramModel)
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            }
+            using (Html.BeginForm("DeleteTram", "LogistiekBeheerModel", FormMethod.Post))
+            {
+                <div class="panel panel-default" style="margin-top: -10px">
+                    <div class="panel-heading">
+                        @Html.Label("Delete Tram")
+                        <button type="submit" class="btn btn-md btn-primary pull-right" style="margin-top: -5px">Confirm</button>
+                    </div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td>
+                                    @Html.Label("Tram Number:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.TramNumber, new { type = "number" })
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            }
+            using (Html.BeginForm("AddTrack", "LogistiekBeheerModel", FormMethod.Post))
+            {
+                <div class="panel panel-default" style="margin-top: -10px">
+                    <div class="panel-heading">
+                        @Html.Label("Add Track")
+                        <button type="submit" class="btn btn-md btn-primary pull-right" style="margin-top: -5px">Confirm</button>
+                    </div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td>
+                                    @Html.Label("Track Number:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.TrackNumber, new { type = "number" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Sector Amount:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.SectorAmount, new { type = "number" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Track Type:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.TrackType)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Default Line:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.DefaultLine, new { type = "number" })
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            }
+            using (Html.BeginForm("DeleteTrack", "LogistiekBeheerModel", FormMethod.Post))
+            {
+                <div class="panel panel-default" style="margin-top: -10px">
+                    <div class="panel-heading">
+                        @Html.Label("Remove Track")
+                        <button type="submit" class="btn btn-md btn-primary pull-right" style="margin-top: -5px">Confirm</button>
+                    </div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td>
+                                    @Html.Label("Track Number:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.TrackNumber, new { type = "number" })
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            }
+            using (Html.BeginForm("AddDeleteSector", "LogistiekBeheerModel", FormMethod.Post))
+            {
+                <div class="panel panel-default" style="margin-top: -10px">
+                    <div class="panel-heading">
+                        @Html.Label("Add/Delete Sector")
+                        <button type="submit" class="btn btn-md btn-primary pull-right" style="margin-top: -5px">Confirm</button>
+                    </div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td>
+                                    @Html.Label("Track Number:")
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Form.TrackNumber, new { type = "number" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Add:") @Html.RadioButtonFor(m => m.Form.RadioButton, new { id = 0 }, true)
+                                </td>
+                                <td>
+                                    @Html.Label("Delete:") @Html.RadioButtonFor(m => m.Form.RadioButton, new { id = 0 }, true)
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <div class="col-md-8">
+        Here be display
+    </div>
+</div>
