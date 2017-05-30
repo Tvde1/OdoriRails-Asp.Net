@@ -1,17 +1,22 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using System.Web.Mvc;
+using OdoriRails.Helpers;
 using OdoriRails.Helpers.DAL.Repository;
 using OdoriRails.Helpers.Objects;
 using OdoriRails.Models;
 
 namespace OdoriRails.Controllers
 {
-    public class LoginController : Controller
+    public class LoginController : BaseControllerFunctions
     {
         private readonly LoginRepository _repository = new LoginRepository();
 
         public ActionResult Index()
         {
+            var user = Session["User"];
+            if (user is User)
+                return LogIn((user as User).Username, (user as User).Password, false, true);
             var conn = BaseRepository.TestConnection();
             if (conn != null)
             {
@@ -22,6 +27,19 @@ namespace OdoriRails.Controllers
             if (result != null) return result;
             var model = TempData["SigninModel"] as LoginModel ?? new LoginModel();
             return View(model);
+        }
+
+        public ActionResult LogOut()
+        {
+            var cookie = Response.Cookies["UserSettings"];
+            if (cookie != null)
+                cookie.Expires = DateTime.Now.AddDays(-1);
+
+            Session["User"] = null;
+
+            var model = new LoginModel { Sucess = "U bent sucessvol uitgelogd." };
+            TempData["SigninModel"] = model;
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -87,8 +105,7 @@ namespace OdoriRails.Controllers
                 }
             }
         }
-
-
+        
         private ActionResult LogIn(string username, string password, bool rememberme, bool isAutomatic = false)
         {
             if (!isAutomatic)
@@ -127,9 +144,6 @@ namespace OdoriRails.Controllers
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
-
-            return null;
         }
     }
 }
