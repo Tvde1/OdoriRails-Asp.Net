@@ -24,7 +24,7 @@
                                     @Html.Label("Track Number:")
                                 </td>
                                 <td>
-                                    @Html.TextBox("trackNumber", null, new { type = "number" } )
+                                    @Html.TextBoxFor(m => m.Form.TrackNumber, new { type = "number" })
                                 </td>
                             </tr>
                             <tr>
@@ -32,15 +32,15 @@
                                     @Html.Label("Sector Number:")
                                 </td>
                                 <td>
-                                    @Html.TextBox("sectorNumber", null, new { type = "number" })
+                                    @Html.TextBoxFor(m => m.Form.SectorNumber, new { type = "number" })
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    @Html.Label("Lock:") @Html.RadioButton("rLock", new { id = 0 }, true)
+                                    @Html.Label("Lock:") @Html.RadioButtonFor(m => m.Form.RadioButton, new { id = 0 }, true)
                                 </td>
                                 <td>
-                                    @Html.Label("Unlock:") @Html.RadioButton("rLock", new { id = 1 })
+                                    @Html.Label("Unlock:") @Html.RadioButtonFor(m => m.Form.RadioButton, new { id = 0 }, true)
                                 </td>
                             </tr>
                         </table>
@@ -61,7 +61,7 @@
                                     @Html.Label("Tram Number:")
                                 </td>
                                 <td>
-                                    @Html.TextBox("tramNumber", null, new { type = "number" })
+                                    @Html.TextBoxFor(m => m.Form.TramNumber, new { type = "number" })
                                 </td>
                             </tr>
                             <tr>
@@ -69,7 +69,7 @@
                                     @Html.Label("Track Number:")
                                 </td>
                                 <td>
-                                    @Html.TextBox("trackNumber", null, new { type = "number" })
+                                    @Html.TextBoxFor(m => m.Form.TrackNumber, new { type = "number" })
                                 </td>
                             </tr>
                             <tr>
@@ -77,7 +77,7 @@
                                     @Html.Label("Sector Number:")
                                 </td>
                                 <td>
-                                    @Html.TextBox("sectorNumber", null, new { type = "number" })
+                                    @Html.TextBoxFor(m => m.Form.SectorNumber, new { type = "number" })
                                 </td>
                             </tr>
                         </table>
@@ -98,15 +98,15 @@
                                     @Html.Label("Tram Number:")
                                 </td>
                                 <td>
-                                    @Html.TextBox("tramNumber", null, new { type = "number" })
+                                    @Html.TextBoxFor(m => m.Form.TramNumber, new { type = "number" })
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    @Html.Label("Enable:") @Html.RadioButton("rDisable", new { id = 0 }, true)
+                                    @Html.Label("Enable:") @Html.RadioButtonFor(m => m.Form.RadioButton, new { id = 0 }, true)
                                 </td>
                                 <td>
-                                    @Html.Label("Disable:") @Html.RadioButton("rDisable", new { id = 1 })
+                                    @Html.Label("Disable:") @Html.RadioButtonFor(m => m.Form.RadioButton, new { id = 0 }, true)
                                 </td>
                             </tr>
                         </table>

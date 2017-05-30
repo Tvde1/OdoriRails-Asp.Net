@@ -19,5 +19,6 @@ namespace OdoriRails.Models
         public LogistiekState State { get; set; }
         public List<BeheerTrack> Tracks { get; set; }
         public List<BeheerTram> Trams { get; set; }
+        public FormResultModel Form { get; set; } = new FormResultModel();
     }
 }
