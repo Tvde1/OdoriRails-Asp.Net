@@ -2,3 +2,28 @@
     ViewBag.Title = "About";
     Layout = "~/Views/Shared/_SRLayoutShared.cshtml";
 }
+
+<div class="container-fluid">
+    <table class="table-striped table-hover">
+
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Enemies Killed
+            </th>
+            <th>
+                Score
+            </th>
+        </tr> 
+        @foreach (var scoreentry in Model.Scores)
+        {
+            <tr>
+                <td>@scoreentry.PlayerName</td>
+                <td>@scoreentry.EnemiesKilled</td>
+                <td>@scoreentry.Score</td>
+            </tr>
+        }
+    </table> 
+</div>
