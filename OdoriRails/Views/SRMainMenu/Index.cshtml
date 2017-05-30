@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "About";
-    Layout = "~/Views/Shared/_SRLayoutShared.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container-fluid">
@@ -8,14 +8,24 @@
 
         <tr>
             <th>
-                Name
+                Id  
             </th>
             <th>
-                Enemies Killed
+                Assigned Users
             </th>
             <th>
-                Score
+                StartDate
             </th>
+            <th>
+                EndDate
+            </th>
+            <th>
+                TramId
+            </th>
+            <th>
+                Type
+            </th>
+
         </tr> 
         @foreach (var scoreentry in Model.Scores)
         {

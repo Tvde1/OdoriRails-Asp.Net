@@ -21,18 +21,18 @@
                         <table>
                             <tr>
                                 <td>
-                                    @Html.Label("Track Number:")
+                                    @Html.Label("Track Numbers:")
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(m => m.Form.TrackNumber, new { type = "number" })
+                                    @Html.TextBoxFor(m => m.Form.TrackNumbers)
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    @Html.Label("Sector Number:")
+                                    @Html.Label("Sector Numbers:")
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(m => m.Form.SectorNumber, new { type = "number" })
+                                    @Html.TextBoxFor(m => m.Form.SectorNumbers)
                                 </td>
                             </tr>
                             <tr>
@@ -95,18 +95,10 @@
                         <table>
                             <tr>
                                 <td>
-                                    @Html.Label("Tram Number:")
+                                    @Html.Label("Tram Numbers:")
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(m => m.Form.TramNumber, new { type = "number" })
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    @Html.Label("Enable:") @Html.RadioButtonFor(m => m.Form.RadioButton, new { id = 0 }, true)
-                                </td>
-                                <td>
-                                    @Html.Label("Disable:") @Html.RadioButtonFor(m => m.Form.RadioButton, new { id = 0 }, true)
+                                    @Html.TextBoxFor(m => m.Form.TramNumbers)
                                 </td>
                             </tr>
                         </table>

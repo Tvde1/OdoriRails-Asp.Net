@@ -35,7 +35,6 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             csv = new CSVContext();
             schema = csv.getSchema();
         }
-        
 
         public void FetchUpdates()
         {
@@ -82,10 +81,8 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             return false;
         }
 
-        public bool AddSector(string _track)
+        public bool AddSector(int trackNumber)
         {
-            int trackNumber = ToInt(_track);
-
             foreach (Track track in AllTracks.Where(x => x.Number == trackNumber))
             {
                 track.AddSector(new Sector(track.Sectors.Count + 1));
@@ -96,10 +93,8 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             return false;
         }
 
-        public bool DeleteSector(string _track)
+        public bool DeleteSector(int trackNumber)
         {
-            int trackNumber = ToInt(_track);
-
             foreach (Track track in AllTracks.Where(x => x.Number == trackNumber && x.Sectors[x.Sectors.Count - 1].OccupyingTram == null))
             {
                 track.DeleteSector();
@@ -110,22 +105,19 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             return false;
         }
 
-        public void DeleteTram(string _tram)
+        public bool DeleteTram(int tramNumber)
         {
-            int tramNumber = ToInt(_tram);
-
             foreach (Tram tram in AllTrams.Where(x => x.Number == tramNumber))
             {
                 repo.RemoveTram(tram);
                 Update();
+                return true;
             }
-
+            return false;
         }
 
-        public bool DeleteTrack(string _track)
+        public bool DeleteTrack(int trackNumber)
         {
-            int trackNumber = ToInt(_track);
-
             foreach (Track track in AllTracks.Where(x => x.Number == trackNumber))
             {
                 if (track.Sectors.Where(x => x.OccupyingTram != null).Count() > 0)
@@ -360,11 +352,9 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             Update();
         }
 
-        public bool MoveTram(string _tram, string _track, string _sector)
+        public bool MoveTram(int moveTram, int moveTrack, int moveSector)
         {
-            int moveTram = ToInt(_tram);
-            int moveTrack = ToInt(_track);
-            int moveSector = ToInt(_sector) - 1;
+            moveSector -= 1;
 
             foreach (Track track in AllTracks.Where(x => x.Number == moveTrack && x.Sectors.Count > moveSector))
             {
@@ -383,33 +373,28 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             return false;
         }
 
-        public void AddTram(string _tramNumber, string _defaultLine, string _model)
+        public void AddTram(int tramNumber, int? defaultLine, string _model)
         {
-            int tramNumber = ToInt(_tramNumber);
-            int defaultLine = ToInt(_defaultLine);
-
-            if (tramNumber != -1 && defaultLine != -1)
+            if (tramNumber != -1 && defaultLine != -1 && defaultLine != null)
             {
                 TramModel model;
                 Enum.TryParse<TramModel>(_model, out model);
 
-                repo.AddTram(new Tram(tramNumber, defaultLine, model));
+                repo.AddTram(new Tram(tramNumber, ToInt(defaultLine), model));
                 Update();
             }
         }
 
-        public void AddTrack(string _trackNumber, string _sectorAmount, string _trackType, string _defaultLine)
+        public void AddTrack(int trackNumber, int sectorAmount, string _trackType, int? _defaultLine)
         {
-            int trackNumber = ToInt(_trackNumber);
-            int sectorAmount = ToInt(_sectorAmount);
             int? defaultLine;
-            if (_defaultLine == "")
+            if (_defaultLine == null)
             {
                 defaultLine = 0;
             }
             else
             {
-                defaultLine = ToInt(_defaultLine);
+                defaultLine = _defaultLine;
             }
 
             if (trackNumber != -1 && sectorAmount != -1)
@@ -457,6 +442,22 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             try
             {
                 integer = Convert.ToInt32(_string);
+            }
+            catch (Exception e)
+            {
+                //TODO: Hier een fatsoenlijke trycatch van maken dat een waarschuwing in ASP.NET geeft.
+            }
+
+            return integer;
+        }
+
+        public int ToInt(int? _int)
+        {
+            int integer = -1;
+
+            try
+            {
+                integer = Convert.ToInt32(_int);
             }
             catch (Exception e)
             {
