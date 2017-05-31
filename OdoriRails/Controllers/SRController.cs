@@ -27,5 +27,34 @@ namespace OdoriRails.Controllers
 
             return View(model);
         }
+
+        public ActionResult EditService(Repair repair)
+        {
+            var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
+            if (result is ActionResult) return result as ActionResult;
+            var user = result as User;
+            var model = new SRModel { User = user };
+
+            if (user.Role == Role.HeadEngineer)
+            {
+                model.RepairToEdit = repair;
+            }
+
+            return View(model);
+        }
+        public ActionResult EditService(Cleaning cleaning)
+        {
+            var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
+            if (result is ActionResult) return result as ActionResult;
+            var user = result as User;
+            var model = new SRModel { User = user };
+
+            if (user.Role == Role.HeadCleaner)
+            {
+                model.CleaningToEdit = cleaning;
+            }
+
+            return View(model);
+        }
     }
 }

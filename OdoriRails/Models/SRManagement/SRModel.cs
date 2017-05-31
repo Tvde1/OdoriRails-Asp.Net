@@ -10,6 +10,9 @@ namespace OdoriRails.Models.SRManagement
         private readonly SchoonmaakReparatieRepository _repository = new SchoonmaakReparatieRepository();
         public List<Cleaning> Cleans { get; set; }
         public List<Repair> Repairs { get; set; }
+
+        public Repair RepairToEdit { get; set; }
+        public Cleaning CleaningToEdit { get; set; }
         public List<Repair> RepairListFromUser()
         {
             List<Repair> replist = new List<Repair>();
@@ -23,6 +26,7 @@ namespace OdoriRails.Models.SRManagement
             cleanlist = _repository.GetAllCleansFromUser(User);
             return cleanlist;
         }
+
         
     }
 }

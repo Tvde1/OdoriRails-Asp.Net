@@ -32,15 +32,16 @@
                 </th>
 
             </tr> 
-            foreach (var service in Model.Cleans)
+            foreach (var cleaning in Model.Cleans)
             {
                 <tr>
-                    <td>@service.Id</td>
-                    <td>@service.StartDate</td>
-                    <td>@service.EndDate</td>
-                    <td>@service.TramId</td>
-                    <td>@service.Size</td>
-                    <td>@service.Comments</td>
+                    <td>@cleaning.Id</td>
+                    <td>@cleaning.StartDate</td>
+                    <td>@cleaning.EndDate</td>
+                    <td>@cleaning.TramId</td>
+                    <td>@cleaning.Size</td>
+                    <td>@cleaning.Comments</td>
+                    <td>@Html.ActionLink("Edit", "SR", "EditService", cleaning)</td>
                 </tr>
             }
             if (Model.User.Role == Role.Engineer || Model.User.Role == Role.HeadEngineer)
@@ -69,16 +70,17 @@
                     </th>
 
                 </tr> 
-                foreach (var service in Model.Repairs)
+                foreach (var repair in Model.Repairs)
                 {
                     <tr>
-                        <td>@service.Id</td>
-                        <td>@service.StartDate</td>
-                        <td>@service.EndDate</td>
-                        <td>@service.TramId</td>
-                        <td>@service.Type</td>
-                        <td>@service.Defect</td>
-                        <td>@service.Solution</td>
+                        <td>@repair.Id</td>
+                        <td>@repair.StartDate</td>
+                        <td>@repair.EndDate</td>
+                        <td>@repair.TramId</td>
+                        <td>@repair.Type</td>
+                        <td>@repair.Defect</td>
+                        <td>@repair.Solution</td>
+                        <td>@Html.ActionLink("Edit","SR","EditService", repair)</td>
                     </tr>
                 }
 
