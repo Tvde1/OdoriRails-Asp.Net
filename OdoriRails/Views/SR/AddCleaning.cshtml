@@ -1,0 +1,27 @@
+﻿@using OdoriRails.Helpers.Objects
+
+@{
+    ViewBag.Title = "AddCleaning";
+}
+
+<h2>Add Cleaning</h2>
+
+<form method="post">
+    <label for="StartDate">Start Date:</label> <br>
+    <input type="date" name="startDate" value=""><br>
+    <label for="EndDate">End Date:</label> <br><br>
+    <input type="date" name="endDate" value=""><br><br>
+    <label for="Size">Cleaning Size:</label> <br><br>
+    <input type="radio" name="Size" value="" checked> Small<br>
+    <input type="radio" name="Size" value=""> Big<br>
+    <label for="Size">Comment:</label> <br><br>
+    <input type="text" name="Comment" value=""><br><br>
+    <label for="AssignedUsers">Assigned Users:</label>
+
+    @foreach (var user in Model.Cleaners)
+    {
+        <p><input type="checkbox" name="@user.Name" value=@user.Id>@user.Name</p>
+    }
+
+    <input type="submit" value="AddCleaning">
+</form> 

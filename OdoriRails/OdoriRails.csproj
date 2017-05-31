@@ -190,9 +190,10 @@
     <Content Include="Views\LogistiekBeheersysteem\Index.cshtml" />
     <Content Include="Views\Shared\_SRLayoutShared.cshtml" />
     <Content Include="Views\SR\EditCleaning.cshtml" />
-    <Content Include="Views\SR\NewService.cshtml" />
     <Content Include="Views\SR\TramGeschiedenis.cshtml" />
     <Content Include="Views\SR\EditRepair.cshtml" />
+    <Content Include="Views\SR\AddRepair.cshtml" />
+    <Content Include="Views\SR\AddCleaning.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

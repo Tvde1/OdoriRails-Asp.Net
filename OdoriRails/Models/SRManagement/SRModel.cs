@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using OdoriRails.Helpers.DAL.Repository;
 using OdoriRails.Helpers.Objects;
@@ -15,11 +16,11 @@ namespace OdoriRails.Models.SRManagement
         public Repair RepairToEdit { get; set; }
         public Cleaning CleaningToEdit { get; set; }
 
+        public List<int> AssignedWorkers { get; set; }
         public List<User> Cleaners { get; set; }
         public List<User> Engineers { get; set; }
 
-        public IEnumerable<int> AssignedWorkers { get; set; }
-
+        
         public Repair GetRepairToEdit(int id)
         {
             var rlist = _repository.GetRepairFromId(id);
@@ -55,6 +56,14 @@ namespace OdoriRails.Models.SRManagement
             return cleanlist;
         }
 
-        
+        public void EditCleaningInDb(Cleaning cleaning)
+        {
+            _repository.EditService((Service)cleaning);
+        }
+        public void EditRepairInDb(Repair repair)
+        {
+            _repository.EditService((Service)repair);
+        }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using OdoriRails.Helpers;
 using OdoriRails.Helpers.Objects;
@@ -64,5 +65,14 @@ namespace OdoriRails.Controllers
             model.CleaningToEdit = model.GetCleaningToEdit(id);
             return View(model);
         }
+        [HttpPost]
+        public ActionResult EditCleaning(SRModel model)
+        {
+            
+            model.EditCleaningInDb(model.CleaningToEdit);
+            TempData["alertMessage"] = "Cleaning posted succesfully!";
+            return RedirectToAction("Index", "SR");
+        }
+
     }
 }

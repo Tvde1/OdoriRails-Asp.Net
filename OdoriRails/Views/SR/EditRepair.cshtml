@@ -8,20 +8,22 @@
 
 <h2>EditService</h2>
 
-<form method="post" action="">
-    Start Date:<br> 
-    <input type="date" name="startDate" value=""><br>
-    End date:<br><br>
-    <input type="date" name="endDate" value=""><br><br>
-    Repair Type:<br><br>
-    <input type="radio" name="Size" value="Maintenance" checked> Maintenance<br>
-    <input type="radio" name="Size" value="Repair"> Repair<br> 
-    Defect:<br><br>
-    <input type="text" name="endDate" value="Repair"><br><br>
-    Assigned Users:
+<form method="post">
+    <label for="StartDate">Start Date:</label> <br>
+    <input type="date" name="startDate" value="@Model.RepairToEdit.StartDate"><br>
+    <label for="EndDate">End Date:</label> <br><br>
+    <input type="date" name="endDate" value="@Model.RepairToEdit.EndDate"><br><br>
+    <label for="Size">Cleaning Size:</label> <br><br>
+    <input type="radio" name="Size" value="@(Model.RepairToEdit.Type == CleaningSize.Small)" checked> Small<br>
+    <input type="radio" name="Size" value="@(Model.RepairToEdit.Type == CleaningSize.Big)"> Big<br>
+    <label for="Size">Comment:</label> <br><br>
+    <input type="text" name="Comment" value="@Model.RepairToEdit.Defect"><br><br>
+    <label for="AssignedUsers">Assigned Users:</label>
+
     @foreach (var user in Model.Engineers)
     {
-        <input type="checkbox" name="@user.Name" value=@user.Id>@user.Name<br/>
+        <p><input type="checkbox" name="@user.Name" value=@user.Id>@user.Name</p>
     }
-    <input type="submit" value="Submit">
+
+    <input type="submit" value="EditRepair">
 </form> 

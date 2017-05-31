@@ -1,11 +1,21 @@
 ﻿@using System.Security.Cryptography
 @using OdoriRails.Helpers.Objects
+@using OdoriRails.Models.SRManagement
 @model OdoriRails.Models.SRManagement.SRModel
 @{
     ViewBag.Title = "About";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<div class="secondarybar">
+    @if (Model.User.Role == Role.HeadCleaner)
+    {
+        @Html.ActionLink("Add Service", "AddCleaning", "SR");
+    }
+    @if (Model.User.Role == Role.HeadEngineer)
+    {
+        @Html.ActionLink("Add Service", "AddCleaning", "SR");
+    }   
+</div>
 <div class="container-fluid" align="center">
     @if(null != TempData["alertMessage"])
    {
