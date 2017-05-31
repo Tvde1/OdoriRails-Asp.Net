@@ -9,46 +9,51 @@
 <div class="secondarybar">
     @if (Model.User.Role == Role.HeadCleaner)
     {
-        @Html.ActionLink("Add Service", "AddCleaning", "SR");
+        Html.ActionLink("Add Service", "AddCleaning", "SR");
     }
     @if (Model.User.Role == Role.HeadEngineer)
     {
-        @Html.ActionLink("Add Service", "AddCleaning", "SR");
-    }   
+        Html.ActionLink("Add Service", "AddCleaning", "SR");
+    }
 </div>
+@*TODO: Deze 'class' bestaat niet?*@
 <div class="container-fluid" align="center">
-    @if(null != TempData["alertMessage"])
-   {
-      <script type="text/javascript">
-       alert("@TempData["alertMessage"]");
-      </script>
-   }
-    <table class="table-striped table-hover">
-
-
-        @if (Model.User.Role == Role.Cleaner || Model.User.Role == Role.HeadCleaner)
-        {
-            <tr>
-                <th>
-                    Id
-                </th>
-                <th>
-                    StartDate
-                </th>
-                <th>
-                    EndDate
-                </th>
-                <th>
-                    TramId
-                </th>
-                <th>
-                    Type
-                </th>
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                StartDate
+            </th>
+            <th>
+                EndDate
+            </th>
+            <th>
+                TramId
+            </th>
+            <th>
+                Type
+            </th>
+            @if (Model.User.Role == Role.Cleaner || Model.User.Role == Role.HeadCleaner)
+            {
                 <th>
                     Comment
                 </th>
 
-            </tr>
+            }
+            else if (Model.User.Role == Role.Engineer || Model.User.Role == Role.HeadEngineer)
+            {
+                <th>
+                    Defect
+                </th>
+                <th>
+                    Solution
+                </th>
+            }
+        </tr>
+        @if (Model.User.Role == Role.Cleaner || Model.User.Role == Role.HeadCleaner)
+        {
             if (Model.Cleans != null)
             {
                 foreach (var cleaning in Model.Cleans)
@@ -60,7 +65,7 @@
                         <td>@cleaning.TramId</td>
                         <td>@cleaning.Size</td>
                         <td>@cleaning.Comments</td>
-                        <td>@Html.ActionLink("Edit", "EditCleaning", "SR", new {id = cleaning.Id}, null)</td>
+                        <td>@Html.ActionLink("Edit", "EditCleaning", "SR", new { id = cleaning.Id }, null)</td>
                     </tr>
                 }
 
@@ -70,32 +75,11 @@
             {
                 <p>You have no new services. Good job!/Sorry you're fired.</p>
             }
-            if (Model.User.Role == Role.Engineer || Model.User.Role == Role.HeadEngineer)
+        }
+        else if (Model.User.Role == Role.Engineer || Model.User.Role == Role.HeadEngineer)
+        {
+            if (Model.Repairs != null)
             {
-                <tr>
-                    <th>
-                        Id
-                    </th>
-                    <th>
-                        StartDate
-                    </th>
-                    <th>
-                        EndDate
-                    </th>
-                    <th>
-                        TramId
-                    </th>
-                    <th>
-                        Type
-                    </th>
-                    <th>
-                        Defect
-                    </th>
-                    <th>
-                        Solution
-                    </th>
-
-                </tr>
                 foreach (var repair in Model.Repairs)
                 {
                     <tr>
@@ -106,15 +90,15 @@
                         <td>@repair.Type</td>
                         <td>@repair.Defect</td>
                         <td>@repair.Solution</td>
-                        <td>@Html.ActionLink("Edit", "EditRepair", "SR", new {id = repair.Id}, null)</td>
+                        <td>@Html.ActionLink("Edit", "EditRepair", "SR", new { id = repair.Id }, null)</td>
                     </tr>
-                }
 
+                }
             }
-        }
-        else
-        {
-            <p>You have no new services. Good job!/Sorry you're fired.</p>
+            else
+            {
+                <p>You have no new services. Good job!/Sorry you're fired.</p>
+            }
         }
 
     </table>
