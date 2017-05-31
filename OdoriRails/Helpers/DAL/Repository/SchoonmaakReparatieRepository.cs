@@ -77,6 +77,20 @@ namespace OdoriRails.Helpers.DAL.Repository
         }
 
         /// <summary>
+        ///     Haalt Repair/Cleaning op basis van ID
+        /// </summary>
+        /// <param name="repair"></param>
+        /// <returns></returns>
+        public List<Repair> GetRepairFromId(int id)
+        {
+            return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllRepairsfromId(id),_objectCreator.CreateRepair);
+        }
+        public List<Cleaning> GetCleanFromId(int id)
+        {
+            return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllCleansfromId(id), _objectCreator.CreateCleaning);
+        }
+
+        /// <summary>
         ///     Past de service aan in de database.
         /// </summary>
         /// <param name="service"></param>

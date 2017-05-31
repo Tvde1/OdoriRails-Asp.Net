@@ -13,6 +13,22 @@ namespace OdoriRails.Models.SRManagement
 
         public Repair RepairToEdit { get; set; }
         public Cleaning CleaningToEdit { get; set; }
+
+        public List<User> Cleaners { get; set; }
+        public List<User> Engineers { get; set; }
+
+        public IEnumerable<int> AssignedWorkers { get; set; }
+        public List<User> GetAllCleaners()
+        {     
+            var clist =_repository.GetAllUsersWithFunction(Role.Cleaner);
+            return clist;
+        }
+        public List<User> GetAllEngineers()
+        {
+            var rlist = _repository.GetAllUsersWithFunction(Role.Engineer);
+            return rlist;
+        }
+
         public List<Repair> RepairListFromUser()
         {
             List<Repair> replist = new List<Repair>();

@@ -6,7 +6,7 @@
 }
 
 <div class="container-fluid" align="center">
-    <table class="TABLE table-striped table-hover">
+    <table class="table-striped table-hover">
 
         
         @if (Model.User.Role == Role.Cleaner || Model.User.Role == Role.HeadCleaner)
@@ -41,7 +41,7 @@
                     <td>@cleaning.TramId</td>
                     <td>@cleaning.Size</td>
                     <td>@cleaning.Comments</td>
-                    <td>@Html.ActionLink("Edit", "SR", "EditService", cleaning)</td>
+                    <td>@Html.ActionLink("Edit", "SR", "EditCleaning", cleaning)</td>
                 </tr>
             }
             if (Model.User.Role == Role.Engineer || Model.User.Role == Role.HeadEngineer)
@@ -80,7 +80,7 @@
                         <td>@repair.Type</td>
                         <td>@repair.Defect</td>
                         <td>@repair.Solution</td>
-                        <td>@Html.ActionLink("Edit","SR","EditService", repair)</td>
+                        <td>@Html.ActionLink("Edit","SR","EditRepair", repair)</td>
                     </tr>
                 }
 

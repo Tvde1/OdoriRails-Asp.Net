@@ -28,31 +28,44 @@ namespace OdoriRails.Controllers
             return View(model);
         }
 
-        public ActionResult EditService(Repair repair)
+        public ActionResult EditRepair(Repair repair)
         {
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
             var user = result as User;
             var model = new SRModel { User = user };
+            model.Engineers = model.GetAllEngineers();
 
             if (user.Role == Role.HeadEngineer)
             {
+                model.Engineers = model.GetAllEngineers();
                 model.RepairToEdit = repair;
+            }
+            else
+            { 
+                // deny entry
             }
 
             return View(model);
         }
-        public ActionResult EditService(Cleaning cleaning)
+        public ActionResult EditCleaning(Cleaning cleaning)
         {
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
             var user = result as User;
             var model = new SRModel { User = user };
+           
 
             if (user.Role == Role.HeadCleaner)
             {
+                model.Cleaners = model.GetAllCleaners();
                 model.CleaningToEdit = cleaning;
             }
+            else
+            {
+                // deny entry
+            }
+
 
             return View(model);
         }

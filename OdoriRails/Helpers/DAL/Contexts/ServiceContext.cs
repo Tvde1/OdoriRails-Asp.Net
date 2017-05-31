@@ -49,6 +49,28 @@ WHERE ([User].UserPk = @userid)) AS derivedtbl_1 ON Service.ServicePk = derivedt
             return DatabaseHandler.GetData(command);
         }
 
+        public DataTable GetAllCleansfromId(int id)
+        {
+            var command = new SqlCommand(@"
+SELECT ServiceFK, StartDate, EndDate, Size, Comment, 
+TramFk FROM Clean INNER JOIN Service
+ON Clean.ServiceFk = @ServiceID");
+            command.Parameters.AddWithValue("@ServiceID", id);
+
+            return DatabaseHandler.GetData(command);
+        }
+
+        public DataTable GetAllRepairsfromId(int id)
+        {
+            var command = new SqlCommand(@"
+SELECT ServiceFK, StartDate, EndDate, Type, Defect, 
+Solution, TramFk FROM Repair INNER JOIN Service
+ON Repair.ServiceFk = @ServiceID");
+            command.Parameters.AddWithValue("@ServiceID", id);
+
+            return DatabaseHandler.GetData(command);
+        }
+
         public DataTable GetAllRepairsWithoutUsers()
         {
             var command = new SqlCommand(@"SELECT Repair.*
