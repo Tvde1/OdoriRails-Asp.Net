@@ -171,7 +171,7 @@
     <Compile Include="Models\LogistiekBeheer\FormResultModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\LogistiekBeheer\LogistiekBeheerModel.cs" />
-    <Compile Include="Models\SRManagement\MainMenuModel.cs" />
+    <Compile Include="Models\SRManagement\SRManagementModel.cs" />
     <Compile Include="Models\UserBeheer\EditUserModel.cs" />
     <Compile Include="Models\UserBeheer\UserBeheerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

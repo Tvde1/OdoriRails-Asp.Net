@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 using OdoriRails.Helpers.Objects;
@@ -30,8 +31,27 @@ namespace OdoriRails.Models
 
         public string GetAssignedTramLocation()
         {
-            var sector = _inUitrijRepository.GetAssignedSector(Tram);
-            return sector != null ? $"Track: {sector.TrackNumber}, Sector: {sector.Number + 1}" : null;
+            string text;
+            switch (Tram.Location)
+            {
+                case TramLocation.In:
+                    var sector = _inUitrijRepository.GetAssignedSector(Tram);
+                    text = sector != null ? $"Track: {sector.TrackNumber}, Sector: {sector.Number + 1}" : null;
+                    break;
+                case TramLocation.ComingIn:
+                    text = "Wachten op locatie.";
+                    break;
+                case TramLocation.Out:
+                    text = "Buiten de remise.";
+                    break;
+                case TramLocation.GoingOut:
+                    text = "Aan het vertrekken.";
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return text;
         }
 
         public void AddRepair()
@@ -61,10 +81,10 @@ namespace OdoriRails.Models
         {
             while (true)
             {
-                Thread.Sleep(500);
+                Thread.Sleep(1000);
 
-                var loc = GetAssignedTramLocation();
-                if (loc != null) return;
+                FetchTramUpdates();
+                if (Tram.Location == TramLocation.In) return;
             }
         }
 

@@ -24,7 +24,7 @@
                     <h4>Locatie:</h4>
                 </div>
                 <div class="panel-body">
-                    <p style="text-align:center; font-size:xx-large"> @Html.Raw(Model.GetAssignedTramLocation() ?? "Niet Bekend")</p>
+                    <p id="LbLocation" style="text-align:center; font-size:xx-large"> @Model.GetAssignedTramLocation()</p>
                 </div>
             </div>
         </div>
@@ -39,14 +39,18 @@
                 <div class="panel-body">
                     <div class="pull-right">
                         <label>Comments</label><br />
-                        @Html.TextAreaFor(x => x.Comments, Model.Tram?.Location == TramLocation.Out ? new { } : (object)new { @disabled = "true" })
+                        @Html.TextAreaFor(x => x.Comments, Model.Tram?.Location == TramLocation.Out ? new { @class = "form-control", style = "width:500px", rows = "5" } : (object)new { @class = "form-control", style = "width:500px", rows = "5", @disabled = "true" })
                     </div>
                     <div class="pull-left">
-                        <label>@Html.CheckBoxFor(x => x.NeedsCleaning, Model.Tram?.Location == TramLocation.Out ? new { } : (object)new { @disabled = "true" }) Schoonmaak</label>
-                        <br />
-                        <label>@Html.CheckBoxFor(x => x.NeedsRepair, Model.Tram?.Location == TramLocation.Out ? new { } : (object)new { @disabled = "true" }) Reparatie</label>
+
+                        <div class="checkbox">
+                            <label>@Html.CheckBoxFor(x => x.NeedsCleaning, Model.Tram?.Location == TramLocation.Out ? new { } : (object)new { @disabled = "true" }) Schoonmaak</label>
+                        </div>
+                        <div class="checkbox">
+                            <label>@Html.CheckBoxFor(x => x.NeedsRepair, Model.Tram?.Location == TramLocation.Out ? new { } : (object)new { @disabled = "true" }) Reparatie</label>
+                        </div>
                     </div>
-                    <br><br />
+                    @*<br/><br />*@
                 </div>
             </div>
         </div>
@@ -56,8 +60,8 @@
                     @Html.Label("Tram aanmelden:")
                 </div>
                 <div class="panel-body text-center">
-                    <button type="submit" class="btn btn-lg navbar-btn" style="margin: 5px" value="leave" @Html.Raw(Model.Tram?.Location == TramLocation.In ? "" : "disabled")>Vertrek</button>
-                    <button type="submit" class="btn btn-lg btn-primary" style="margin: 5px" value="remise" @Html.Raw(Model.Tram?.Location == TramLocation.Out ? "" : "disabled")>Remise</button>
+                    <button type="submit" class="btn btn-lg navbar-btn" style="margin: 5px" value="leave" @Html.Raw(Model.Tram?.Location == TramLocation.In ? "" : "disabled") onclick="document.getElementById('LbLocation').innerHTML = 'Aan het vertrekken.'">Vertrek</button>
+                    <button type="submit" class="btn btn-lg btn-primary" style="margin: 5px" value="remise" @Html.Raw(Model.Tram?.Location == TramLocation.Out ? "" : "disabled") onclick="document.getElementById('LbLocation').innerHTML = 'Wachten op locatie.'">Remise</button>
                 </div>
             </div>
         </div>

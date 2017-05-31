@@ -36,34 +36,37 @@ namespace OdoriRails.Controllers
             //if (isRemise == null && isLeave == null)
             //    throw new Exception("wat xd");
 
-            if (model.Tram.Location == TramLocation.Out)
+            switch (model.Tram.Location)
             {
-                model.Tram.EditTramLocation(TramLocation.ComingIn);
+                case TramLocation.Out:
+                    model.Tram.EditTramLocation(TramLocation.ComingIn);
 
-                if (model.NeedsCleaning)
-                {
-                    model.Tram.EditTramStatus(TramStatus.Cleaning);
-                    model.AddCleaning();
-                }
+                    if (model.NeedsCleaning)
+                    {
+                        model.Tram.EditTramStatus(TramStatus.Cleaning);
+                        model.AddCleaning();
+                    }
 
-                if (model.NeedsRepair)
-                {
-                    model.Tram.EditTramStatus(TramStatus.Defect);
-                    model.AddRepair();
-                }
+                    if (model.NeedsRepair)
+                    {
+                        model.Tram.EditTramStatus(TramStatus.Defect);
+                        model.AddRepair();
+                    }
 
-                if (model.NeedsRepair && model.NeedsCleaning)
-                    model.Tram.EditTramStatus(TramStatus.CleaningMaintenance);
+                    if (model.NeedsRepair && model.NeedsCleaning)
+                        model.Tram.EditTramStatus(TramStatus.CleaningMaintenance);
 
-                model.UpdateTram();
+                    model.UpdateTram();
 
-                model.WaitForLocationUpdate();
-            }
-            else
-            {
-                model.Tram.EditTramLocation(TramLocation.GoingOut);
-                model.UpdateTram();
-                model.WaitForStatusOut();
+                    model.WaitForLocationUpdate();
+                    break;
+                case TramLocation.In:
+                    model.Tram.EditTramLocation(TramLocation.GoingOut);
+                    model.UpdateTram();
+                    model.WaitForStatusOut();
+                    break;
+                default:
+                    throw new InvalidOperationException("Je had niet op deze knop mogen kunnen drukken.");
             }
 
             model.FetchTramUpdates();
