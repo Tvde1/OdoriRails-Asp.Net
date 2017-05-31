@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using OdoriRails.Helpers;
 using OdoriRails.Helpers.Objects;
 using OdoriRails.Models.SRManagement;
@@ -14,8 +12,10 @@ namespace OdoriRails.Controllers
         {
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
-            var user = result as User;
-            var model = new SRModel {User = user};
+            var user = (User) result;
+
+
+            var model = TempData["SRModel"] as SRModel ?? new SRModel { User = user};
 
             if (user.Role == Role.Cleaner || user.Role == Role.HeadCleaner)
             {
@@ -33,12 +33,14 @@ namespace OdoriRails.Controllers
         {
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
-            var user = result as User;
+            var user = (User) result;
+
             var model = new SRModel { User = user };   
 
             if (user.Role != Role.HeadEngineer)
             {
-                TempData["alertMessage"] = "You do not have permission to do this!";
+                model.Error = "You do not have permission to do this!";
+                TempData["SRModel"] = model;
 
                 return RedirectToAction("Index", "SR");
             }
@@ -50,14 +52,14 @@ namespace OdoriRails.Controllers
         {
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
-            var user = result as User;
+            var user = (User) result;
+
             var model = new SRModel { User = user };
             
-
             if (user.Role != Role.HeadCleaner)
             {
-                
-                TempData["alertMessage"] = "You do not have permission to do this!";
+                model.Error = "You do not have permission to do this!";
+                TempData["SRModel"] = model;
                 
                 return RedirectToAction("Index", "SR"); ;
             }
@@ -68,9 +70,9 @@ namespace OdoriRails.Controllers
         [HttpPost]
         public ActionResult EditCleaning(SRModel model)
         {
-            
             model.EditCleaningInDb(model.CleaningToEdit);
-            TempData["alertMessage"] = "Cleaning posted succesfully!";
+            model.Error = "Cleaning posted succesfully!";
+            TempData["SRModel"] = model;
             return RedirectToAction("Index", "SR");
         }
 
