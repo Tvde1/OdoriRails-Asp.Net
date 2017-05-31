@@ -1,4 +1,5 @@
-﻿@using OdoriRails.Helpers.Objects
+﻿@using System.Security.Cryptography
+@using OdoriRails.Helpers.Objects
 @model OdoriRails.Models.SRManagement.SRModel
 @{
     ViewBag.Title = "About";
@@ -6,14 +7,20 @@
 }
 
 <div class="container-fluid" align="center">
+    @if(null != TempData["alertMessage"])
+   {
+      <script type="text/javascript">
+       alert("@TempData["alertMessage"]");
+      </script>
+   }
     <table class="table-striped table-hover">
 
-        
+
         @if (Model.User.Role == Role.Cleaner || Model.User.Role == Role.HeadCleaner)
         {
             <tr>
                 <th>
-                    Id  
+                    Id
                 </th>
                 <th>
                     StartDate
@@ -31,24 +38,33 @@
                     Comment
                 </th>
 
-            </tr> 
-            foreach (var cleaning in Model.Cleans)
+            </tr>
+            if (Model.Cleans != null)
             {
-                <tr>
-                    <td>@cleaning.Id</td>
-                    <td>@cleaning.StartDate</td>
-                    <td>@cleaning.EndDate</td>
-                    <td>@cleaning.TramId</td>
-                    <td>@cleaning.Size</td>
-                    <td>@cleaning.Comments</td>
-                    <td>@Html.ActionLink("Edit", "EditCleaning", "SR", new { id = cleaning.Id }, null)</td>
-                </tr>
+                foreach (var cleaning in Model.Cleans)
+                {
+                    <tr>
+                        <td>@cleaning.Id</td>
+                        <td>@cleaning.StartDate</td>
+                        <td>@cleaning.EndDate</td>
+                        <td>@cleaning.TramId</td>
+                        <td>@cleaning.Size</td>
+                        <td>@cleaning.Comments</td>
+                        <td>@Html.ActionLink("Edit", "EditCleaning", "SR", new {id = cleaning.Id}, null)</td>
+                    </tr>
+                }
+
+            }
+
+            else
+            {
+                <p>You have no new services. Good job!/Sorry you're fired.</p>
             }
             if (Model.User.Role == Role.Engineer || Model.User.Role == Role.HeadEngineer)
             {
                 <tr>
                     <th>
-                        Id  
+                        Id
                     </th>
                     <th>
                         StartDate
@@ -69,7 +85,7 @@
                         Solution
                     </th>
 
-                </tr> 
+                </tr>
                 foreach (var repair in Model.Repairs)
                 {
                     <tr>
@@ -80,12 +96,16 @@
                         <td>@repair.Type</td>
                         <td>@repair.Defect</td>
                         <td>@repair.Solution</td>
-                        <td>@Html.ActionLink("Edit","EditRepair", "SR", new { id = repair.Id }, null)</td>
+                        <td>@Html.ActionLink("Edit", "EditRepair", "SR", new {id = repair.Id}, null)</td>
                     </tr>
                 }
 
             }
         }
-        
-    </table> 
+        else
+        {
+            <p>You have no new services. Good job!/Sorry you're fired.</p>
+        }
+
+    </table>
 </div>

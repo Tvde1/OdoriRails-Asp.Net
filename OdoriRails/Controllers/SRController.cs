@@ -33,19 +33,16 @@ namespace OdoriRails.Controllers
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
             var user = result as User;
-            var model = new SRModel { User = user };
-            model.Engineers = model.GetAllEngineers();
+            var model = new SRModel { User = user };   
 
-            if (user.Role == Role.HeadEngineer)
+            if (user.Role != Role.HeadEngineer)
             {
-                model.Engineers = model.GetAllEngineers();
-                model.RepairToEdit = model.GetRepairToEdit(id);
-            }
-            else
-            { 
-                // deny entry
-            }
+                TempData["alertMessage"] = "You do not have permission to do this!";
 
+                return RedirectToAction("Index", "SR");
+            }
+            model.Engineers = model.GetAllEngineers();
+            model.RepairToEdit = model.GetRepairToEdit(id);
             return View(model);
         }
         public ActionResult EditCleaning(int id)
@@ -54,19 +51,17 @@ namespace OdoriRails.Controllers
             if (result is ActionResult) return result as ActionResult;
             var user = result as User;
             var model = new SRModel { User = user };
-           
+            
 
-            if (user.Role == Role.HeadCleaner)
+            if (user.Role != Role.HeadCleaner)
             {
-                model.Cleaners = model.GetAllCleaners();
-                model.CleaningToEdit = model.GetCleaningToEdit(id);
+                
+                TempData["alertMessage"] = "You do not have permission to do this!";
+                
+                return RedirectToAction("Index", "SR"); ;
             }
-            else
-            {
-                // deny entry
-            }
-
-
+            model.Cleaners = model.GetAllCleaners();
+            model.CleaningToEdit = model.GetCleaningToEdit(id);
             return View(model);
         }
     }
