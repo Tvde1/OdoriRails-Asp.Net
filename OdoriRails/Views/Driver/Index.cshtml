@@ -38,7 +38,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="pull-right">
-                        <label>Comments</label><br />
+                        <label>Opmerkingen:</label><br />
                         @Html.TextAreaFor(x => x.Comments, Model.Tram?.Location == TramLocation.Out ? new { @class = "form-control", style = "width:500px", rows = "5" } : (object)new { @class = "form-control", style = "width:500px", rows = "5", @disabled = "true" })
                     </div>
                     <div class="pull-left">
@@ -60,7 +60,7 @@
                     @Html.Label("Tram aanmelden:")
                 </div>
                 <div class="panel-body text-center">
-                    <button type="submit" class="btn btn-lg navbar-btn" style="margin: 5px" value="leave" @Html.Raw(Model.Tram?.Location == TramLocation.In ? "" : "disabled") onclick="document.getElementById('LbLocation').innerHTML = 'Aan het vertrekken.'">Vertrek</button>
+                    <button type="submit" class="btn btn-lg btn-primary" style="margin: 5px" value="leave" @Html.Raw(Model.Tram?.Location == TramLocation.In ? "" : "disabled") onclick="document.getElementById('LbLocation').innerHTML = 'Aan het vertrekken.'">Vertrek</button>
                     <button type="submit" class="btn btn-lg btn-primary" style="margin: 5px" value="remise" @Html.Raw(Model.Tram?.Location == TramLocation.Out ? "" : "disabled") onclick="document.getElementById('LbLocation').innerHTML = 'Wachten op locatie.'">Remise</button>
                 </div>
             </div>
