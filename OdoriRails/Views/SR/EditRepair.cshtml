@@ -13,18 +13,15 @@
     <input type="date" name="startDate" value=""><br>
     End date:<br><br>
     <input type="date" name="endDate" value=""><br><br>
-    Cleaning Size:<br><br>
-    <input type="radio" name="Size" value="Small" checked> Small<br>
-    <input type="radio" name="Size" value="Big"> Big<br> 
-    Comment:<br><br>
-    <input type="text" name="endDate" value=""><br><br>
+    Repair Type:<br><br>
+    <input type="radio" name="Size" value="Maintenance" checked> Maintenance<br>
+    <input type="radio" name="Size" value="Repair"> Repair<br> 
+    Defect:<br><br>
+    <input type="text" name="endDate" value="Repair"><br><br>
     Assigned Users:
-    @foreach (var user in Model.Cleaners)
+    @foreach (var user in Model.Engineers)
     {
         <input type="checkbox" name="@user.Name" value=@user.Id>@user.Name<br/>
-    }
-    @Html.ListBoxFor(m => Model.Cleaners)
- 
     }
     <input type="submit" value="Submit">
 </form> 

@@ -28,7 +28,7 @@ namespace OdoriRails.Controllers
             return View(model);
         }
 
-        public ActionResult EditRepair(Repair repair)
+        public ActionResult EditRepair(int id)
         {
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
@@ -39,7 +39,7 @@ namespace OdoriRails.Controllers
             if (user.Role == Role.HeadEngineer)
             {
                 model.Engineers = model.GetAllEngineers();
-                model.RepairToEdit = repair;
+                model.RepairToEdit = model.GetRepairToEdit(id);
             }
             else
             { 
@@ -48,7 +48,7 @@ namespace OdoriRails.Controllers
 
             return View(model);
         }
-        public ActionResult EditCleaning(Cleaning cleaning)
+        public ActionResult EditCleaning(int id)
         {
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
@@ -59,7 +59,7 @@ namespace OdoriRails.Controllers
             if (user.Role == Role.HeadCleaner)
             {
                 model.Cleaners = model.GetAllCleaners();
-                model.CleaningToEdit = cleaning;
+                model.CleaningToEdit = model.GetCleaningToEdit(id);
             }
             else
             {

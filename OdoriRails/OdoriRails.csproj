@@ -95,9 +95,6 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\signin.css" />
     <Content Include="Content\Site.css" />
-    <Content Include="Content\SRCSS\bootstrap.css" />
-    <Content Include="Content\SRCSS\bootstrap.min.css" />
-    <Content Include="Content\SRCSS\simple-sidebar.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
@@ -192,9 +189,10 @@
     <Content Include="Views\UserBeheer\Edit.cshtml" />
     <Content Include="Views\LogistiekBeheersysteem\Index.cshtml" />
     <Content Include="Views\Shared\_SRLayoutShared.cshtml" />
-    <Content Include="Views\SR\EditService.cshtml" />
+    <Content Include="Views\SR\EditCleaning.cshtml" />
     <Content Include="Views\SR\NewService.cshtml" />
     <Content Include="Views\SR\TramGeschiedenis.cshtml" />
+    <Content Include="Views\SR\EditRepair.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

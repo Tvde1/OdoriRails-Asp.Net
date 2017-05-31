@@ -52,7 +52,7 @@ WHERE ([User].UserPk = @userid)) AS derivedtbl_1 ON Service.ServicePk = derivedt
         public DataTable GetAllCleansfromId(int id)
         {
             var command = new SqlCommand(@"
-SELECT ServiceFK, StartDate, EndDate, Size, Comment, 
+SELECT ServiceFK, Size, Remarks, StartDate, EndDate,   
 TramFk FROM Clean INNER JOIN Service
 ON Clean.ServiceFk = @ServiceID");
             command.Parameters.AddWithValue("@ServiceID", id);

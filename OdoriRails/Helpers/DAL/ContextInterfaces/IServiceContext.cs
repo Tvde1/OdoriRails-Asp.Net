@@ -11,7 +11,8 @@ namespace OdoriRails.Helpers.DAL.ContextInterfaces
         DataTable GetAllRepairsFromUser(User user);
 
         DataTable GetAllCleansFromUser(User user);
-
+        DataTable GetAllCleansfromId(int id);
+        DataTable GetAllRepairsfromId(int id);
         DataTable GetAllRepairsWithoutUsers();
 
         DataTable GetAllCleansWithoutUsers();
