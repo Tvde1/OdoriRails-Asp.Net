@@ -26,7 +26,8 @@ namespace OdoriRails.Helpers.DAL
             {
                 //MessageBox.Show("Lost connection to the database.");
                 //return null;
-                throw new DatabaseException("Something went wrong while communicating with the database.");
+                throw;
+                //throw new DatabaseException("Something went wrong while communicating with the database. Here is the ");
             }
         }
     }

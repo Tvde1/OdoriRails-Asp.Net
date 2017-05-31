@@ -1,4 +1,5 @@
-﻿@model OdoriRails.Models.LogistiekBeheerModel
+﻿@using OdoriRails.Models.LogistiekBeheer
+@model OdoriRails.Models.LogistiekBeheer.LogistiekBeheerModel
 
 <div class="container">
     <div class="col-md-4 pull-left">
@@ -8,9 +9,9 @@
                 @Html.ActionLink("Edit", "SetStateEdit", null, new { @class = "btn btn-md btn-primary" })
             </div>
         </div>
-        @if (Model.State == OdoriRails.Models.LogistiekState.Main)
+        @if (Model.State == LogistiekState.Main)
         {
-            using (Html.BeginForm("LockTrack", "LogistiekBeheerModel", FormMethod.Post))
+            using (Html.BeginForm("LockTrack", "LogistiekBeheersysteem", FormMethod.Post))
             {
                 <div class="panel panel-default" style="margin-top: -10px">
                     <div class="panel-heading">
@@ -47,7 +48,7 @@
                     </div>
                 </div>
             }
-            using (Html.BeginForm("MoveTram", "LogistiekBeheerModel", FormMethod.Post))
+            using (Html.BeginForm("MoveTram", "LogistiekBeheersysteem", FormMethod.Post))
             {
                 <div class="panel panel-default" style="margin-top: -10px">
                     <div class="panel-heading">
@@ -84,7 +85,7 @@
                     </div>
                 </div>
             }
-            using (Html.BeginForm("DisableEnableTram", "LogistiekBeheerModel", FormMethod.Post))
+            using (Html.BeginForm("ToggleDisabled", "LogistiekBeheersysteem", FormMethod.Post))
             {
                 <div class="panel panel-default" style="margin-top: -10px">
                     <div class="panel-heading">
@@ -108,7 +109,7 @@
         }
         else
         {
-            using (Html.BeginForm("AddTram", "LogistiekBeheerModel", FormMethod.Post))
+            using (Html.BeginForm("AddTram", "LogistiekBeheersysteem", FormMethod.Post))
             {
                 <div class="panel panel-default" style="margin-top: -10px">
                     <div class="panel-heading">
@@ -145,7 +146,7 @@
                     </div>
                 </div>
             }
-            using (Html.BeginForm("DeleteTram", "LogistiekBeheerModel", FormMethod.Post))
+            using (Html.BeginForm("DeleteTram", "LogistiekBeheersysteem", FormMethod.Post))
             {
                 <div class="panel panel-default" style="margin-top: -10px">
                     <div class="panel-heading">
@@ -166,7 +167,7 @@
                     </div>
                 </div>
             }
-            using (Html.BeginForm("AddTrack", "LogistiekBeheerModel", FormMethod.Post))
+            using (Html.BeginForm("AddTrack", "LogistiekBeheersysteem", FormMethod.Post))
             {
                 <div class="panel panel-default" style="margin-top: -10px">
                     <div class="panel-heading">
@@ -211,7 +212,7 @@
                     </div>
                 </div>
             }
-            using (Html.BeginForm("DeleteTrack", "LogistiekBeheerModel", FormMethod.Post))
+            using (Html.BeginForm("DeleteTrack", "LogistiekBeheersysteem", FormMethod.Post))
             {
                 <div class="panel panel-default" style="margin-top: -10px">
                     <div class="panel-heading">
@@ -232,7 +233,7 @@
                     </div>
                 </div>
             }
-            using (Html.BeginForm("AddDeleteSector", "LogistiekBeheerModel", FormMethod.Post))
+            using (Html.BeginForm("AddDeleteSector", "LogistiekBeheersysteem", FormMethod.Post))
             {
                 <div class="panel panel-default" style="margin-top: -10px">
                     <div class="panel-heading">

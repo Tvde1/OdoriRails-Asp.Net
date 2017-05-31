@@ -1,11 +1,7 @@
-﻿using OdoriRails.Helpers.LogistiekBeheersysteem;
-using OdoriRails.Helpers.Objects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
+using OdoriRails.Helpers.LogistiekBeheersysteem;
 
-namespace OdoriRails.Models
+namespace OdoriRails.Models.LogistiekBeheer
 {
     public enum LogistiekState
     {

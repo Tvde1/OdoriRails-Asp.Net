@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using OdoriRails.Controllers;
+﻿using System.Collections.Generic;
 using OdoriRails.Helpers.DAL.Repository;
 using OdoriRails.Helpers.Objects;
 
