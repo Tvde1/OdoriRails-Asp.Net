@@ -136,13 +136,13 @@ namespace OdoriRails.Controllers
                 case Role.Driver:
                     return RedirectToAction("Index", "Driver");
                 case Role.Cleaner:
-                    return RedirectToAction("Index", "SRMainMenu");
+                    return RedirectToAction("Index", "SR");
                 case Role.Engineer:
-                    return RedirectToAction("Index", "SRMainMenu");
+                    return RedirectToAction("Index", "SR");
                 case Role.HeadEngineer:
-                    return RedirectToAction("Index", "SRMainMenu");
+                    return RedirectToAction("Index", "SR");
                 case Role.HeadCleaner:
-                    return RedirectToAction("Index", "SRMainMenu");
+                    return RedirectToAction("Index", "SR");
                 default:
                     throw new ArgumentOutOfRangeException();
             }

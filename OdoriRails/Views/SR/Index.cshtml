@@ -1,0 +1,89 @@
+﻿@using OdoriRails.Helpers.Objects
+@model OdoriRails.Models.SRManagement.SRModel
+@{
+    ViewBag.Title = "About";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <table class="TABLE table-striped table-hover">
+
+        
+        @if (Model.User.Role == Role.Cleaner || Model.User.Role == Role.HeadCleaner)
+        {
+            <tr>
+                <th>
+                    Id  
+                </th>
+                <th>
+                    StartDate
+                </th>
+                <th>
+                    EndDate
+                </th>
+                <th>
+                    TramId
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Comment
+                </th>
+
+            </tr> 
+            foreach (var service in Model.Cleans)
+            {
+                <tr>
+                    <td>@service.Id</td>
+                    <td>@service.StartDate</td>
+                    <td>@service.EndDate</td>
+                    <td>@service.TramId</td>
+                    <td>@service.Size</td>
+                    <td>@service.Comments</td>
+                </tr>
+            }
+            if (Model.User.Role == Role.Engineer || Model.User.Role == Role.HeadEngineer)
+            {
+                <tr>
+                    <th>
+                        Id  
+                    </th>
+                    <th>
+                        StartDate
+                    </th>
+                    <th>
+                        EndDate
+                    </th>
+                    <th>
+                        TramId
+                    </th>
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        Defect
+                    </th>
+                    <th>
+                        Solution
+                    </th>
+
+                </tr> 
+                foreach (var service in Model.Repairs)
+                {
+                    <tr>
+                        <td>@service.Id</td>
+                        <td>@service.StartDate</td>
+                        <td>@service.EndDate</td>
+                        <td>@service.TramId</td>
+                        <td>@service.Type</td>
+                        <td>@service.Defect</td>
+                        <td>@service.Solution</td>
+                    </tr>
+                }
+
+            }
+        }
+        
+    </table> 
+</div>

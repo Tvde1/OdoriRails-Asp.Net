@@ -125,7 +125,7 @@
     <Compile Include="Controllers\DriverController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LogistiekBeheersysteemController.cs" />
-    <Compile Include="Controllers\SRMainMenuController.cs" />
+    <Compile Include="Controllers\SRController.cs" />
     <Compile Include="Controllers\UserBeheerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -171,7 +171,7 @@
     <Compile Include="Models\LogistiekBeheer\FormResultModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\LogistiekBeheer\LogistiekBeheerModel.cs" />
-    <Compile Include="Models\SRManagement\MainMenuModel.cs" />
+    <Compile Include="Models\SRManagement\SRManagementModel.cs" />
     <Compile Include="Models\UserBeheer\EditUserModel.cs" />
     <Compile Include="Models\UserBeheer\UserBeheerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -186,12 +186,15 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\SRMainMenu\Index.cshtml" />
+    <Content Include="Views\SR\Index.cshtml" />
     <Content Include="Views\Driver\Index.cshtml" />
     <Content Include="Views\UserBeheer\Index.cshtml" />
     <Content Include="Views\UserBeheer\Edit.cshtml" />
     <Content Include="Views\LogistiekBeheersysteem\Index.cshtml" />
     <Content Include="Views\Shared\_SRLayoutShared.cshtml" />
+    <Content Include="Views\SR\EditService.cshtml" />
+    <Content Include="Views\SR\NewService.cshtml" />
+    <Content Include="Views\SR\TramGeschiedenis.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
