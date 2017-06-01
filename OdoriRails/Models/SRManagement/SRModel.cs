@@ -22,14 +22,21 @@ namespace OdoriRails.Models.SRManagement
 
         public SRModel()
         {
-    
-            //If repair, workers = list of repairmen
-            //if clean workers = list of cleanerd
-
-            var workers;
-            AssignedWorkers = workers.ToDictionary(x => x.Name, x => false);
+                //paraterless consdrugdor
         }
+        public SRModel(Role role)
+        {
+            
+            if (role == Role.Cleaner)
+            {
+                AssignedWorkers = GetAllCleaners().ToDictionary(x => x.Name, x => false);
+            }
+            if (role == Role.Engineer)
+            {
+                AssignedWorkers = GetAllEngineers().ToDictionary(x => x.Name, x => false);
+            }
 
+        }
         
         public Repair GetRepairToEdit(int id)
         {

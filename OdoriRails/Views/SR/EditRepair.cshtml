@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>EditService</h2>
+<h2>Edit Repair</h2>
 
 @using (Html.BeginForm("EditRepair", "SR", FormMethod.Post))
 {
@@ -31,6 +31,7 @@
         @foreach (var user in Model.AssignedWorkers)
         {
             @Html.CheckBoxFor(x => x.AssignedWorkers[user.Key])
+            
         }
 
         <input type="submit" value="EditRepair" />
