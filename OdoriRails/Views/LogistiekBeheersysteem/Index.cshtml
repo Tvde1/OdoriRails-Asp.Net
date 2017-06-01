@@ -7,6 +7,8 @@
     <div class="panel-heading">
         @Html.ActionLink("Main", "SetStateMain", null, new { @class = "btn btn-md btn-primary" })
         @Html.ActionLink("Edit", "SetStateEdit", null, new { @class = "btn btn-md btn-primary" })
+        @Html.ActionLink("Delete", "SetStateDelete", null, new { @class = "btn btn-md btn-primary" })
+        @Html.ActionLink("Simulation", "SetStateSimulation", null, new { @class = "btn btn-md btn-primary" })
     </div>
 </div>
 @if (Model.State == LogistiekState.Main)
@@ -107,7 +109,7 @@
         </div>
     }
 }
-else
+else if (Model.State == LogistiekState.Edit)
 {
     using (Html.BeginForm("AddTram", "LogistiekBeheersysteem", FormMethod.Post))
     {
@@ -146,27 +148,6 @@ else
             </div>
         </div>
     }
-    using (Html.BeginForm("DeleteTram", "LogistiekBeheersysteem", FormMethod.Post))
-    {
-        <div class="panel panel-default" style="margin-top: -10px">
-            <div class="panel-heading">
-                @Html.Label("Delete Tram")
-                <button type="submit" class="btn btn-md btn-primary pull-right" style="margin-top: -5px">Confirm</button>
-            </div>
-            <div class="panel-body">
-                <table>
-                    <tr>
-                        <td>
-                            @Html.Label("Tram Number:")
-                        </td>
-                        <td>
-                            @Html.TextBoxFor(m => m.Form.TramNumber, new { type = "number" })
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    }
     using (Html.BeginForm("AddTrack", "LogistiekBeheersysteem", FormMethod.Post))
     {
         <div class="panel panel-default" style="margin-top: -10px">
@@ -186,14 +167,6 @@ else
                     </tr>
                     <tr>
                         <td>
-                            @Html.Label("Sector Amount:")
-                        </td>
-                        <td>
-                            @Html.TextBoxFor(m => m.Form.SectorAmount, new { type = "number" })
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
                             @Html.Label("Track Type:")
                         </td>
                         <td>
@@ -206,6 +179,67 @@ else
                         </td>
                         <td>
                             @Html.TextBoxFor(m => m.Form.DefaultLine, new { type = "number" })
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    }
+    using (Html.BeginForm("AddSector", "LogistiekBeheersysteem", FormMethod.Post))
+    {
+        <div class="panel panel-default" style="margin-top: -10px">
+            <div class="panel-heading">
+                @Html.Label("Add Sector")
+                <button type="submit" class="btn btn-md btn-primary pull-right" style="margin-top: -5px">Confirm</button>
+            </div>
+            <div class="panel-body">
+                <table>
+                    <tr>
+                        <td>
+                            @Html.Label("Track Number:")
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.Form.TrackNumber, new { type = "number" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.Label("Latitude:")
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.Form.Latitude, new { type = "number" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.Label("Longitude")
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.Form.Longitude, new { type = "number" })
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    }
+}
+else
+{
+    using (Html.BeginForm("DeleteTram", "LogistiekBeheersysteem", FormMethod.Post))
+    {
+        <div class="panel panel-default" style="margin-top: -10px">
+            <div class="panel-heading">
+                @Html.Label("Delete Tram")
+                <button type="submit" class="btn btn-md btn-primary pull-right" style="margin-top: -5px">Confirm</button>
+            </div>
+            <div class="panel-body">
+                <table>
+                    <tr>
+                        <td>
+                            @Html.Label("Tram Number:")
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.Form.TramNumber, new { type = "number" })
                         </td>
                     </tr>
                 </table>
@@ -233,11 +267,11 @@ else
             </div>
         </div>
     }
-    using (Html.BeginForm("AddDeleteSector", "LogistiekBeheersysteem", FormMethod.Post))
+    using (Html.BeginForm("DeleteSector", "LogistiekBeheersysteem", FormMethod.Post))
     {
         <div class="panel panel-default" style="margin-top: -10px">
             <div class="panel-heading">
-                @Html.Label("Add/Delete Sector")
+                @Html.Label("Remove Last Sector")
                 <button type="submit" class="btn btn-md btn-primary pull-right" style="margin-top: -5px">Confirm</button>
             </div>
             <div class="panel-body">
@@ -247,15 +281,7 @@ else
                             @Html.Label("Track Number:")
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.Form.TrackNumber, new { type = "number" })
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            @Html.Label("Add:") @Html.RadioButtonFor(m => m.Form.RadioButton, new { id = 0 }, true)
-                        </td>
-                        <td>
-                            @Html.Label("Delete:") @Html.RadioButtonFor(m => m.Form.RadioButton, new { id = 0 }, true)
+                            @Html.TextBoxFor(m => m.Form.SectorNumber, new { type = "number" })
                         </td>
                     </tr>
                 </table>
