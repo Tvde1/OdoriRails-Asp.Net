@@ -12,10 +12,10 @@ namespace InPlanService
 {
     public class LogistiekInPlanServer
     {
-        private I_CSVContext csv;
-        private LogisticRepository repo = new LogisticRepository();
-        private List<BeheerTrack> allTracks;
-        private List<InUitRijSchema> schema;
+        private readonly I_CSVContext _csv;
+        private readonly LogisticRepository _repo = new LogisticRepository();
+        private List<BeheerTrack> _allTracks;
+        private readonly List<InUitRijSchema> _schema;
 
         //private bool testing = true;
         //private int simulationSpeed = 600;
@@ -26,8 +26,8 @@ namespace InPlanService
             //    {
             //        simulationSpeed = 50;
             //    }
-            csv = new CSVContext();
-            schema = csv.getSchema();
+            _csv = new CSVContext();
+            _schema = _csv.getSchema();
         }
 
         public string FetchTramsComingIn()
@@ -40,26 +40,28 @@ namespace InPlanService
             return SortMovingTrams(TramLocation.GoingOut);
         }
 
-        public void UpdateTracks()
+        private void UpdateTracks()
         {
-            allTracks = new List<BeheerTrack>();
-            foreach (Track track in repo.GetTracksAndSectors())
+            _allTracks = new List<BeheerTrack>();
+            foreach (Track track in _repo.GetTracksAndSectors())
             {
-                allTracks.Add(track == null ? null : BeheerTrack.ToBeheerTrack(track));
+                _allTracks.Add(track == null ? null : BeheerTrack.ToBeheerTrack(track));
             }
         }
 
-        public string SortMovingTrams(TramLocation location)
+        private string SortMovingTrams(TramLocation location)
         {
-            List<Tram> movingTrams = repo.GetAllTramsWithLocation(location);
-            if (movingTrams.Count != 0)
+            List<Tram> movingTrams = _repo.GetAllTramsWithLocation(location);
+            if (movingTrams.Count == 0) return null;
+
+            UpdateTracks();
+            SortingAlgoritm sorter = new SortingAlgoritm(_allTracks, _repo);
+            for (int i = 0; i < movingTrams.Count; i++)
             {
-                UpdateTracks();
-                SortingAlgoritm sorter = new SortingAlgoritm(allTracks, repo);
-                for (int i = 0; i < movingTrams.Count; i++)
+                BeheerTram beheerTram = BeheerTram.ToBeheerTram(movingTrams[i]);
+                switch (location)
                 {
-                    BeheerTram beheerTram = BeheerTram.ToBeheerTram(movingTrams[i]);
-                    if (location == TramLocation.ComingIn)
+                    case TramLocation.ComingIn:
                     {
                         if (movingTrams[i].DepartureTime == null)
                         {
@@ -67,22 +69,22 @@ namespace InPlanService
                         }
                         return sorter.AssignTramLocation(beheerTram);
                     }
-                    else if (location == TramLocation.GoingOut)
+                    case TramLocation.GoingOut:
                     {
                         beheerTram.EditTramLocation(TramLocation.Out);
                         movingTrams[i] = beheerTram;
-                        repo.EditTram(movingTrams[i]);
-                        repo.WipeSectorByTramId(movingTrams[i].Number);
-                        return String.Format("Tram {0} left the remise.", beheerTram.Number);
+                        _repo.EditTram(movingTrams[i]);
+                        _repo.WipeSectorByTramId(movingTrams[i].Number);
+                        return $"Tram {beheerTram.Number} left the remise.";
                     }
                 }
             }
             return null;
         }
 
-        public DateTime? GetExitTime(BeheerTram tram)
+        private DateTime? GetExitTime(BeheerTram tram)
         {
-            foreach (InUitRijSchema entry in schema.Where(entry => entry.Line == tram.Line && entry.TramNumber == null))
+            foreach (InUitRijSchema entry in _schema.Where(entry => entry.Line == tram.Line && entry.TramNumber == null))
             {
                 entry.TramNumber = tram.Number;
                 return entry.ExitTime;
