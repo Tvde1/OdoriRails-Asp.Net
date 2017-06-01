@@ -5,6 +5,10 @@ namespace OdoriRails.Helpers.Objects
 {
     public abstract class Service
     {
+        protected Service()
+        {
+        }
+
         protected Service(int? id, List<User> assignedUsers, DateTime startDate, DateTime? endDate, int? tramId)
         {
             Id = id ?? -1;
@@ -22,11 +26,11 @@ namespace OdoriRails.Helpers.Objects
             TramId = tramId;
         }
 
-        public int Id { get; private set; }
-        public List<User> AssignedUsers { get; }
-        public DateTime StartDate { get; }
+        public int Id { get;  set; }
+        public List<User> AssignedUsers { get; set; }
+        public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public int TramId { get; }
+        public int TramId { get; set; }
 
         public void SetId(int id)
         {

@@ -33,8 +33,8 @@ namespace OdoriRails.Helpers.Objects
             Type = RepairType.Repair;
         }
 
-        public RepairType Type { get; }
-        public string Defect { get; }
-        public string Solution { get; }
+        public RepairType Type { get; set; }
+        public string Defect { get; set; }
+        public string Solution { get; set; }
     }
 }

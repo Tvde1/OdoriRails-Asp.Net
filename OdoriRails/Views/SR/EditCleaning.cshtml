@@ -7,22 +7,35 @@
 }
 <h2>EditService</h2>
 
-<form method="post">
-    <label for="StartDate">Start Date:</label> <br>
-    <input type="date" name="startDate" value="@Model.CleaningToEdit.StartDate"><br>
-    <label for="EndDate">End Date:</label> <br><br>
-    <input type="date" name="endDate" value="@Model.CleaningToEdit.EndDate"><br><br>
-    <label for="Size">Cleaning Size:</label> <br><br>
-    <input type="radio" name="Size" value="@(Model.CleaningToEdit.Size == CleaningSize.Small)" checked> Small<br>
-    <input type="radio" name="Size" value="@(Model.CleaningToEdit.Size == CleaningSize.Big)"> Big<br> 
-    <label for="Size">Comment:</label> <br><br>
-    <input type="text" name="Comment" value="@Model.CleaningToEdit.Comments"><br><br>
-    <label for="AssignedUsers">Assigned Users:</label>
 
-    @foreach (var user in Model.Cleaners)
-    {
-        <p><input type="checkbox" name="@user.Name" value=@user.Id>@user.Name</p>
-    }
-    
-    <input type="submit" value="EditCleaning">
-</form> 
+@using (Html.BeginForm("EditCleaning", "SR", FormMethod.Post))
+{
+    <p>
+        <label>Start Date:</label>
+        <br/>
+        <input type="date" name="startDate" value="@Model.CleaningToEdit.StartDate">
+        <br/>
+        <label>End Date:</label>
+        <br/>
+        <input type="date" name="endDate" value="@Model.CleaningToEdit.EndDate">
+        <br/>
+        <label>Cleaning Size:</label>
+        <br/>
+        @Html.RadioButtonFor(x => x.CleaningToEdit.Size, CleaningSize.Big) Maintenance
+        @Html.RadioButtonFor(x => x.CleaningToEdit.Size, CleaningSize.Small) Repair
+        <label> Comment:</label>
+        @Html.TextBoxFor(x => x.CleaningToEdit.Comments)
+        <label> Tram Nummer:</label>
+        @Html.TextBoxFor(x => x.CleaningToEdit.TramId)
+        <label>Assigned Users:</label>
+
+        @foreach (var user in Model.AssignedWorkers)
+        {
+            @Html.CheckBoxFor(x => x.AssignedWorkers[user.Key])
+
+        }
+
+        <input type="submit" value="EditCleaning"/>
+
+    </p>
+}

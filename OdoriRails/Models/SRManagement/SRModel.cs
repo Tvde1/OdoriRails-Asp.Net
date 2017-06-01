@@ -22,9 +22,10 @@ namespace OdoriRails.Models.SRManagement
 
         public SRModel()
         {
-                //paraterless consdrugdor
+            ControllerNameForHomeButton = "SRController";
+            //paraterless consdrugdor
         }
-        public SRModel(Role role)
+        public SRModel(Role role) : this()
         {
             
             if (role == Role.Cleaner)
@@ -75,11 +76,11 @@ namespace OdoriRails.Models.SRManagement
 
         public void EditCleaningInDb(Cleaning cleaning)
         {
-            _repository.EditService((Service)cleaning);
+            _repository.EditService(cleaning);
         }
         public void EditRepairInDb(Repair repair)
         {
-            _repository.EditService((Service)repair);
+            _repository.EditService(repair);
         }
 
     }

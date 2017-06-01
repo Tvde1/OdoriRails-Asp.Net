@@ -11,6 +11,9 @@ namespace OdoriRails.Helpers.Objects
 
     public class Cleaning : Service
     {
+        public Cleaning() : base()
+        {
+        }
         public Cleaning(int id, DateTime startDate, DateTime? endDate, CleaningSize size, string comments,
             List<User> users, int tramId) : base(id, users, startDate, endDate, tramId)
         {
@@ -31,7 +34,7 @@ namespace OdoriRails.Helpers.Objects
             Comments = comments;
         }
 
-        public CleaningSize Size { get; protected set; }
-        public string Comments { get; protected set; }
+        public CleaningSize Size { get; set; }
+        public string Comments { get; set; }
     }
 }
