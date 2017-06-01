@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using OdoriRails.Helpers;
 using OdoriRails.Helpers.DAL.ContextInterfaces;
@@ -46,13 +47,17 @@ namespace OdoriRails.Controllers
             {
                 Repair servicetomarkasdone = model.GetRepairToEdit(id);
                 markasdonemodel.RepairMarkAsDone = servicetomarkasdone;
+                markasdonemodel.Serviceid = servicetomarkasdone.Id;
 
             }
             if (user.Role == Role.HeadCleaner || user.Role == Role.Cleaner)
             {
                 Cleaning servicetomarkasdone = model.GetCleaningToEdit(id);
                 markasdonemodel.CleaningMarkAsDone= servicetomarkasdone;
+                markasdonemodel.Serviceid = servicetomarkasdone.Id;
             }
+            
+            markasdonemodel.User = user;
             return View(markasdonemodel);
         }
         public ActionResult EditRepair(int id)
@@ -151,19 +156,26 @@ namespace OdoriRails.Controllers
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
             var user = (User)result;
+
             if (user.Role == Role.HeadEngineer || user.Role == Role.Engineer)
             {
-                _Repo.SetTramStatusToIdle(viewmodel.RepairMarkAsDone.TramId);               
-                viewmodel.RepairMarkAsDone.EndDate = DateTime.Now;
-                _Repo.EditService(viewmodel.RepairMarkAsDone);
+                var rlist = _Repo.GetRepairFromId(viewmodel.Serviceid);
+                var repairtofinish = rlist.ElementAt(0);
+                _Repo.SetTramStatusToIdle(viewmodel.TramIdtoCarryOver);
+                repairtofinish.EndDate = DateTime.Now;
+                repairtofinish.Solution = viewmodel.Solution;
+                _Repo.EditService(repairtofinish);
 
             }
             if (user.Role == Role.HeadCleaner || user.Role == Role.Cleaner)
             {
-                viewmodel.CleaningMarkAsDone.EndDate = DateTime.Now;
-                _Repo.SetTramStatusToIdle(viewmodel.CleaningMarkAsDone.TramId);
-                _Repo.EditService(viewmodel.CleaningMarkAsDone);
+                var clist = _Repo.GetCleanFromId(viewmodel.Serviceid);
+                var cleantofinish = clist.ElementAt(0);
+                cleantofinish.EndDate = DateTime.Now;
+                _Repo.SetTramStatusToIdle(viewmodel.TramIdtoCarryOver);
+                _Repo.EditService(cleantofinish);
             }
+           
             return RedirectToAction("Index");
         }
 

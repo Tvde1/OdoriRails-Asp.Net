@@ -17,8 +17,11 @@
     if (@Model.User.Role == Role.Engineer || @Model.User.Role == Role.HeadEngineer)
     { 
         <p>Vul de tekstveld met de uitgevoerde oplossing en druk op submit om de taak te beindigen.</p>
-        <p>Opmerkingen:</p><input type="text" name="Comment" value="@Model.RepairMarkAsDone.Solution" size="150" />
+        <p>Oplossing:</p><input type="text" name="Solution" value="@Model.RepairMarkAsDone.Solution" size="150" />
     }
+    <input type="hidden" name="TramIdToCarryOver" value="@Model.RepairMarkAsDone.TramId"/>
+    <input type="hidden" name="Serviceid" value="@Model.Serviceid" />
+
     <br/>
     <input type="submit" value="EditRepair"/>
 
