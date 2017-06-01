@@ -38,6 +38,8 @@
         public Tram OccupyingTram { get; set; }
         public int TrackNumber { get; }
         public int? TramId { get; }
+        public string latitude { get; protected set; }
+        public string longitude { get; protected set; }
 
         public void SetTram(Tram tram)
         {

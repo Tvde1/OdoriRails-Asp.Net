@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CSV\CSVContext.cs" />
+    <Compile Include="CSV\I_CSVContext.cs" />
     <Compile Include="LogistiekInplanServer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

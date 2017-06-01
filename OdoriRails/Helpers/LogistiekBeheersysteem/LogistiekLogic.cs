@@ -1,5 +1,4 @@
 ﻿using OdoriRails.Helpers.DAL.Repository;
-using OdoriRails.Helpers.LogistiekBeheersysteem.CSV;
 using OdoriRails.Helpers.Objects;
 using System;
 using System.Collections.Generic;
@@ -10,32 +9,12 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
 {
     public class LogistiekLogic
     {
-        private List<BeheerTrack> _backupAllTracks;
         public List<BeheerTrack> AllTracks { get; private set; }
         public List<BeheerTram> AllTrams { get; private set; }
-        private const bool Testing = true;
-        readonly int _simulationSpeed = 600;
 
-        readonly I_CSVContext _csv;
         private readonly LogisticRepository _repo = new LogisticRepository();
-        private List<InUitRijSchema> _schema;
 
-        /// <summary>
-        /// Constructor: Voert alles uit dat bij de launch uitgevoerd moet worden.
-        /// </summary>
-        public LogistiekLogic()
-        {
-            if (Testing == true)
-            {
-                _simulationSpeed = 50;
-            }
-
-            FetchUpdates();
-            _csv = new CSVContext();
-            _schema = _csv.getSchema();
-        }
-
-        public void FetchUpdates()
+        public void Update()
         {
             AllTracks = new List<BeheerTrack>();
             foreach (Track track in _repo.GetTracksAndSectors())
@@ -47,37 +26,6 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             {
                 AllTrams.Add(tram == null ? null : BeheerTram.ToBeheerTram(tram));
             }
-        }
-
-        public bool SortMovingTrams(TramLocation location)
-        {
-            SortingAlgoritm sorter = new SortingAlgoritm(AllTracks, _repo);
-            List<Tram> movingTrams = _repo.GetAllTramsWithLocation(location);
-            if (movingTrams.Count != 0)
-            {
-                for (int i = 0; i < movingTrams.Count; i++)
-                {
-                    BeheerTram beheerTram = BeheerTram.ToBeheerTram(movingTrams[i]);
-                    if (location == TramLocation.ComingIn)
-                    {
-                        if (movingTrams[i].DepartureTime == null)
-                        {
-                            GetExitTime(beheerTram);
-                        }
-                        SortTram(sorter, beheerTram);
-                    }
-                    else if (location == TramLocation.GoingOut)
-                    {
-                        beheerTram.EditTramLocation(TramLocation.Out);
-                        movingTrams[i] = beheerTram;
-                        _repo.EditTram(movingTrams[i]);
-                        _repo.WipeSectorByTramId(movingTrams[i].Number);
-                    }
-                }
-                FetchUpdates();
-                return true;
-            }
-            return false;
         }
 
         public bool AddSector(int trackNumber)
@@ -129,96 +77,7 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             }
             return false;
         }
-
-        public void WipePreSimulation()
-        {
-            _repo.WipeAllDepartureTimes();
-            _repo.WipeAllTramsFromSectors();
-            FetchUpdates();
-        }
-
-        public DateTime? GetExitTime(BeheerTram tram)
-        {
-            foreach (InUitRijSchema entry in _schema.Where(x => x.Line == tram.Line && x.TramNumber == null))
-            {
-                entry.TramNumber = tram.Number;
-                return entry.ExitTime;
-            }
-            return null;
-        }
-
-        public void SortTram(SortingAlgoritm sorter, BeheerTram tram)
-        {
-            if (tram != null)
-            {
-                _backupAllTracks = AllTracks;
-                AllTracks = sorter.AssignTramLocation(tram);
-
-                if (AllTracks == null)
-                {
-                    AllTracks = _backupAllTracks;
-                }
-            }
-        }
-
-        public void Simulation()
-        {
-            SortingAlgoritm sorter = new SortingAlgoritm(AllTracks, _repo);
-
-            //De schema moet op volgorde van eerst binnenkomende worden gesorteerd
-            _schema.Sort((x, y) => x.EntryTime.CompareTo(y.EntryTime));
-
-            //Voor iedere inrijtijd een tram eraan koppellen
-            foreach (InUitRijSchema entry in _schema.Where(x => x.TramNumber == null))
-            {
-                foreach (BeheerTram tram in AllTrams.Where(x => x.DepartureTime == null && x.Line == entry.Line))
-                {
-                    entry.TramNumber = tram.Number;
-                    tram.EditTramDepartureTime(entry.ExitTime);
-                    break;
-                }
-            }
-
-            //Too little linebound trams to fill each entry so overflow to other types of trams
-            foreach (InUitRijSchema entry in _schema.Where(x => x.TramNumber == null))
-            {
-                foreach (BeheerTram tram in AllTrams.Where(x => x.DepartureTime == null))
-                {
-                    if ((entry.Line == 5 || entry.Line == 1624) && (tram.Model == TramModel.Dubbel_Kop_Combino || tram.Model == TramModel.TwaalfG)) //No driver lines
-                    {
-                        entry.TramNumber = tram.Number;
-                        tram.EditTramDepartureTime(entry.ExitTime);
-                        break;
-                    }
-                    else if ((entry.Line != 5 || entry.Line != 1624) && tram.Model == TramModel.Combino) //Driver lines
-                    {
-                        entry.TramNumber = tram.Number;
-                        tram.EditTramDepartureTime(entry.ExitTime);
-                        break;
-                    }
-                }
-            }
-
-            //Het schema afgaan voor de simulatie
-            foreach (InUitRijSchema entry in _schema)
-            {
-                BeheerTram tram = AllTrams.Find(x => x.Number == entry.TramNumber);
-                SortTram(sorter, tram);
-                //form.Invalidate();
-                Thread.Sleep(_simulationSpeed);
-            }
-
-            foreach (BeheerTram tram in AllTrams.Where(x => x.DepartureTime == null))
-            {
-                SortTram(sorter, tram);
-                //form.Invalidate();
-                Thread.Sleep(_simulationSpeed);
-            }
-
-            _schema = _csv.getSchema();
-            Update();
-        }
-
+    
         public bool Lock(string tracks, string sectors)
         {
             int[] lockSectors = { -1 };
@@ -393,11 +252,6 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             Update();
         }
 
-        private void Update()
-        {
-            FetchUpdates();
-        }
-
         private static int[] Parse(string _string)
         {
             int[] array = { };
@@ -411,22 +265,6 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             }
 
             return array;
-        }
-
-        public static int ToInt(string _string)
-        {
-            var integer = -1;
-
-            try
-            {
-                integer = Convert.ToInt32(_string);
-            }
-            catch
-            {
-                //TODO: Hier een fatsoenlijke trycatch van maken dat een waarschuwing in ASP.NET geeft.
-            }
-
-            return integer;
         }
 
         private static int ToInt(int? _int)
