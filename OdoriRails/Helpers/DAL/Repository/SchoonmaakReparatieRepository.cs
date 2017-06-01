@@ -139,6 +139,10 @@ namespace OdoriRails.Helpers.DAL.Repository
                 _objectCreator.CreateCleaning);
         }
 
+        public User GetUserFromName(string naam)
+        {
+            return _objectCreator.CreateUser(_serviceContext.GetUserByName(naam));
+        }
         /// <summary>
         ///     Returnt een int[] met Repairs,Queries
         /// </summary>

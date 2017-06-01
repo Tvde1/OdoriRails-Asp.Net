@@ -9,7 +9,7 @@ namespace OdoriRails.Helpers.DAL.ContextInterfaces
         DataRow GetServiceById(int id);
 
         DataTable GetAllRepairsFromUser(User user);
-
+        DataRow GetUserByName(string naam);
         DataTable GetAllCleansFromUser(User user);
         DataTable GetAllCleansfromId(int id);
         DataTable GetAllRepairsfromId(int id);

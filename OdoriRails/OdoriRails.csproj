@@ -185,6 +185,8 @@
     <Compile Include="Models\LogistiekBeheer\FormResultModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\LogistiekBeheer\LogistiekBeheerModel.cs" />
+    <Compile Include="Models\SRManagement\EditRepairViewModel.cs" />
+    <Compile Include="Models\SRManagement\EditCleaningViewModel.cs" />
     <Compile Include="Models\SRManagement\SRModel.cs" />
     <Compile Include="Models\UserBeheer\EditUserModel.cs" />
     <Compile Include="Models\UserBeheer\UserBeheerModel.cs" />

@@ -1,6 +1,6 @@
 ﻿@using System.Web.Mvc.Html
 @using OdoriRails.Helpers.Objects
-@model OdoriRails.Models.SRManagement.SRModel
+@model OdoriRails.Models.SRManagement.EditCleaningViewModel
 @{
     ViewBag.Title = "EditService";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,25 +13,26 @@
     <p>
         <label>Start Date:</label>
         <br/>
-        <input type="date" name="startDate" value="@Model.CleaningToEdit.StartDate">
+        <input type="date" name="StartDate" value="@Model.CleaningToChange.StartDate"/>
         <br/>
         <label>End Date:</label>
         <br/>
-        <input type="date" name="endDate" value="@Model.CleaningToEdit.EndDate">
+        <input type="date" name="EndDate" value="@Model.CleaningToChange.EndDate"/>
         <br/>
         <label>Cleaning Size:</label>
         <br/>
-        @Html.RadioButtonFor(x => x.CleaningToEdit.Size, CleaningSize.Big) Maintenance
-        @Html.RadioButtonFor(x => x.CleaningToEdit.Size, CleaningSize.Small) Repair
-        <label> Comment:</label>
-        @Html.TextBoxFor(x => x.CleaningToEdit.Comments)
-        <label> Tram Nummer:</label>
-        @Html.TextBoxFor(x => x.CleaningToEdit.TramId)
-        <label>Assigned Users:</label>
+        <input type="radio" name="Size" value="@Model.CleaningToChange.Size == @CleaningSize.Small"/>
+        <input type="radio" name="Size" value="@Model.CleaningToChange.Size == @CleaningSize.Big"/>
+
+        <br /><label> Comment:</label><br />
+        <input type="text" name="Comment" value="@Model.CleaningToChange.Comments"/>
+        <label> Tram Nummer:</label><br />
+        <input type="text" name="TramId" value="@Model.CleaningToChange.TramId" />
+        <label>Assigned Users:</label><br />
 
         @foreach (var user in Model.AssignedWorkers)
         {
-            @Html.CheckBoxFor(x => x.AssignedWorkers[user.Key])
+            @Html.CheckBoxFor(x => x.AssignedWorkers[user.Key]) @user.Key
 
         }
 

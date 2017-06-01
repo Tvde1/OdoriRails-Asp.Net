@@ -19,6 +19,8 @@ namespace OdoriRails.Models.SRManagement
         public Dictionary<string, bool> AssignedWorkers { get; set; }
         public List<User> Cleaners { get; set; }
         public List<User> Engineers { get; set; }
+        
+        
 
         public SRModel()
         {

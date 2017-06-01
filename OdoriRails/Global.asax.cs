@@ -11,7 +11,7 @@ namespace OdoriRails
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            GlobalConfiguration.COnfigure(WebApiConfig.Register)
+            GlobalConfiguration.Configure(WebApiConfig.Register);
         }
     }
 }
