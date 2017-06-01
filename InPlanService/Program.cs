@@ -10,8 +10,7 @@ namespace InPlanService
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello world!");
-            Console.ReadKey();
+            LogistiekInPlanServer _server = new LogistiekInPlanServer();
         }
     }
 }

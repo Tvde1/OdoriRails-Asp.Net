@@ -132,7 +132,6 @@
     <Compile Include="Helpers\Driver\InUitRitTram.cs" />
     <Compile Include="Helpers\LogistiekBeheersysteem\CSV\CSVContext.cs" />
     <Compile Include="Helpers\LogistiekBeheersysteem\CSV\I_CSVContext.cs" />
-    <Compile Include="Helpers\LogistiekBeheersysteem\LogistiekLogicInplanServer.cs" />
     <Compile Include="Helpers\LogistiekBeheersysteem\LogistiekLogic.cs" />
     <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\BeheerSector.cs" />
     <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\BeheerTrack.cs" />

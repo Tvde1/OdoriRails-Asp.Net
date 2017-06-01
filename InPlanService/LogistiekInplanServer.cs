@@ -1,4 +1,5 @@
 ﻿using OdoriRails.Helpers.DAL.Repository;
+using OdoriRails.Helpers.LogistiekBeheersysteem;
 using OdoriRails.Helpers.LogistiekBeheersysteem.CSV;
 using OdoriRails.Helpers.Objects;
 using System;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 
-namespace OdoriRails.Helpers.LogistiekBeheersysteem
+namespace InPlanService
 {
     public class LogistiekInPlanServer
     {
@@ -17,7 +18,7 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
         bool testing = true;
         int simulationSpeed = 600;
 
-        I_CSVContext csv;
+        private I_CSVContext csv;
         private LogisticRepository repo = new LogisticRepository();
         private List<InUitRijSchema> schema;
 
@@ -78,13 +79,6 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             return false;
         }
 
-        public void WipePreSimulation()
-        {
-            repo.WipeAllDepartureTimes();
-            repo.WipeAllTramsFromSectors();
-            FetchUpdates();
-        }
-
         public DateTime? GetExitTime(BeheerTram tram)
         {
             foreach (InUitRijSchema entry in schema.Where(x => x.Line == tram.Line && x.TramNumber == null))
@@ -107,6 +101,13 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
                     AllTracks = BackupAllTracks;
                 }
             }
+        }
+
+        public void WipePreSimulation()
+        {
+            repo.WipeAllDepartureTimes();
+            repo.WipeAllTramsFromSectors();
+            FetchUpdates();
         }
 
         public void Simulation()
