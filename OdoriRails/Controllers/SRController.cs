@@ -32,7 +32,28 @@ namespace OdoriRails.Controllers
 
             return View(model);
         }
+        public ActionResult MarkAsDone(int id)
+        {
+            var model = new SRModel();
+            var markasdonemodel = new MarkAsDoneViewModel();
+            var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
+            if (result is ActionResult) return result as ActionResult;
+            var user = (User)result;
 
+            if (user.Role == Role.HeadEngineer || user.Role == Role.Engineer)
+            {
+                Repair servicetomarkasdone = model.GetRepairToEdit(id);
+                
+            }
+            if (user.Role == Role.HeadCleaner || user.Role == Role.Cleaner)
+            {
+                Cleaning servicetomarkasdone = model.GetCleaningToEdit(id);
+
+            }
+
+
+
+        }
         public ActionResult EditRepair(int id)
         {
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
@@ -79,6 +100,7 @@ namespace OdoriRails.Controllers
 
             return View(viewmodel);
         }
+
         [HttpPost]
         public ActionResult EditCleaning(EditCleaningViewModel viewmodel)
         {
@@ -122,5 +144,7 @@ namespace OdoriRails.Controllers
             //TempData["SRModel"] = model;
             return RedirectToAction("Index", "SR");
         }
+
+        
     }
 }
