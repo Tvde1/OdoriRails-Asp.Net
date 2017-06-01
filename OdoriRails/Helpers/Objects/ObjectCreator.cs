@@ -75,27 +75,24 @@ namespace OdoriRails.Helpers.Objects
             var endDate = service[2] == DBNull.Value ? (DateTime?)null : (DateTime)service[2];
             var tramId = (int)service[3];
 
-            var type = (CleaningSize)array[1];
-            var comments = (string)array[2];
+            var type = (CleaningSize)row["Size"];
+            var comments = (string)row["Remarks"];
             var users = GenerateListWithFunction(_serviceContext.GetUsersInServiceById((int)service[0]), CreateUser);
 
             return new Cleaning(id, startDate, endDate, type, comments, users, tramId);
         }
 
         public Repair CreateRepair(DataRow row)
-        {
-            var array = row.ItemArray;
-            var service = _serviceContext.GetServiceById((int)array[0]);
+        {        
+            var id = (int)row["ServicePk"];
+            var startDate = (DateTime)row["StartDate"];
+            var endDate = row["EndDate"] == DBNull.Value ? (DateTime?)null : (DateTime)row["EndDate"];
+            var tramId = (int)row["TramFk"];
 
-            var id = (int)service[0];
-            var startDate = (DateTime)service[1];
-            var endDate = service[2] == DBNull.Value ? (DateTime?)null : (DateTime)service[2];
-            var tramId = (int)service[3];
-
-            var solution = (string)array[1];
-            var defect = (string)array[2];
-            var type = (RepairType)array[3];
-            var users = GenerateListWithFunction(_serviceContext.GetUsersInServiceById((int)service[0]), CreateUser);
+            var solution = (string)row["Solution"];
+            var defect = (string)row["Defect"];
+            var type = (RepairType)row["Type"];
+            var users = GenerateListWithFunction(_serviceContext.GetUsersInServiceById((int)row["ServicePk"]), CreateUser);
 
             return new Repair(id, startDate, endDate, type, defect, solution, users, tramId);
         }

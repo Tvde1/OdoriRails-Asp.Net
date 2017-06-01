@@ -12,11 +12,11 @@ namespace OdoriRails.Controllers
 {
     public class GoogleMapsAPIController : ApiController
     {
-        public GoogleMapsModel Get()
+        public List<Sector> Get()
         {
-            GoogleMapsModel model = new GoogleMapsModel();
-            //Code om model te vullen
-            return model;
+            List<Sector> sectorList = new List<Sector>();
+            //Vul list met sectoren
+            return sectorList;
         }
     }
 }

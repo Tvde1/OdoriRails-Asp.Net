@@ -128,9 +128,9 @@ namespace OdoriRails.Helpers.DAL.Repository
                 _objectCreator.CreateUser);
         }
 
-        public DataTable GetAllRepairsFromTram(int tramId)
+        public List<Repair> GetAllRepairsFromTram(int tramId)
         {
-            return _serviceContext.GetAllRepairsFromTram(tramId);
+            return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllRepairsFromTram(tramId), _objectCreator.CreateRepair);
         }
 
         public List<Cleaning> GetAllCleaningsFromTram(int tramId)

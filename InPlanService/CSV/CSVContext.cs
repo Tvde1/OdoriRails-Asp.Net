@@ -1,11 +1,12 @@
-﻿using System;
+﻿using OdoriRails.Helpers.LogistiekBeheersysteem;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OdoriRails.Helpers.LogistiekBeheersysteem.CSV
+namespace InPlanService
 {
     public class CSVContext : I_CSVContext
     {
@@ -35,7 +36,6 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem.CSV
                         {
                             schema.Add(new InUitRijSchema(schemaArray[0], schemaArray[6], Convert.ToInt32(schemaArray[1])));
                         }
-
                     }
                 }
                 return schema;

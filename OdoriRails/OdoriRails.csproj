@@ -119,6 +119,7 @@
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Geolocation.js" />
     <Content Include="Scripts\Housestyle.css" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -146,14 +147,11 @@
     <Compile Include="Helpers\BaseControllerFunctions.cs" />
     <Compile Include="Helpers\DAL\Repository\BaseRepository.cs" />
     <Compile Include="Helpers\Driver\InUitRitTram.cs" />
-    <Compile Include="Helpers\LogistiekBeheersysteem\CSV\CSVContext.cs" />
-    <Compile Include="Helpers\LogistiekBeheersysteem\CSV\I_CSVContext.cs" />
     <Compile Include="Helpers\LogistiekBeheersysteem\LogistiekLogic.cs" />
     <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\BeheerSector.cs" />
     <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\BeheerTrack.cs" />
     <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\BeheerTram.cs" />
     <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\InUItRijSchema.cs" />
-    <Compile Include="Helpers\LogistiekBeheersysteem\SortingAlgoritm.cs" />
     <Compile Include="Helpers\Objects\Cleaning.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\ILoginContext.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\IServiceContext.cs" />
@@ -188,6 +186,7 @@
     <Compile Include="Models\SRManagement\EditRepairViewModel.cs" />
     <Compile Include="Models\SRManagement\EditCleaningViewModel.cs" />
     <Compile Include="Models\SRManagement\SRModel.cs" />
+    <Compile Include="Models\SRManagement\TramHistoryModel.cs" />
     <Compile Include="Models\UserBeheer\EditUserModel.cs" />
     <Compile Include="Models\UserBeheer\UserBeheerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -213,6 +212,7 @@
     <Content Include="Views\SR\EditRepair.cshtml" />
     <Content Include="Views\SR\AddRepair.cshtml" />
     <Content Include="Views\SR\AddCleaning.cshtml" />
+    <Content Include="Views\SR\TramHistory.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
