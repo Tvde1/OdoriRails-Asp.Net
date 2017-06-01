@@ -11,7 +11,7 @@ using OdoriRails.Helpers.DAL.Repository;
 
 namespace OdoriRails.Controllers
 {
-    public class GoogleMapsAPIController : ApiController
+    public class GoogleMapsAPIController : ApiController 
     {
         public List<ApiTram> Get()
         {
