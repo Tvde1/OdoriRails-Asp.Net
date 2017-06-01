@@ -298,6 +298,7 @@ else
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 <script>
     var map;
+    var markers;
     function initMap() {
 
         var myStyle = [
@@ -336,7 +337,7 @@ else
             },
             center: { lat: 52.348012, lng: 4.852770 },
             zoom: 18,
-            draggable: false,
+            draggable: true,
             scrollwheel: false,
             navigationControl: false,
             mapTypeControl: false,
@@ -348,11 +349,14 @@ else
 
         map.mapTypes.set('myStyle', new google.maps.StyledMapType(myStyle, { name: 'My Style' }));
 
-        
+        var contentString;
 
-        var marker;
+        var infowindowold;
 
-        function addMarker(location, map, labeltext) {
+        var textBox = document.getElementById('Form_TramNumber');
+
+        function addMarker(location, map, labeltext, contentString) {
+            var marker;
             console.log("adding Marker!");
             // Add the marker at the clicked location, and add the next-available label
             // from the array of alphabetical characters.
@@ -364,40 +368,27 @@ else
                 icon: "../../fonts/Icons/TransparantIcon16.gif"
             });
             marker.addListener('click', function () {
+                var infowindow = new google.maps.InfoWindow({
+                    content: contentString
+                });
+                if (infowindowold) {
+                    infowindowold.close();
+                }
                 infowindow.open(map, marker);
+                textBox.value = parseInt(marker.label);
+                infowindowold = infowindow;
             });
         }
         //var coordinates = { lat: 52.348012, lng: 4.852770 };
         //addMarker(coordinates, map);
 
-        var contentString;
-
-        var infowindow = new google.maps.InfoWindow({
-            content: contentString
-        });
-
-        
-
         var requestMethod = function (data) {
-            var long = $('#Longitude');
-            var lat = $('#Latitude');
-            var line = $('#Line');
-            var tracknumber = $('#TrackNumber');
-            var tramnumber = $('#TramNumber');
-            var tracktype = $('#TrackType');
-            var sectornumber = $('#SectorNumber');
-            console.log(long);
-            console.log(lat);
-            console.log(line);
-            console.log(sectornumber);
-            console.log(tramnumber);
-            console.log(tracktype);
-            console.log(tracknumber);
             for (var i = 0; i < data.length; i++) {
-                var lati = parseFloat(data[i].Latitude);
-                var longi = parseFloat(data[i].Longitude)
-                var location = { lati, longi }
-                addMarker(location, map, tramnumber);
+                var lat = parseFloat(data[i].Latitude);
+                var lng = parseFloat(data[i].Longitude);
+                var location = { lat, lng };
+                console.log(String(data[i].TramNumber));
+                console.log(location);
                 contentString = '<div id="content">' +
                     '<div id="siteNotice">' +
                     '</div>' +
@@ -419,8 +410,10 @@ else
                     '</p>' +
                     '</div>' +
                     '</div>';
+                addMarker(location, map, String(data[i].TramNumber), contentString);
             }
         }
+
         var documentReady = function () {
             $.getJSON('/api/GoogleMapsAPI').done(requestMethod);
             console.log("json read!");

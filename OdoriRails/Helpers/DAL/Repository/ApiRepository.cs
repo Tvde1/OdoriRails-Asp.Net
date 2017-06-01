@@ -15,6 +15,8 @@ namespace OdoriRails.Helpers.DAL.Repository
         private readonly List<Sector> _sectors;
         private readonly Dictionary<int, Track> _tracks;
 
+        private Track tempExportTrack;
+
         public ApiRepository()
         {
             _sectors = ObjectCreator.GenerateListWithFunction(_trackSectorContext.GetAllSectors(),
@@ -40,10 +42,25 @@ namespace OdoriRails.Helpers.DAL.Repository
 
         public KeyValuePair<Track, Sector> GetTrackFromTram(Tram tram)
         {
-            var track = _tracks.FirstOrDefault(x => x.Value.Sectors.Exists(y => y.TramId == tram.Number));
-            if (track.Value == null) return new KeyValuePair<Track, Sector>(null, null);
-            var sectors = _sectors.FirstOrDefault(x => x.TrackNumber == track.Key);
-            return new KeyValuePair<Track, Sector>(track.Value, sectors);
+            var sector = _sectors.FirstOrDefault(x => x.TramId == tram.Number);
+
+            
+
+            foreach (var track in _tracks)
+            {
+                foreach (var temp in track.Value.Sectors)
+                {
+                    if (temp == sector)
+                    {
+                        tempExportTrack = track.Value;
+                    }
+                }
+            }
+            //var track = _tracks.FirstOrDefault(x => x.Value.Sectors.Exists(y => x.Key == y.TrackNumber));
+            if (tempExportTrack == null) return new KeyValuePair<Track, Sector>(null, null);
+            //var sectors = _sectors.FirstOrDefault(x => x.TrackNumber == track.Key);
+            
+            return new KeyValuePair<Track, Sector>(tempExportTrack, sector);
         }
     }
 }
