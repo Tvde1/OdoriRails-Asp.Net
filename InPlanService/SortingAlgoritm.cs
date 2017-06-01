@@ -20,7 +20,7 @@ namespace InPlanService
             this.allTracks = allTracks;
         }
 
-        public string AssignTramLocation(BeheerTram tram)
+        public void AssignTramLocation(BeheerTram tram)
         {
             tram.EditTramLocation(TramLocation.In);
 
@@ -35,7 +35,8 @@ namespace InPlanService
                         {
                             BeheerSector beheerSector = BeheerSector.ToBeheerSector(track.Sectors[i]);
                             track.Sectors[i] = Assign(beheerSector, tram);
-                            return String.Format("Moved tram {0} to track: {1}, sector: {2} ({3})", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1, tram.Status.ToString());
+                            Console.WriteLine("Moved tram {0} to track: {1}, sector: {2} ({3})", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1, tram.Status.ToString());
+                            return;
                         }
                     }
                 }
@@ -50,7 +51,8 @@ namespace InPlanService
                     {
                         BeheerSector beheerSector = BeheerSector.ToBeheerSector(track.Sectors[i]);
                         track.Sectors[i] = Assign(beheerSector, tram);
-                        return String.Format("Moved tram {0} to track: {1}, sector: {2}", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1);
+                        Console.WriteLine("Moved tram {0} to track: {1}, sector: {2}", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1);
+                        return;
                     }
 
                     if (track.Sectors[i].Status == SectorStatus.Occupied && track.Sectors[i].OccupyingTram.DepartureTime < tram.DepartureTime)
@@ -59,7 +61,8 @@ namespace InPlanService
                         {
                             BeheerSector beheerSector = BeheerSector.ToBeheerSector(track.Sectors[i + 1]);
                             track.Sectors[i + 1] = Assign(beheerSector, tram);
-                            return String.Format("Moved tram {0} to track: {1}, sector: {2}", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1);
+                            Console.WriteLine("Moved tram {0} to track: {1}, sector: {2}", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1);
+                            return;
                         }
                     }
                 }
@@ -74,7 +77,8 @@ namespace InPlanService
                     {
                         BeheerSector beheerSector = BeheerSector.ToBeheerSector(track.Sectors[i]);
                         track.Sectors[i] = Assign(beheerSector, tram);
-                        return String.Format("Moved tram {0} to track: {1}, sector: {2}", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1);
+                        Console.WriteLine("Moved tram {0} to track: {1}, sector: {2}", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1);
+                        return;
                     }
                     else if (track.Sectors[i].Status == SectorStatus.Occupied && track.Sectors[i].OccupyingTram.DepartureTime < tram.DepartureTime)
                     {
@@ -82,7 +86,8 @@ namespace InPlanService
                         {
                             BeheerSector beheerSector = BeheerSector.ToBeheerSector(track.Sectors[i + 1]);
                             track.Sectors[i + 1] = Assign(beheerSector, tram);
-                            return String.Format("Moved tram {0} to track: {1}, sector: {2}", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1);
+                            Console.WriteLine("Moved tram {0} to track: {1}, sector: {2}", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1);
+                            return;
                         }
                     }
                 }
@@ -97,7 +102,8 @@ namespace InPlanService
                     {
                         BeheerSector beheerSector = BeheerSector.ToBeheerSector(track.Sectors[i]);
                         track.Sectors[i] = Assign(beheerSector, tram);
-                        return String.Format("Moved tram {0} to track: {1}, sector: {2}", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1);
+                        Console.WriteLine("Moved tram {0} to track: {1}, sector: {2}", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1);
+                        return;
                     }
                     else if (track.Sectors[i].Status == SectorStatus.Occupied && track.Sectors[i].OccupyingTram.DepartureTime < tram.DepartureTime)
                     {
@@ -105,7 +111,8 @@ namespace InPlanService
                         {
                             BeheerSector beheerSector = BeheerSector.ToBeheerSector(track.Sectors[i + 1]);
                             track.Sectors[i + 1] = Assign(beheerSector, tram);
-                            return String.Format("Moved tram {0} to track: {1}, sector: {2}", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1);
+                            Console.WriteLine("Moved tram {0} to track: {1}, sector: {2}", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1);
+                            return;
                         }
                     }
                     else if (track.Sectors[i].Status == SectorStatus.Occupied && track.Sectors[0].OccupyingTram.DepartureTime == null)
@@ -114,14 +121,15 @@ namespace InPlanService
                         {
                             BeheerSector beheerSector = BeheerSector.ToBeheerSector(track.Sectors[i + 1]);
                             track.Sectors[i + 1] = Assign(beheerSector, tram);
-                            return String.Format("Moved tram {0} to track: {1}, sector: {2}", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1);
+                            Console.WriteLine("Moved tram {0} to track: {1}, sector: {2}", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1);
+                            return;
                         }
                     }
                 }
             }
 
             //If not successful let user place tram
-            return String.Format("Could not move tram {0}, please move manually.", tram.Number);
+            Console.WriteLine("Could not move tram {0}, please move manually.", tram.Number);
         }
 
         public BeheerSector Assign(BeheerSector sector, BeheerTram tram)
