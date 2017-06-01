@@ -14,7 +14,6 @@ namespace OdoriRails
             //    "mainmenu/{action}/{id}",
             //    new {controller = "SRMainMenu", action = "Index", id = UrlParameter.Optional}
             //);
-
             routes.MapRoute(
                 "Default",
                 "{controller}/{action}/{id}",
