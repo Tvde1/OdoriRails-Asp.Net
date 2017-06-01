@@ -97,9 +97,30 @@ namespace OdoriRails.Controllers
             Cleaning changedCleaning = new Cleaning(viewmodel.Id, viewmodel.StartDate, viewmodel.EndDate, viewmodel.Size, viewmodel.Comment, listusers, viewmodel.TramID);
             _Repo.EditService(changedCleaning);
             model.Error = "Cleaning posted succesfully!";
-            //TempData["SRModel"] = model;
+            //TempData["SRModel"] = model; 
             return RedirectToAction("Index", "SR");
         }
 
+        [HttpPost]
+        public ActionResult EditRepair(EditRepairViewModel viewmodel)
+        {
+            SRModel model = new SRModel();
+            List<User> listusers = new List<User>();
+
+            foreach (var user in viewmodel.AssignedWorkers)
+            {
+                if (user.Value)
+                {
+                    User usertoinsert = _Repo.GetUserFromName(user.Key);
+                    listusers.Add(usertoinsert);
+                }
+            }
+
+            Repair changedRepair = new Repair(viewmodel.StartDate, viewmodel.EndDate, viewmodel.Size, viewmodel.Defect, viewmodel.Solution, listusers, viewmodel.TramID);
+            _Repo.EditService(changedRepair);
+            model.Error = "Repair posted succesfully!";
+            //TempData["SRModel"] = model;
+            return RedirectToAction("Index", "SR");
+        }
     }
 }
