@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using OdoriRails.Helpers.LogistiekBeheersysteem.ObjectClasses;
 
 namespace OdoriRails.Helpers.LogistiekBeheersysteem
 {
