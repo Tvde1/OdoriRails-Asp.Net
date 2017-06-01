@@ -24,7 +24,8 @@ namespace OdoriRails.Controllers
             foreach (var tram in trams)
             {
                 var tramData = _repository.GetTrackFromTram(tram);
-                list.Add(new ApiTram(tram.Number, tramData.Key?.Number, tramData.Value.Number, tramData.Value.Latitude, tramData.Value.Longitude, tramData.Key?.Type, tram.Line));
+                if (tramData.Key == null) continue;
+                list.Add(new ApiTram(tram.Number, tramData.Key?.Number, tramData.Value?.Number, tramData.Value?.Latitude, tramData.Value?.Longitude, (int?)tramData.Key?.Type, tram.Line));
             }
             return list;
         }

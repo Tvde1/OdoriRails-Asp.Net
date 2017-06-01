@@ -9,12 +9,12 @@ namespace OdoriRails
     {
         public static void Register(HttpConfiguration config)
         {
-            config.MapHttpAttributeRoutes();
+            //config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                "Api Default",
+                "api/{controller}/{id}",
+                new { id = RouteParameter.Optional }
             );
         }
     }

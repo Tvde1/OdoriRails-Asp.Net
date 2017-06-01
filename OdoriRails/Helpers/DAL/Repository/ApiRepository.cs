@@ -22,6 +22,11 @@ namespace OdoriRails.Helpers.DAL.Repository
                 _objectCreator.CreateSector);
             _tracks = ObjectCreator.GenerateListWithFunction(_trackSectorContext.GetAllTracks(),
                 ObjectCreator.CreateTrack);
+
+            foreach (var sector in _sectors)
+            {
+                _tracks.FirstOrDefault(x =>x.Number == sector.TrackNumber).AddSector(sector);
+            }
         }
 
         public List<Tram> GetAllTrams()
