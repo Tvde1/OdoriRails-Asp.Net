@@ -49,19 +49,17 @@ namespace InPlanService
             }
         }
 
-        private string SortMovingTrams(TramLocation location)
+        private bool SortMovingTrams(TramLocation location)
         {
             List<Tram> movingTrams = _repo.GetAllTramsWithLocation(location);
-            if (movingTrams.Count == 0) return null;
-
-            UpdateTracks();
-            SortingAlgoritm sorter = new SortingAlgoritm(_allTracks, _repo);
-            for (int i = 0; i < movingTrams.Count; i++)
+            if (movingTrams.Count != 0)
             {
-                BeheerTram beheerTram = BeheerTram.ToBeheerTram(movingTrams[i]);
-                switch (location)
+                UpdateTracks();
+                SortingAlgoritm sorter = new SortingAlgoritm(_allTracks, _repo);
+                for (int i = 0; i < movingTrams.Count; i++)
                 {
-                    case TramLocation.ComingIn:
+                    BeheerTram beheerTram = BeheerTram.ToBeheerTram(movingTrams[i]);
+                    if (location == TramLocation.ComingIn)
                     {
                         if (movingTrams[i].DepartureTime == null)
                         {
@@ -69,13 +67,13 @@ namespace InPlanService
                         }
                         sorter.AssignTramLocation(beheerTram);
                     }
-                    case TramLocation.GoingOut:
+                    else if (location == TramLocation.GoingOut)
                     {
                         beheerTram.EditTramLocation(TramLocation.Out);
                         movingTrams[i] = beheerTram;
                         _repo.EditTram(movingTrams[i]);
                         _repo.WipeSectorByTramId(movingTrams[i].Number);
-                        return $"Tram {beheerTram.Number} left the remise.";
+                        Console.WriteLine($"Tram {beheerTram.Number} left the remise.");
                     }
                 }
                 return true;
