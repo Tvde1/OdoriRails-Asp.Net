@@ -21,18 +21,18 @@
         <br/>
         <label>Cleaning Size:</label>
         <br/>
-        <input type="radio" name="Size" value="@Model.CleaningToChange.Size == @CleaningSize.Small"/>
-        <input type="radio" name="Size" value="@Model.CleaningToChange.Size == @CleaningSize.Big"/>
+        <input type="radio" name="Size" value="@Model.CleaningToChange.Size == @CleaningSize.Small"/>Small<br/>
+        <input type="radio" name="Size" value="@Model.CleaningToChange.Size == @CleaningSize.Big"/>Big<br/>
 
-        <br /><label> Comment:</label><br />
+        <br /><label> Comment:</label><br/>
         <input type="text" name="Comment" value="@Model.CleaningToChange.Comments"/>
-        <label> Tram Nummer:</label><br />
+        <label> Tram Nummer:</label><br/>
         <input type="text" name="TramId" value="@Model.CleaningToChange.TramId" />
-        <label>Assigned Users:</label><br />
+        <label>Assigned Users:</label><br/>
 
         @foreach (var user in Model.AssignedWorkers)
         {
-            @Html.CheckBoxFor(x => x.AssignedWorkers[user.Key]) @user.Key
+            @Html.CheckBoxFor(x => x.AssignedWorkers[user.Key]) @user.Key <br/>
 
         }
 
