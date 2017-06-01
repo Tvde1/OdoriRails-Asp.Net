@@ -20,14 +20,11 @@ namespace OdoriRails.Helpers.DAL.Contexts
         public DataTable GetAllRepairsFromUser(User user)
         {
             var command = new SqlCommand(@"
-SELECT Repair.*
-FROM Repair INNER JOIN
-(SELECT Service.ServicePk
-FROM Service INNER JOIN
-(SELECT ServiceUser.ServiceCk
-FROM ServiceUser INNER JOIN
-[User] ON ServiceUser.UserCk = [User].UserPk
-WHERE ([User].UserPk = @userid)) AS derivedtbl_1 ON Service.ServicePk = derivedtbl_1.ServiceCk) AS derivedtbl_2 ON Repair.ServiceFk = derivedtbl_2.ServicePk");
+SELECT R.ServiceFk, S.StartDate, S.EndDate, S.TramFk, R.Solution, R.Defect, R.Type
+FROM Repair R INNER JOIN Service S 
+ON R.ServiceFk = S.ServicePk 
+WHERE S.ServicePk IN 
+(SELECT ServiceCK FROM ServiceUser WHERE UserCk = @userid);");
             command.Parameters.AddWithValue("@userid", user.Id);
 
             return DatabaseHandler.GetData(command);
