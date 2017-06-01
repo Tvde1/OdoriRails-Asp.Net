@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OdoriRails", "OdoriRails\OdoriRails.csproj", "{20E46844-6914-470F-8DDA-E1BB9DD09143}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OdoriRails.Tests", "OdoriRails.Tests\OdoriRails.Tests.csproj", "{A86CA3E1-C96E-4A02-B67C-C047D82C30A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InPlanService", "InPlanService\InPlanService.csproj", "{421749A9-CDD7-4856-82D5-FB6DD8A5F58A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{A86CA3E1-C96E-4A02-B67C-C047D82C30A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A86CA3E1-C96E-4A02-B67C-C047D82C30A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A86CA3E1-C96E-4A02-B67C-C047D82C30A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{421749A9-CDD7-4856-82D5-FB6DD8A5F58A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{421749A9-CDD7-4856-82D5-FB6DD8A5F58A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{421749A9-CDD7-4856-82D5-FB6DD8A5F58A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{421749A9-CDD7-4856-82D5-FB6DD8A5F58A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
