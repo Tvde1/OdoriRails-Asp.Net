@@ -18,7 +18,7 @@
         /// <param name="tramId"></param>
         /// <param name="latitude"></param>
         /// <param name="longitude"></param>
-        public Sector(int number, int trackNumber, SectorStatus status, int? tramId, decimal latitude, decimal longitude)
+        public Sector(int number, int trackNumber, SectorStatus status, int? tramId, decimal? latitude, decimal? longitude)
         {
             Number = number;
             Status = status;
@@ -42,8 +42,8 @@
         public Tram OccupyingTram { get; set; }
         public int TrackNumber { get; }
         public int? TramId { get; }
-        public decimal Latitude { get; }
-        public decimal Longitude { get; }
+        public decimal? Latitude { get; }
+        public decimal? Longitude { get; }
 
         public void SetTram(Tram tram)
         {

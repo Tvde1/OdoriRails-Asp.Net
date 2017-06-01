@@ -53,7 +53,7 @@ namespace InPlanService
                         movingTrams[i] = beheerTram;
                         _repo.EditTram(movingTrams[i]);
                         _repo.WipeSectorByTramId(movingTrams[i].Number);
-                        Console.WriteLine("Tram {0} left the remise.", beheerTram.Number);
+                        Console.WriteLine($"Tram {beheerTram.Number} left the remise.");
                     }
                 }
                 return true;
