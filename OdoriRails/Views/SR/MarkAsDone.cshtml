@@ -1,4 +1,5 @@
 ﻿@using System.Web.Mvc.Html
+@using System.Web.UI.WebControls
 @using OdoriRails.Helpers.Objects
 @model OdoriRails.Models.SRManagement.MarkAsDoneViewModel
 @{
@@ -6,4 +7,21 @@
 }
 
 <h2>Mark this task as Done</h2>
+@using (Html.BeginForm("MarkAsDone", "SR", FormMethod.Post))
+{
+    if (@Model.User.Role == Role.Cleaner || @Model.User.Role == Role.HeadCleaner)
+    { 
+        <p>Vul de tekstveld met een opmerking en druk op submit om de taak te beindigen.</p>
+        <p>Opmerkingen:</p><input type="text" name="Comment" value="@Model.CleaningMarkAsDone.Comments" size="150" />
+    }
+    if (@Model.User.Role == Role.Engineer || @Model.User.Role == Role.HeadEngineer)
+    { 
+        <p>Vul de tekstveld met de uitgevoerde oplossing en druk op submit om de taak te beindigen.</p>
+        <p>Opmerkingen:</p><input type="text" name="Comment" value="@Model.RepairMarkAsDone.Solution" size="150" />
+    }
+    <br/>
+    <input type="submit" value="EditRepair"/>
+
+}
+
 

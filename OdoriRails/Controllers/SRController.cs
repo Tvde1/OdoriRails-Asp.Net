@@ -153,17 +153,18 @@ namespace OdoriRails.Controllers
             var user = (User)result;
             if (user.Role == Role.HeadEngineer || user.Role == Role.Engineer)
             {
-                _Repo.SetTramStatusToIdle(viewmodel.RepairMarkAsDone.TramId);
-                _Repo.AddSolution(viewmodel.RepairMarkAsDone, viewmodel.Solution); 
+                _Repo.SetTramStatusToIdle(viewmodel.RepairMarkAsDone.TramId);               
                 viewmodel.RepairMarkAsDone.EndDate = DateTime.Now;
                 _Repo.EditService(viewmodel.RepairMarkAsDone);
 
             }
             if (user.Role == Role.HeadCleaner || user.Role == Role.Cleaner)
             {
-               
+                viewmodel.CleaningMarkAsDone.EndDate = DateTime.Now;
+                _Repo.SetTramStatusToIdle(viewmodel.CleaningMarkAsDone.TramId);
+                _Repo.EditService(viewmodel.CleaningMarkAsDone);
             }
-            return null;
+            return RedirectToAction("Index");
         }
 
         
