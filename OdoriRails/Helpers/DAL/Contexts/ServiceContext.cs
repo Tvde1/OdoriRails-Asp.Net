@@ -198,13 +198,16 @@ WHERE (ServiceUser.UserCk IS NULL)) AS derivedtbl_1 ON Clean.ServiceFk = derived
         public DataTable GetAllRepairsFromTram(int tramId)
         {
             return DatabaseHandler.GetData(new SqlCommand(
-                $"SELECT S.TramFK, R.Defect, R.Solution, S.StartDate, S.EndDate FROM Repair R INNER JOIN Service S ON R.ServiceFk = S.ServicePk AND S.TramFk = {tramId} ORDER BY S.TramFk "));
+                $"SELECT S.ServicePk, S.TramFK, R.Defect, R.Solution, R.Type, S.StartDate, S.EndDate FROM Repair R INNER JOIN Service S ON R.ServiceFk = S.ServicePk AND S.TramFk = {tramId} ORDER BY S.TramFk"));
         }
 
         public DataTable GetAllCleaningsFromTram(int tramId)
         {
-            var command = new SqlCommand($"SELECT * FROM Cleaning WHERE TramFk = @tramid");
-            command.Parameters.AddWithValue("@tramid", tramId);
+            var command = new SqlCommand(@"SELECT Service.ServicePk, Clean.ServiceFk, Clean.Size, Clean.Remarks
+            FROM Clean INNER JOIN
+            Service ON Clean.ServiceFk = Service.ServicePk
+            WHERE(Service.TramFk = @id)");
+            command.Parameters.AddWithValue("@id", tramId);
 
             return DatabaseHandler.GetData(command);
         }

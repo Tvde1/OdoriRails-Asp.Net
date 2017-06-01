@@ -24,6 +24,7 @@ namespace OdoriRails.Helpers.DAL
             }
             catch (Exception ex)
             {
+                var newCommand = command;
                 //MessageBox.Show("Lost connection to the database.");
                 //return null;
                 throw;
