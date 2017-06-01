@@ -14,15 +14,28 @@ namespace InPlanService
         static void Main(string[] args)
         {
             server = new LogistiekInPlanServer();
-            Timer CheckForChanges = new Timer(2500);
+            Timer CheckForChanges = new Timer(5000);
             CheckForChanges.Elapsed += new ElapsedEventHandler(CheckForChanges_Tick);
             CheckForChanges.Enabled = true;
-            Console.ReadLine();
+
+            Console.Title = "OdoriRails Scheduler Server";
+            Console.WriteLine("© 2017 - OdoriRails BV");
+            Console.WriteLine("Press escape to exit.");
+            Console.WriteLine();
+
+            while (Console.ReadKey(true).Key != ConsoleKey.Escape) { }
+            Console.Clear();
+            Console.WriteLine("Closing...");
         }
 
         private static void CheckForChanges_Tick(object sender, ElapsedEventArgs e)
         {
-            server.FetchUpdates();
+            string tramsComingIn = server.FetchTramsComingIn();
+            string tramsGoingOut = server.FetchTramsGoingOut();
+            if (!String.IsNullOrEmpty(tramsComingIn))
+                Console.WriteLine(tramsComingIn);
+            if (!String.IsNullOrEmpty(tramsGoingOut))
+                Console.WriteLine(tramsGoingOut);
         }
     }
 }
