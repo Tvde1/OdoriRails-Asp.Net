@@ -1,27 +1,44 @@
-﻿@using OdoriRails.Helpers.Objects
-
+﻿@using System.Web.Mvc.Html
+@using OdoriRails.Helpers.Objects
+@model OdoriRails.Models.SRManagement.AddRepairModel
 @{
     ViewBag.Title = "AddRepair";
 }
 
 <h2>Add Repair</h2>
+@using (Html.BeginForm("AddRepair", "SR", FormMethod.Post))
+{
+    <p>
+        <label>Start Date:</label>
+        <br/>
+        <input type="date" name="StartDate" value="@Model.StartDate"/>
+        <br/>
+        <label>End Date:</label>
+        <br/>
+        <input type="date" name="EndDate" value="@Model.EndDate"/>
+        <br/>
+        <label>Cleaning Size:</label>
+        <br/>
+        <input type="radio" name="Type" value="@Model.Type == @RepairType.Maintenance"/>Maintenance<br/>
+        <input type="radio" name="Type" value="@Model.Type == @RepairType.Repair"/>Repair<br/>
 
-<form method="post">
-    <label for="StartDate">Start Date:</label> <br>
-    <input type="date" name="startDate" value=""><br>
-    <label for="EndDate">End Date:</label> <br><br>
-    <input type="date" name="endDate" value=""><br><br>
-    <label for="Type">Cleaning Size:</label> <br><br>
-    <input type="radio" name="Size" value="" checked> Small<br>
-    <input type="radio" name="Size" value=""> Big<br>
-    <label for="Defect">Defect:</label> <br><br>
-    <input type="text" name="Defect" value=""><br><br>
-    <label for="AssignedUsers">Assigned Users:</label>
+        <br/><label> Defect:</label><br/>
+        <input type="text" name="Defect" value="@Model.Defect"/>
+        <br/><label> Oplossing:</label><br/>
+        <input type="text" name="Solution" value="@Model.Solution"/>
+        <br /><label> Tram Nummer:</label><br/>
+        <input type="text" name="TramId" value="@Model.TramID"/>
+        <br /><label>Assigned Users:</label><br/><br />
 
-    @foreach (var user in Model.Engineers)
-    {
-        <p><input type="checkbox" name="@user.Name" value=@user.Id>@user.Name</p>
-    }
+        @foreach (var user in Model.AssignedWorkers)
+        {
+            @Html.CheckBoxFor(x => x.AssignedWorkers[user.Key])
+            @user.Key
+            <br/>
 
-    <input type="submit" value="AddRepair">
-</form> 
+        }
+        <br /><br />
+        <input type="submit" value="AddRepair"/>
+
+    </p>
+}

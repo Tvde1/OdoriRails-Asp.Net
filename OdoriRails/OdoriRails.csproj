@@ -189,10 +189,12 @@
     <Compile Include="Models\LogistiekBeheer\FormResultModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\LogistiekBeheer\LogistiekBeheerModel.cs" />
+    <Compile Include="Models\SRManagement\AddRepairModel.cs" />
+    <Compile Include="Models\SRManagement\AddCleaningModel.cs" />
     <Compile Include="Models\SRManagement\EditRepairViewModel.cs" />
     <Compile Include="Models\SRManagement\EditCleaningViewModel.cs" />
     <Compile Include="Models\SRManagement\MarkAsDoneViewModel.cs" />
-    <Compile Include="Models\SRManagement\SRModel.cs" />
+    <Compile Include="Models\SRManagement\SRLogic.cs" />
     <Compile Include="Models\SRManagement\TramHistoryModel.cs" />
     <Compile Include="Models\UserBeheer\EditUserModel.cs" />
     <Compile Include="Models\UserBeheer\UserBeheerModel.cs" />

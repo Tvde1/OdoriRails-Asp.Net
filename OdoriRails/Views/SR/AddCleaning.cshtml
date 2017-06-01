@@ -1,30 +1,41 @@
-﻿@using OdoriRails.Helpers.Objects
-
+﻿@using System.Web.Mvc.Html
+@using OdoriRails.Helpers.Objects
+@model OdoriRails.Models.SRManagement.AddCleaningModel
 @{
     ViewBag.Title = "AddCleaning";
 }
 
 <h2>Add Cleaning</h2>
 
-@using (Html.BeginForm("Index", "SR", FormMethod.Post))
+@using (Html.BeginForm("AddCleaning", "SR", FormMethod.Post))
 {
     <p>
-        <label for="StartDate">Start Date:</label> <br />
-        <input type="date" name="startDate" value=""><br />
-        <label for="EndDate">End Date:</label> <br /><br />
-        <input type="date" name="endDate" value=""><br /><br />
-        <label for="Size">Cleaning Size:</label> <br /><br />
-        <input type="radio" name="Size" value="" checked />Small<br />
-        <input type="radio" name="Size" value=""> Big<br>
-        <label for="Size">Comment:</label> <br><br>
-        <input type="text" name="Comment" value=""><br><br>
-        <label for="AssignedUsers">Assigned Users:</label>
+        <label>Start Date:</label>
+        <br />
+        <input type="date" name="StartDate" value="@Model.StartDate" />
+        <br />
+        <label>End Date:</label>
+        <br />
+        <input type="date" name="EndDate" value="@Model.EndDate" />
+        <br />
+        <label>Cleaning Size:</label>
+        <br />
+        <input type="radio" name="Size" value="@Model.Size == @CleaningSize.Small" />Small<br />
+        <input type="radio" name="Size" value="@Model.Size == @CleaningSize.Big" />Big<br />
 
-        @foreach (var user in Model.Cleaners)
+        <br /><label> Comment:</label><br />
+        <input type="text" name="Comment" value="@Model.Comment" />
+        <label> Tram Nummer:</label><br />
+        <input type="text" name="TramId" value="@Model.TramID" />
+        <label>Assigned Users:</label><br />
+
+        @foreach (var user in Model.AssignedWorkers)
         {
-        <p><input type="checkbox" name="@user.Name" value=@user.Id>@user.Name</p>
+            @Html.CheckBoxFor(x => x.AssignedWorkers[user.Key]) @user.Key <br />
+
         }
 
-        <input type="submit" value="AddCleaning">
-        </p>
+        <input type="submit" value="AddCleaning" />
+
+    </p>
 }
