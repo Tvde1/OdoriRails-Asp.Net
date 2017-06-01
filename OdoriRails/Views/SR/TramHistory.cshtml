@@ -4,6 +4,14 @@
     ViewBag.Title = "TramHistory";
 }
 
+
+<h4>Tram Nummer:</h4>
+
+
+    @Html.TextBoxFor(x => x.TramId, new {@class="form-control", id = "tramId"})
+    <button class="btn form-control btn-default" onclick="location.href=`/SR/TramHistory/${$('#tramId').val()}`;">Ververs</button>
+
+
 <h2>Tram History</h2>
 
 <h4>Reparaties</h4>

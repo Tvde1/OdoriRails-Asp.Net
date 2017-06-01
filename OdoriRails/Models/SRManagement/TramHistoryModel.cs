@@ -17,7 +17,7 @@ namespace OdoriRails.Models.SRManagement
 
         public void GetServices()
         {
-            if (TramId == -1) throw new Exception("Tram is null?!");
+            //if (TramId == -1) throw new Exception("Tram is null?!");
             Cleans = _repository.GetAllCleaningsFromTram(TramId);
             Repairs = _repository.GetAllRepairsFromTram(TramId);
         }
