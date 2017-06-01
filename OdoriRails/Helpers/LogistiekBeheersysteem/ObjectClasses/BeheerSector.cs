@@ -27,14 +27,7 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem.ObjectClasses
         /// </summary>
         public void UnLock()
         {
-            if (OccupyingTram == null)
-            {
-                Status = SectorStatus.Open;
-            }
-            else
-            {
-                Status = SectorStatus.Occupied;
-            }
+            Status = OccupyingTram == null ? SectorStatus.Open : SectorStatus.Occupied;
         }
 
         /// <summary>
@@ -44,13 +37,9 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem.ObjectClasses
         public bool SetOccupyingTram(Tram tram)
         {
             if (Status == SectorStatus.Locked || Status == SectorStatus.Occupied) return false;
-            else
-            {
-                Status = SectorStatus.Occupied;
-                OccupyingTram = tram;
-                return true;
-            }
-
+            Status = SectorStatus.Occupied;
+            OccupyingTram = tram;
+            return true;
         }
     }
 }
