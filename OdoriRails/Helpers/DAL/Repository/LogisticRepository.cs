@@ -100,8 +100,10 @@ namespace OdoriRails.Helpers.DAL.Repository
 
             foreach (var sector in sectors)
             {
-                if (sector.TramId == null) continue;
-                sector.OccupyingTram = trams[(int)sector.TramId];
+                if (sector.TramId != null)
+                {
+                    sector.OccupyingTram = trams[(int)sector.TramId];
+                }
                 tracks[sector.TrackNumber].AddSector(sector);
             }
 

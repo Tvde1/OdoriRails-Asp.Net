@@ -1,12 +1,9 @@
-﻿using OdoriRails.Helpers.LogistiekBeheersysteem;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OdoriRails.Helpers.LogistiekBeheersysteem;
 
-namespace InPlanService
+namespace InPlanService.CSV
 {
     public class CSVContext : I_CSVContext
     {

@@ -1,21 +1,17 @@
 ﻿using OdoriRails.Helpers.Objects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
-namespace OdoriRails.Helpers.LogistiekBeheersysteem
+namespace OdoriRails.Helpers.LogistiekBeheersysteem.ObjectClasses
 {
     public class BeheerSector : Sector
     {
-        public BeheerSector(int number, int trackNumber, SectorStatus status, Tram tram) : base(number, trackNumber, status, tram.Number)
+        private BeheerSector(int number, int trackNumber, SectorStatus status, Tram tram, string latitude, string longitude) : base(number, trackNumber, status, tram?.Number, latitude, longitude)
         {
             SetTram(tram);
         }
 
         public static BeheerSector ToBeheerSector(Sector sector)
         {
-            return new BeheerSector(sector.Number, sector.TrackNumber, sector.Status, sector.OccupyingTram);
+            return new BeheerSector(sector.Number, sector.TrackNumber, sector.Status, sector.OccupyingTram, sector.Latitude, sector.Longitude);
         }
 
         /// <summary>
@@ -31,14 +27,7 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
         /// </summary>
         public void UnLock()
         {
-            if (OccupyingTram == null)
-            {
-                Status = SectorStatus.Open;
-            }
-            else
-            {
-                Status = SectorStatus.Occupied;
-            }
+            Status = OccupyingTram == null ? SectorStatus.Open : SectorStatus.Occupied;
         }
 
         /// <summary>
@@ -48,13 +37,9 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
         public bool SetOccupyingTram(Tram tram)
         {
             if (Status == SectorStatus.Locked || Status == SectorStatus.Occupied) return false;
-            else
-            {
-                Status = SectorStatus.Occupied;
-                OccupyingTram = tram;
-                return true;
-            }
-
+            Status = SectorStatus.Occupied;
+            OccupyingTram = tram;
+            return true;
         }
     }
 }

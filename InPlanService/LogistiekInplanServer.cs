@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Web;
+using InPlanService.CSV;
 
 namespace InPlanService
 {
@@ -21,18 +22,22 @@ namespace InPlanService
 
         public LogistiekInPlanServer()
         {
-        //    if (testing == true)
-        //    {
-        //        simulationSpeed = 50;
-        //    }
+            //    if (testing == true)
+            //    {
+            //        simulationSpeed = 50;
+            //    }
             csv = new CSVContext();
             schema = csv.getSchema();
         }
 
-        public void FetchUpdates()
+        public string FetchTramsComingIn()
         {
-            SortMovingTrams(TramLocation.ComingIn);
-            SortMovingTrams(TramLocation.GoingOut);
+            return SortMovingTrams(TramLocation.ComingIn);
+        }
+
+        public string FetchTramsGoingOut()
+        {
+            return SortMovingTrams(TramLocation.GoingOut);
         }
 
         public void UpdateTracks()
@@ -44,7 +49,7 @@ namespace InPlanService
             }
         }
 
-        public void SortMovingTrams(TramLocation location)
+        public string SortMovingTrams(TramLocation location)
         {
             List<Tram> movingTrams = repo.GetAllTramsWithLocation(location);
             if (movingTrams.Count != 0)
@@ -60,7 +65,7 @@ namespace InPlanService
                         {
                             GetExitTime(beheerTram);
                         }
-                        sorter.AssignTramLocation(beheerTram);
+                        return sorter.AssignTramLocation(beheerTram);
                     }
                     else if (location == TramLocation.GoingOut)
                     {
@@ -68,9 +73,11 @@ namespace InPlanService
                         movingTrams[i] = beheerTram;
                         repo.EditTram(movingTrams[i]);
                         repo.WipeSectorByTramId(movingTrams[i].Number);
+                        return String.Format("Tram {0} left the remise.", beheerTram.Number);
                     }
                 }
             }
+            return null;
         }
 
         public DateTime? GetExitTime(BeheerTram tram)
