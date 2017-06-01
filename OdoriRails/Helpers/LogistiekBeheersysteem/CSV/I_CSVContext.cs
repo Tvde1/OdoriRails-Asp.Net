@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OdoriRails.Helpers.LogistiekBeheersysteem.CSV
 {
-    interface I_CSVContext
+    public interface I_CSVContext
     {
         List<InUitRijSchema> getSchema();
     }
