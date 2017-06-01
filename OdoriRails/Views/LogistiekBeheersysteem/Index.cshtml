@@ -295,6 +295,7 @@ else
     <div style="border-radius: 4px; margin-top: 10px; height: 800px; width: 100%;" id="map"></div>
 </div>
 </div>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 <script>
     var map;
     function initMap() {
@@ -375,12 +376,9 @@ else
             content: contentString
         });
 
-        var DocumentReady = function () {
-            $.getJSON('/api/GoogleMapsAPI').done(RequestMethod);
-            console.log("json read!");
-        }
+        
 
-        var RequestMethod = function (data) {
+        var requestMethod = function (data) {
             var long = $('#Longitude');
             var lat = $('#Latitude');
             var line = $('#Line');
@@ -388,36 +386,47 @@ else
             var tramnumber = $('#TramNumber');
             var tracktype = $('#TrackType');
             var sectornumber = $('#SectorNumber');
+            console.log(long);
+            console.log(lat);
+            console.log(line);
+            console.log(sectornumber);
+            console.log(tramnumber);
+            console.log(tracktype);
+            console.log(tracknumber);
             for (var i = 0; i < data.length; i++) {
-                var location = { lat, long }
+                var lati = parseFloat(data[i].Latitude);
+                var longi = parseFloat(data[i].Longitude)
+                var location = { lati, longi }
                 addMarker(location, map, tramnumber);
                 contentString = '<div id="content">' +
                     '<div id="siteNotice">' +
                     '</div>' +
                     '<h1 id="firstHeading" class="firstHeading">' +
-                    'temp' +
+                    String(data[i].TramNumber) +
                     '</h1>' +
                     '<div id="bodyContent">' +
                     '<p>Tracknumber: ' +
-                    tracknumber +
+                    String(data[i].TrackNumber) +
                     '</p>' +
                     '<p>Tracktype: ' +
-                    tracktype +
+                    String(data[i].TrackType) +
                     '</p>' +
                     '<p>Sectornumber: ' +
-                    sectornumber +
+                    String(data[i].SectorNumber) +
                     '</p>' +
                     '<p>Line: ' +
-                    line +
+                    String(data[i].Line) +
                     '</p>' +
                     '</div>' +
                     '</div>';
             }
         }
-
-        $(document).ready(DocumentReady);
+        var documentReady = function () {
+            $.getJSON('/api/GoogleMapsAPI').done(requestMethod);
+            console.log("json read!");
+        }
+        $(document).ready(documentReady());
     }
-
 
 
     
