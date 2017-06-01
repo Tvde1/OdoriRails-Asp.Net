@@ -16,9 +16,19 @@ namespace OdoriRails.Models.SRManagement
         public Repair RepairToEdit { get; set; }
         public Cleaning CleaningToEdit { get; set; }
 
-        public List<int> AssignedWorkers { get; set; }
+        public Dictionary<string, bool> AssignedWorkers { get; set; }
         public List<User> Cleaners { get; set; }
         public List<User> Engineers { get; set; }
+
+        public SRModel()
+        {
+    
+            //If repair, workers = list of repairmen
+            //if clean workers = list of cleanerd
+
+            var workers;
+            AssignedWorkers = workers.ToDictionary(x => x.Name, x => false);
+        }
 
         
         public Repair GetRepairToEdit(int id)

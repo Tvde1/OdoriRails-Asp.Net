@@ -8,22 +8,31 @@
 
 <h2>EditService</h2>
 
-<form method="post">
-    <label for="StartDate">Start Date:</label> <br>
-    <input type="date" name="startDate" value="@Model.RepairToEdit.StartDate"><br>
-    <label for="EndDate">End Date:</label> <br><br>
-    <input type="date" name="endDate" value="@Model.RepairToEdit.EndDate"><br><br>
-    <label for="Size">Cleaning Size:</label> <br><br>
-    <input type="radio" name="Size" value="@(Model.RepairToEdit.Type == CleaningSize.Small)" checked> Small<br>
-    <input type="radio" name="Size" value="@(Model.RepairToEdit.Type == CleaningSize.Big)"> Big<br>
-    <label for="Size">Comment:</label> <br><br>
-    <input type="text" name="Comment" value="@Model.RepairToEdit.Defect"><br><br>
-    <label for="AssignedUsers">Assigned Users:</label>
+@using (Html.BeginForm("EditRepair", "SR", FormMethod.Post))
+{
+    <p>
+        <label>Start Date:</label>
+        <br />
+        <input type="date" name="startDate" value="@Model.RepairToEdit.StartDate">
+        <br />
+        <label>End Date:</label>
+        <br />
+        <input type="date" name="endDate" value="@Model.RepairToEdit.EndDate">
+        <br />
+        <label>Repair Size:</label>
+        <br />
+        @Html.RadioButtonFor(x => x.RepairToEdit.Type, RepairType.Maintenance) Maintenance
+        @Html.RadioButtonFor(x => x.RepairToEdit.Type, RepairType.Repair) Repair
+        <label> Comment:</label> <br />
+        <label>Defect</label>
+        @Html.TextAreaFor(x => x.RepairToEdit.Defect)
+        <label>Assigned Users:</label>
 
-    @foreach (var user in Model.Engineers)
-    {
-        <p><input type="checkbox" name="@user.Name" value=@user.Id>@user.Name</p>
-    }
+        @foreach (var user in Model.AssignedWorkers)
+        {
+            @Html.CheckBoxFor(x => x.AssignedWorkers[user.Key])
+        }
 
-    <input type="submit" value="EditRepair">
-</form> 
+        <input type="submit" value="EditRepair" />
+    </p>
+}
