@@ -10,11 +10,12 @@ namespace InPlanService
     class Program
     {
         static LogistiekInPlanServer server;
+        static Timer CheckForChanges;
 
         static void Main(string[] args)
         {
             server = new LogistiekInPlanServer();
-            Timer CheckForChanges = new Timer(5000);
+            CheckForChanges = new Timer(5000);
             CheckForChanges.Elapsed += new ElapsedEventHandler(CheckForChanges_Tick);
             CheckForChanges.Enabled = true;
 
@@ -30,12 +31,15 @@ namespace InPlanService
 
         private static void CheckForChanges_Tick(object sender, ElapsedEventArgs e)
         {
-            string tramsComingIn = server.FetchTramsComingIn();
-            string tramsGoingOut = server.FetchTramsGoingOut();
-            if (!String.IsNullOrEmpty(tramsComingIn))
-                Console.WriteLine(tramsComingIn);
-            if (!String.IsNullOrEmpty(tramsGoingOut))
-                Console.WriteLine(tramsGoingOut);
+            if (server.FetchTramsGoingOut())
+            {
+
+            }
+              
+            if (server.FetchTramsComingIn())
+            {
+
+            }
         }
     }
 }

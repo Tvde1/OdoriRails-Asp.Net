@@ -20,7 +20,7 @@ namespace InPlanService
             _allTracks = allTracks;
         }
 
-        public string AssignTramLocation(BeheerTram tram)
+        public void AssignTramLocation(BeheerTram tram)
         {
             tram.EditTramLocation(TramLocation.In);
 
