@@ -31,8 +31,7 @@ namespace InPlanService
 
         private static void CheckForChanges_Tick(object sender, ElapsedEventArgs e)
         {
-            server.FetchTramsGoingOut();
-            server.FetchTramsComingIn();
+            server.FetchMovingTrams();
         }
     }
 }

@@ -12,43 +12,30 @@ namespace InPlanService
 {
     public class LogistiekInPlanServer
     {
-        private I_CSVContext csv;
-        private LogisticRepository repo = new LogisticRepository();
-        private List<BeheerTrack> allTracks;
-        private List<InUitRijSchema> schema;
+        private I_CSVContext _csv;
+        private LogisticRepository _repo = new LogisticRepository();
+        private List<BeheerTrack> _allTracks;
+        private List<InUitRijSchema> _schema;
         
         public LogistiekInPlanServer()
         {
-            csv = new CSVContext();
-            schema = csv.getSchema();
+            _csv = new CSVContext();
+            _schema = _csv.getSchema();
         }
 
-        public bool FetchTramsGoingOut()
+        public void FetchMovingTrams()
         {
-            return SortMovingTrams(TramLocation.GoingOut);
-        }
-
-        public bool FetchTramsComingIn()
-        {
-            return SortMovingTrams(TramLocation.ComingIn);
-        }
-
-        private void UpdateTracks()
-        {
-            allTracks = new List<BeheerTrack>();
-            foreach (Track track in repo.GetTracksAndSectors())
-            {
-                allTracks.Add(track == null ? null : BeheerTrack.ToBeheerTrack(track));
-            }
+            SortMovingTrams(TramLocation.GoingOut);
+            SortMovingTrams(TramLocation.ComingIn);
         }
 
         public bool SortMovingTrams(TramLocation location)
         {
-            List<Tram> movingTrams = repo.GetAllTramsWithLocation(location);
+            List<Tram> movingTrams = _repo.GetAllTramsWithLocation(location);
             if (movingTrams.Count != 0)
             {
                 UpdateTracks();
-                SortingAlgoritm sorter = new SortingAlgoritm(allTracks, repo);
+                SortingAlgoritm sorter = new SortingAlgoritm(_allTracks, _repo);
                 for (int i = 0; i < movingTrams.Count; i++)
                 {
                     BeheerTram beheerTram = BeheerTram.ToBeheerTram(movingTrams[i]);
@@ -64,8 +51,8 @@ namespace InPlanService
                     {
                         beheerTram.EditTramLocation(TramLocation.Out);
                         movingTrams[i] = beheerTram;
-                        repo.EditTram(movingTrams[i]);
-                        repo.WipeSectorByTramId(movingTrams[i].Number);
+                        _repo.EditTram(movingTrams[i]);
+                        _repo.WipeSectorByTramId(movingTrams[i].Number);
                         Console.WriteLine("Tram {0} left the remise.", beheerTram.Number);
                     }
                 }
@@ -74,9 +61,18 @@ namespace InPlanService
             return false;
         }
 
+        private void UpdateTracks()
+        {
+            _allTracks = new List<BeheerTrack>();
+            foreach (Track track in _repo.GetTracksAndSectors())
+            {
+                _allTracks.Add(track == null ? null : BeheerTrack.ToBeheerTrack(track));
+            }
+        }
+
         private DateTime? GetExitTime(BeheerTram tram)
         {
-            foreach (InUitRijSchema entry in schema.Where(entry => entry.Line == tram.Line && entry.TramNumber == null))
+            foreach (InUitRijSchema entry in _schema.Where(entry => entry.Line == tram.Line && entry.TramNumber == null))
             {
                 entry.TramNumber = tram.Number;
                 return entry.ExitTime;
