@@ -16,7 +16,7 @@ namespace OdoriRails.Helpers.Objects
         Other,
         Combino,
         ElfG,
-        Dubbel_Kop_Combino,
+        DubbelKopCombino,
         TwaalfG,
         Opleidingstram
     }
@@ -26,7 +26,8 @@ namespace OdoriRails.Helpers.Objects
         In,
         ComingIn,
         Out,
-        GoingOut
+        GoingOut,
+        NotAssigned
     }
 
     public class Tram
@@ -39,6 +40,8 @@ namespace OdoriRails.Helpers.Objects
         /// <param name="line"></param>
         /// <param name="driver"></param>
         /// <param name="model"></param>
+        /// <param name="location"></param>
+        /// <param name="departureTime"></param>
         public Tram(int number, TramStatus status, int line, User driver, TramModel model, TramLocation location,
             DateTime? departureTime)
         {
@@ -55,6 +58,7 @@ namespace OdoriRails.Helpers.Objects
         ///     Minimale constructor tram zonder driver en line
         /// </summary>
         /// <param name="number"></param>
+        /// <param name="line"></param>
         /// <param name="model"></param>
         public Tram(int number, int line, TramModel model)
         {

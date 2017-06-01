@@ -12,32 +12,53 @@ namespace InPlanService
 {
     public class LogistiekInPlanServer
     {
-        private readonly I_CSVContext _csv;
-        private readonly LogisticRepository _repo = new LogisticRepository();
+        private I_CSVContext _csv;
+        private LogisticRepository _repo = new LogisticRepository();
         private List<BeheerTrack> _allTracks;
-        private readonly List<InUitRijSchema> _schema;
-
-        //private bool testing = true;
-        //private int simulationSpeed = 600;
+        private List<InUitRijSchema> _schema;
 
         public LogistiekInPlanServer()
         {
-            //    if (testing == true)
-            //    {
-            //        simulationSpeed = 50;
-            //    }
             _csv = new CSVContext();
             _schema = _csv.getSchema();
         }
 
-        public bool FetchTramsGoingOut()
+        public void FetchMovingTrams()
         {
-            return SortMovingTrams(TramLocation.GoingOut);
+            SortMovingTrams(TramLocation.GoingOut);
+            SortMovingTrams(TramLocation.ComingIn);
         }
 
-        public bool FetchTramsComingIn()
+        private bool SortMovingTrams(TramLocation location)
         {
-            return SortMovingTrams(TramLocation.ComingIn);
+            List<Tram> movingTrams = _repo.GetAllTramsWithLocation(location);
+            if (movingTrams.Count != 0)
+            {
+                UpdateTracks();
+                SortingAlgoritm sorter = new SortingAlgoritm(_allTracks, _repo);
+                for (int i = 0; i < movingTrams.Count; i++)
+                {
+                    BeheerTram beheerTram = BeheerTram.ToBeheerTram(movingTrams[i]);
+                    if (location == TramLocation.ComingIn)
+                    {
+                        if (movingTrams[i].DepartureTime == null)
+                        {
+                            GetExitTime(beheerTram);
+                        }
+                        sorter.AssignTramLocation(beheerTram);
+                    }
+                    else if (location == TramLocation.GoingOut)
+                    {
+                        beheerTram.EditTramLocation(TramLocation.Out);
+                        movingTrams[i] = beheerTram;
+                        _repo.EditTram(movingTrams[i]);
+                        _repo.WipeSectorByTramId(movingTrams[i].Number);
+                        Console.WriteLine("Tram {0} left the remise.", beheerTram.Number);
+                    }
+                }
+                return true;
+            }
+            return false;
         }
 
         private void UpdateTracks()
@@ -47,40 +68,6 @@ namespace InPlanService
             {
                 _allTracks.Add(track == null ? null : BeheerTrack.ToBeheerTrack(track));
             }
-        }
-
-        private string SortMovingTrams(TramLocation location)
-        {
-            List<Tram> movingTrams = _repo.GetAllTramsWithLocation(location);
-            if (movingTrams.Count == 0) return null;
-
-            UpdateTracks();
-            SortingAlgoritm sorter = new SortingAlgoritm(_allTracks, _repo);
-            for (int i = 0; i < movingTrams.Count; i++)
-            {
-                BeheerTram beheerTram = BeheerTram.ToBeheerTram(movingTrams[i]);
-                switch (location)
-                {
-                    case TramLocation.ComingIn:
-                    {
-                        if (movingTrams[i].DepartureTime == null)
-                        {
-                            GetExitTime(beheerTram);
-                        }
-                        sorter.AssignTramLocation(beheerTram);
-                    }
-                    case TramLocation.GoingOut:
-                    {
-                        beheerTram.EditTramLocation(TramLocation.Out);
-                        movingTrams[i] = beheerTram;
-                        _repo.EditTram(movingTrams[i]);
-                        _repo.WipeSectorByTramId(movingTrams[i].Number);
-                        return $"Tram {beheerTram.Number} left the remise.";
-                    }
-                }
-                return true;
-            }
-            return false;
         }
 
         private DateTime? GetExitTime(BeheerTram tram)
