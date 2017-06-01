@@ -12,15 +12,13 @@ namespace InPlanService
 {
     public class LogistiekInPlanServer
     {
-        public List<BeheerTrack> BackupAllTracks;
-        public List<BeheerTrack> AllTracks { get; private set; }
-        public List<BeheerTram> AllTrams { get; private set; }
-        bool testing = true;
-        int simulationSpeed = 600;
-
         private I_CSVContext csv;
         private LogisticRepository repo = new LogisticRepository();
+        private List<BeheerTrack> allTracks;
         private List<InUitRijSchema> schema;
+
+        private bool testing = true;
+        private int simulationSpeed = 600;
 
         public LogistiekInPlanServer()
         {
@@ -29,31 +27,32 @@ namespace InPlanService
                 simulationSpeed = 50;
             }
 
-            FetchUpdates();
             csv = new CSVContext();
             schema = csv.getSchema();
         }
 
         public void FetchUpdates()
         {
-            AllTracks = new List<BeheerTrack>();
+            SortMovingTrams(TramLocation.ComingIn);
+            SortMovingTrams(TramLocation.GoingOut);
+        }
+
+        public void UpdateTracks()
+        {
+            allTracks = new List<BeheerTrack>();
             foreach (Track track in repo.GetTracksAndSectors())
             {
-                AllTracks.Add(track == null ? null : BeheerTrack.ToBeheerTrack(track));
-            }
-            AllTrams = new List<BeheerTram>();
-            foreach (Tram tram in repo.GetAllTrams())
-            {
-                AllTrams.Add(tram == null ? null : BeheerTram.ToBeheerTram(tram));
+                allTracks.Add(track == null ? null : BeheerTrack.ToBeheerTrack(track));
             }
         }
 
-        public bool SortMovingTrams(TramLocation location)
+        public void SortMovingTrams(TramLocation location)
         {
-            SortingAlgoritm sorter = new SortingAlgoritm(AllTracks, repo);
             List<Tram> movingTrams = repo.GetAllTramsWithLocation(location);
             if (movingTrams.Count != 0)
             {
+                UpdateTracks();
+                SortingAlgoritm sorter = new SortingAlgoritm(allTracks, repo);
                 for (int i = 0; i < movingTrams.Count; i++)
                 {
                     BeheerTram beheerTram = BeheerTram.ToBeheerTram(movingTrams[i]);
@@ -63,7 +62,7 @@ namespace InPlanService
                         {
                             GetExitTime(beheerTram);
                         }
-                        SortTram(sorter, beheerTram);
+                        sorter.AssignTramLocation(beheerTram);
                     }
                     else if (location == TramLocation.GoingOut)
                     {
@@ -73,15 +72,12 @@ namespace InPlanService
                         repo.WipeSectorByTramId(movingTrams[i].Number);
                     }
                 }
-                FetchUpdates();
-                return true;
             }
-            return false;
         }
 
         public DateTime? GetExitTime(BeheerTram tram)
         {
-            foreach (InUitRijSchema entry in schema.Where(x => x.Line == tram.Line && x.TramNumber == null))
+            foreach (InUitRijSchema entry in schema.Where(entry => entry.Line == tram.Line && entry.TramNumber == null))
             {
                 entry.TramNumber = tram.Number;
                 return entry.ExitTime;
@@ -89,131 +85,125 @@ namespace InPlanService
             return null;
         }
 
-        public void SortTram(SortingAlgoritm sorter, BeheerTram tram)
-        {
-            if (tram != null)
-            {
-                BackupAllTracks = AllTracks;
-                AllTracks = sorter.AssignTramLocation(tram);
+        //TODO: Simulation toevoegen.
 
-                if (AllTracks == null)
-                {
-                    AllTracks = BackupAllTracks;
-                }
-            }
-        }
+        //    public void WipePreSimulation()
+        //    {
+        //        repo.WipeAllDepartureTimes();
+        //        repo.WipeAllTramsFromSectors();
 
-        public void WipePreSimulation()
-        {
-            repo.WipeAllDepartureTimes();
-            repo.WipeAllTramsFromSectors();
-            FetchUpdates();
-        }
+        //        UpdateTracks();
+        //AllTrams = new List<BeheerTram>();
+        //        foreach (Tram tram in repo.GetAllTrams())
+        //        {
+        //            AllTrams.Add(tram == null ? null : BeheerTram.ToBeheerTram(tram));
+        //        }
+        //    }
 
-        public void Simulation()
-        {
-            SortingAlgoritm sorter = new SortingAlgoritm(AllTracks, repo);
+        //    public void Simulation()
+        //    {
+        //        SortingAlgoritm sorter = new SortingAlgoritm(AllTracks, repo);
 
-            //De schema moet op volgorde van eerst binnenkomende worden gesorteerd
-            schema.Sort((x, y) => x.EntryTime.CompareTo(y.EntryTime));
+        //        //De schema moet op volgorde van eerst binnenkomende worden gesorteerd
+        //        schema.Sort((x, y) => x.EntryTime.CompareTo(y.EntryTime));
 
-            //Voor iedere inrijtijd een tram eraan koppellen
-            foreach (InUitRijSchema entry in schema.Where(x => x.TramNumber == null))
-            {
-                foreach (BeheerTram tram in AllTrams.Where(x => x.DepartureTime == null && x.Line == entry.Line))
-                {
-                    entry.TramNumber = tram.Number;
-                    tram.EditTramDepartureTime(entry.ExitTime);
-                    break;
-                }
-            }
+        //        //Voor iedere inrijtijd een tram eraan koppellen
+        //        foreach (InUitRijSchema entry in schema.Where(x => x.TramNumber == null))
+        //        {
+        //            foreach (BeheerTram tram in AllTrams.Where(x => x.DepartureTime == null && x.Line == entry.Line))
+        //            {
+        //                entry.TramNumber = tram.Number;
+        //                tram.EditTramDepartureTime(entry.ExitTime);
+        //                break;
+        //            }
+        //        }
 
-            //Too little linebound trams to fill each entry so overflow to other types of trams
-            foreach (InUitRijSchema entry in schema.Where(x => x.TramNumber == null))
-            {
-                foreach (BeheerTram tram in AllTrams.Where(x => x.DepartureTime == null))
-                {
-                    if ((entry.Line == 5 || entry.Line == 1624) && (tram.Model == TramModel.Dubbel_Kop_Combino || tram.Model == TramModel.TwaalfG)) //No driver lines
-                    {
-                        entry.TramNumber = tram.Number;
-                        tram.EditTramDepartureTime(entry.ExitTime);
-                        break;
-                    }
-                    else if ((entry.Line != 5 || entry.Line != 1624) && tram.Model == TramModel.Combino) //Driver lines
-                    {
-                        entry.TramNumber = tram.Number;
-                        tram.EditTramDepartureTime(entry.ExitTime);
-                        break;
-                    }
-                }
-            }
+        //        //Too little linebound trams to fill each entry so overflow to other types of trams
+        //        foreach (InUitRijSchema entry in schema.Where(x => x.TramNumber == null))
+        //        {
+        //            foreach (BeheerTram tram in AllTrams.Where(x => x.DepartureTime == null))
+        //            {
+        //                if ((entry.Line == 5 || entry.Line == 1624) && (tram.Model == TramModel.Dubbel_Kop_Combino || tram.Model == TramModel.TwaalfG)) //No driver lines
+        //                {
+        //                    entry.TramNumber = tram.Number;
+        //                    tram.EditTramDepartureTime(entry.ExitTime);
+        //                    break;
+        //                }
+        //                else if ((entry.Line != 5 || entry.Line != 1624) && tram.Model == TramModel.Combino) //Driver lines
+        //                {
+        //                    entry.TramNumber = tram.Number;
+        //                    tram.EditTramDepartureTime(entry.ExitTime);
+        //                    break;
+        //                }
+        //            }
+        //        }
 
-            //Het schema afgaan voor de simulatie
-            foreach (InUitRijSchema entry in schema)
-            {
-                BeheerTram tram = AllTrams.Find(x => x.Number == entry.TramNumber);
-                SortTram(sorter, tram);
-                //form.Invalidate();
-                Thread.Sleep(simulationSpeed);
-            }
+        //        //Het schema afgaan voor de simulatie
+        //        foreach (InUitRijSchema entry in schema)
+        //        {
+        //            BeheerTram tram = AllTrams.Find(x => x.Number == entry.TramNumber);
+        //            SortTram(sorter, tram);
+        //            //form.Invalidate();
+        //            Thread.Sleep(simulationSpeed);
+        //        }
 
-            foreach (BeheerTram tram in AllTrams.Where(x => x.DepartureTime == null))
-            {
-                SortTram(sorter, tram);
-                //form.Invalidate();
-                Thread.Sleep(simulationSpeed);
-            }
+        //        foreach (BeheerTram tram in AllTrams.Where(x => x.DepartureTime == null))
+        //        {
+        //            SortTram(sorter, tram);
+        //            //form.Invalidate();
+        //            Thread.Sleep(simulationSpeed);
+        //        }
 
-            schema = csv.getSchema();
-            FetchUpdates();
-        }
+        //        schema = csv.getSchema();
+        //        FetchUpdates();
+        //    }
 
-        public int[] Parse(string _string)
-        {
-            int[] array = { -1 };
+        //    public int[] Parse(string _string)
+        //    {
+        //        int[] array = { -1 };
 
-            try
-            {
-                array = Array.ConvertAll(_string.Split(','), int.Parse);
-            }
-            catch (Exception e)
-            {
-                //TODO: Hier een fatsoenlijke trycatch van maken dat een waarschuwing in ASP.NET geeft.
-            }
+        //        try
+        //        {
+        //            array = Array.ConvertAll(_string.Split(','), int.Parse);
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            //TODO: Hier een fatsoenlijke trycatch van maken dat een waarschuwing in ASP.NET geeft.
+        //        }
 
-            return array;
-        }
+        //        return array;
+        //    }
 
-        public int ToInt(string _string)
-        {
-            int integer = -1;
+        //    public int ToInt(string _string)
+        //    {
+        //        int integer = -1;
 
-            try
-            {
-                integer = Convert.ToInt32(_string);
-            }
-            catch (Exception e)
-            {
-                //TODO: Hier een fatsoenlijke trycatch van maken dat een waarschuwing in ASP.NET geeft.
-            }
+        //        try
+        //        {
+        //            integer = Convert.ToInt32(_string);
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            //TODO: Hier een fatsoenlijke trycatch van maken dat een waarschuwing in ASP.NET geeft.
+        //        }
 
-            return integer;
-        }
+        //        return integer;
+        //    }
 
-        public int ToInt(int? _int)
-        {
-            int integer = -1;
+        //    public int ToInt(int? _int)
+        //    {
+        //        int integer = -1;
 
-            try
-            {
-                integer = Convert.ToInt32(_int);
-            }
-            catch (Exception e)
-            {
-                //TODO: Hier een fatsoenlijke trycatch van maken dat een waarschuwing in ASP.NET geeft.
-            }
+        //        try
+        //        {
+        //            integer = Convert.ToInt32(_int);
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            //TODO: Hier een fatsoenlijke trycatch van maken dat een waarschuwing in ASP.NET geeft.
+        //        }
 
-            return integer;
-        }
+        //        return integer;
+        //    }
     }
 }
