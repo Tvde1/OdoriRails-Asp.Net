@@ -1,0 +1,111 @@
+﻿@using OdoriRails.Helpers.Objects
+@model OdoriRails.Models.SRManagement.TramHistoryModel
+@{
+    ViewBag.Title = "TramHistory";
+}
+
+<h2>Tram History</h2>
+
+<h4>Reparaties</h4>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Type</th>
+            <th>Begindatum</th>
+            <th>Einddatum</th>
+            <th>Reparateurs</th>
+            <th>Defect</th>
+            <th>Oplossing</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reparatie in Model.Repairs)
+        {
+            <tr>
+                <td>
+                    @reparatie.Id
+                </td>
+                <td>
+                    @switch (reparatie.Type)
+                {
+                    case RepairType.Maintenance:
+                            @Html.Raw("Onderhoud")
+                            break;
+                        case RepairType.Repair:
+                            @Html.Raw("Reparatie")
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                </td>
+                <td>
+                    @reparatie.StartDate.ToShortDateString()
+                </td>
+                <td>
+                    @Html.Raw(reparatie.EndDate?.ToShortDateString() ?? "Nog niet beindigd.")
+                </td>
+                <td>
+                    @string.Join(", ", reparatie.AssignedUsers.Select(x => x.Name)).
+                </td>
+                <td>
+                    @reparatie.Defect
+                </td>
+                <td>
+                    @reparatie.Solution
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h4>Schoonmaken</h4>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Grootte</th>
+            <th>Begindatum</th>
+            <th>Einddatum</th>
+            <th>Schoonmakers</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var schoonmaak in Model.Cleans)
+        {
+            <tr>
+                <td>
+                    @schoonmaak.Id
+                </td>
+                <td>
+                    @switch (schoonmaak.Size)
+                {
+                    case CleaningSize.Big:
+                            @Html.Raw("Groot")
+                            break;
+                        case CleaningSize.Small:
+                            @Html.Raw("Klein")
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                </td>
+                <td>
+                    @schoonmaak.StartDate.ToShortDateString()
+                </td>
+                <td>
+                    @Html.Raw(schoonmaak.EndDate?.ToShortDateString() ?? "Nog niet beindigd.")
+                </td>
+                <td>
+                    @string.Join(", ", schoonmaak.AssignedUsers.Select(x => x.Name)).
+                </td>
+                <td>
+                    @schoonmaak.Comments
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

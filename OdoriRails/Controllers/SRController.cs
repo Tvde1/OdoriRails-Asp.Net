@@ -12,10 +12,10 @@ namespace OdoriRails.Controllers
         {
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
-            var user = (User) result;
+            var user = (User)result;
 
 
-            var model = TempData["SRModel"] as SRModel ?? new SRModel { User = user};
+            var model = TempData["SRModel"] as SRModel ?? new SRModel { User = user };
 
             if (user.Role == Role.Cleaner || user.Role == Role.HeadCleaner)
             {
@@ -23,7 +23,7 @@ namespace OdoriRails.Controllers
             }
             if (user.Role == Role.Engineer || user.Role == Role.HeadEngineer)
             {
-                model.Repairs = model.RepairListFromUser(); 
+                model.Repairs = model.RepairListFromUser();
             }
 
             return View(model);
@@ -33,9 +33,9 @@ namespace OdoriRails.Controllers
         {
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
-            var user = (User) result;
+            var user = (User)result;
 
-            var model = new SRModel(Role.Engineer) { User = user };   
+            var model = new SRModel(Role.Engineer) { User = user };
 
             if (user.Role != Role.HeadEngineer)
             {
@@ -52,15 +52,15 @@ namespace OdoriRails.Controllers
         {
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
-            var user = (User) result;
+            var user = (User)result;
 
             var model = new SRModel(Role.Cleaner) { User = user };
-            
+
             if (user.Role != Role.HeadCleaner)
             {
                 model.Error = "You do not have permission to do this!";
                 TempData["SRModel"] = model;
-                
+
                 return RedirectToAction("Index", "SR"); ;
             }
             model.Cleaners = model.GetAllCleaners();
@@ -74,6 +74,21 @@ namespace OdoriRails.Controllers
             model.Error = "Cleaning posted succesfully!";
             TempData["SRModel"] = model;
             return RedirectToAction("Index", "SR");
+        }
+
+
+        public ActionResult TramHistory(int? id)
+        {
+            if (id == null) return RedirectToAction("Index", "SR");
+
+            var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
+            if (result is ActionResult) return result as ActionResult;
+            var user = (User)result;
+
+            var model = new TramHistoryModel { User = user, TramId = id.Value };
+            model.GetServices();
+
+            return View(model);
         }
 
     }
