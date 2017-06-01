@@ -37,9 +37,10 @@ namespace OdoriRails.Controllers
         {
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
-            var user = (User) result;
+            var user = (User)result;
 
-            var model = new SRModel(Role.Engineer) { User = user };   
+            var model = new SRModel(Role.Engineer) { User = user };
+            var viewmodel = new EditRepairViewModel();
 
             if (user.Role != Role.HeadEngineer)
             {
@@ -48,9 +49,12 @@ namespace OdoriRails.Controllers
 
                 return RedirectToAction("Index", "SR");
             }
-            model.Engineers = model.GetAllEngineers();
-            model.RepairToEdit = model.GetRepairToEdit(id);
-            return View(model);
+
+            viewmodel.RepairToChange = model.GetRepairToEdit(id);
+            viewmodel.Id = viewmodel.RepairToChange.Id;
+            viewmodel.AssignedWorkers = model.AssignedWorkers;
+
+            return View(viewmodel);
         }
         public ActionResult EditCleaning(int id)
         {
@@ -90,10 +94,10 @@ namespace OdoriRails.Controllers
                 }
             }
 
-            Cleaning changedCleaning = new Cleaning(viewmodel.StartDate, viewmodel.EndDate, viewmodel.Size, viewmodel.Comment, listusers, viewmodel.TramID);
+            Cleaning changedCleaning = new Cleaning(viewmodel.Id, viewmodel.StartDate, viewmodel.EndDate, viewmodel.Size, viewmodel.Comment, listusers, viewmodel.TramID);
             _Repo.EditService(changedCleaning);
             model.Error = "Cleaning posted succesfully!";
-            TempData["SRModel"] = model;
+            //TempData["SRModel"] = model;
             return RedirectToAction("Index", "SR");
         }
 
