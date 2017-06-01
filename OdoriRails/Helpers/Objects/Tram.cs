@@ -98,15 +98,5 @@ namespace OdoriRails.Helpers.Objects
         ///     De locatie van de tram.
         /// </summary>
         public TramLocation Location { get; protected set; }
-
-        /// <summary>
-        ///     De latitude van de tram
-        /// </summary>
-        public string latitude { get; protected set; }
-
-        /// <summary>
-        ///     De longitude van de tram
-        /// </summary>
-        public string longitude { get; protected set; }
     }
 }
