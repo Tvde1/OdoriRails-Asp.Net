@@ -113,9 +113,9 @@ namespace InPlanService
             }
 
             //If not successful let user place tram
-            Console.WriteLine($"Could not move tram {tram.Number}, please move manually.");
             tram.EditTramLocation(TramLocation.NotAssigned);
             _repo.EditTram(tram);
+            Console.WriteLine($"Could not move tram {tram.Number}, please move manually.");
         }
 
         public BeheerSector Assign(BeheerSector sector, BeheerTram tram)
