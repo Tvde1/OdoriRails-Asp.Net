@@ -351,41 +351,73 @@ else
 
         var marker;
 
-        function addMarker(location, map) {
+        function addMarker(location, map, labeltext) {
             console.log("adding Marker!");
             // Add the marker at the clicked location, and add the next-available label
             // from the array of alphabetical characters.
             marker = new google.maps.Marker({
                 position: location,
-                label: "9999",
+                label: labeltext,
                 animation: google.maps.Animation.DROP,
                 map: map,
-                title: '9999',
                 icon: "../../fonts/Icons/TransparantIcon16.gif"
             });
             marker.addListener('click', function () {
                 infowindow.open(map, marker);
             });
         }
-        var coordinates = { lat: 52.348012, lng: 4.852770 };
-        addMarker(coordinates, map);
+        //var coordinates = { lat: 52.348012, lng: 4.852770 };
+        //addMarker(coordinates, map);
 
-        var contentString = '<div id="content">' +
-            '<div id="siteNotice">' +
-            '</div>' +
-            '<h1 id="firstHeading" class="firstHeading">' + marker.label + '</h1>' +
-            '<div id="bodyContent">' +
-            '<p>hoi</p>' +
-            '<p>hoi1</p>' +
-            '<p>hoi2</p>' +
-            '<p>hoi3</p>' +
-            '</div>' +
-            '</div>';
+        var contentString;
 
         var infowindow = new google.maps.InfoWindow({
             content: contentString
         });
+
+        var DocumentReady = function () {
+            $.getJSON('/api/GoogleMapsAPI').done(RequestMethod);
+            console.log("json read!");
+        }
+
+        var RequestMethod = function (data) {
+            var long = $('#Longitude');
+            var lat = $('#Latitude');
+            var line = $('#Line');
+            var tracknumber = $('#TrackNumber');
+            var tramnumber = $('#TramNumber');
+            var tracktype = $('#TrackType');
+            var sectornumber = $('#SectorNumber');
+            for (var i = 0; i < data.length; i++) {
+                var location = { lat, long }
+                addMarker(location, map, tramnumber);
+                contentString = '<div id="content">' +
+                    '<div id="siteNotice">' +
+                    '</div>' +
+                    '<h1 id="firstHeading" class="firstHeading">' +
+                    'temp' +
+                    '</h1>' +
+                    '<div id="bodyContent">' +
+                    '<p>Tracknumber: ' +
+                    tracknumber +
+                    '</p>' +
+                    '<p>Tracktype: ' +
+                    tracktype +
+                    '</p>' +
+                    '<p>Sectornumber: ' +
+                    sectornumber +
+                    '</p>' +
+                    '<p>Line: ' +
+                    line +
+                    '</p>' +
+                    '</div>' +
+                    '</div>';
+            }
+        }
+
+        $(document).ready(DocumentReady);
     }
+
 
 
     

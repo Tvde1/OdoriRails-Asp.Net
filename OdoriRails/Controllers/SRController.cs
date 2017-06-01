@@ -116,7 +116,7 @@ namespace OdoriRails.Controllers
                 }
             }
 
-            Repair changedRepair = new Repair(viewmodel.StartDate, viewmodel.EndDate, viewmodel.Size, viewmodel.Defect, viewmodel.Solution, listusers, viewmodel.TramID);
+            Repair changedRepair = new Repair(viewmodel.Id, viewmodel.StartDate, viewmodel.EndDate, viewmodel.Size, viewmodel.Defect, viewmodel.Solution, listusers, viewmodel.TramID);
             _Repo.EditService(changedRepair);
             model.Error = "Repair posted succesfully!";
             //TempData["SRModel"] = model;

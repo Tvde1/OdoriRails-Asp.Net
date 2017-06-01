@@ -16,7 +16,7 @@ namespace InPlanService
         private LogisticRepository _repo = new LogisticRepository();
         private List<BeheerTrack> _allTracks;
         private List<InUitRijSchema> _schema;
-        
+
         public LogistiekInPlanServer()
         {
             _csv = new CSVContext();
@@ -29,7 +29,7 @@ namespace InPlanService
             SortMovingTrams(TramLocation.ComingIn);
         }
 
-        public bool SortMovingTrams(TramLocation location)
+        private bool SortMovingTrams(TramLocation location)
         {
             List<Tram> movingTrams = _repo.GetAllTramsWithLocation(location);
             if (movingTrams.Count != 0)

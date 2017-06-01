@@ -29,7 +29,7 @@ namespace OdoriRails.Helpers.Objects
                 : CreateUser(_userContext.GetUser((int)array[6])).Username;
 
             var tramRow = _tramContext.GetTramIdByDriverId((int)array[0]);
-            var tramId = (int?) tramRow?["TramPk"];
+            var tramId = (int?)tramRow?["TramPk"];
 
             return new User((int)array[0], (string)array[1], (string)array[2], (string)array[4], (string)array[3],
                 (Role)(int)array[5], parentUserString, tramId);
@@ -46,14 +46,17 @@ namespace OdoriRails.Helpers.Objects
             if (row == null) return null;
             var array = row.ItemArray;
             var occupyingTramNumber = row["TramFk"] == DBNull.Value ? null : (int?)row["TramFk"];
+<<<<<<< HEAD
             var latitude = (decimal)row["Lat"];
             var longitude = (decimal)row["Long"];
             return new Sector((int)array[0], (int)array[2], (SectorStatus)array[1], occupyingTramNumber, latitude, longitude);
+=======
+            return new Sector((int)array[0], (int)array[2], (SectorStatus)array[1], occupyingTramNumber, (string)row["Latitude"], (string)row["Longitude"]);
+>>>>>>> 8764bb2e5edb78063cb92552b0017221a72f5099
         }
 
         public Tram CreateTram(DataRow row)
         {
-            //Pk, Line, Status, Driver, Model, Remise, Location, Depart
             var array = row.ItemArray;
             var id = (int)array[0];
             var line = (int)array[1];
@@ -85,8 +88,8 @@ namespace OdoriRails.Helpers.Objects
         }
 
         public Repair CreateRepair(DataRow row)
-        {        
-            var id = (int)row["ServiceFk"];
+        {
+            var id = (int)row["ServicePk"];
             var startDate = (DateTime)row["StartDate"];
             var endDate = row["EndDate"] == DBNull.Value ? (DateTime?)null : (DateTime)row["EndDate"];
             var tramId = (int)row["TramFk"];
@@ -94,7 +97,7 @@ namespace OdoriRails.Helpers.Objects
             var solution = (string)row["Solution"];
             var defect = (string)row["Defect"];
             var type = (RepairType)row["Type"];
-            var users = GenerateListWithFunction(_serviceContext.GetUsersInServiceById((int)row["ServiceFk"]), CreateUser);
+            var users = GenerateListWithFunction(_serviceContext.GetUsersInServiceById((int)row["ServicePk"]), CreateUser);
 
             return new Repair(id, startDate, endDate, type, defect, solution, users, tramId);
         }
