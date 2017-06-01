@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using OdoriRails.Helpers;
 using OdoriRails.Helpers.DAL.ContextInterfaces;
@@ -152,7 +153,10 @@ namespace OdoriRails.Controllers
             var user = (User)result;
             if (user.Role == Role.HeadEngineer || user.Role == Role.Engineer)
             {
-                
+                _Repo.SetTramStatusToIdle(viewmodel.RepairMarkAsDone.TramId);
+                _Repo.AddSolution(viewmodel.RepairMarkAsDone, viewmodel.Solution); 
+                viewmodel.RepairMarkAsDone.EndDate = DateTime.Now;
+                _Repo.EditService(viewmodel.RepairMarkAsDone);
 
             }
             if (user.Role == Role.HeadCleaner || user.Role == Role.Cleaner)
