@@ -25,6 +25,7 @@ namespace InPlanService
 
         public void AssignTramLocation(BeheerTram tram)
         {
+            Console.WriteLine(tram.Number);
             tram.EditTramLocation(TramLocation.In);
 
             //With a service needed, put on the first free slot

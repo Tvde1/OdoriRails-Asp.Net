@@ -1,6 +1,5 @@
 ﻿using OdoriRails.Helpers.DAL.Repository;
 using OdoriRails.Helpers.LogistiekBeheersysteem;
-using OdoriRails.Helpers.LogistiekBeheersysteem.CSV;
 using OdoriRails.Helpers.Objects;
 using System;
 using System.Collections.Generic;
@@ -17,16 +16,15 @@ namespace InPlanService
         private List<BeheerTrack> allTracks;
         private List<InUitRijSchema> schema;
 
-        private bool testing = true;
-        private int simulationSpeed = 600;
+        //private bool testing = true;
+        //private int simulationSpeed = 600;
 
         public LogistiekInPlanServer()
         {
-            if (testing == true)
-            {
-                simulationSpeed = 50;
-            }
-
+        //    if (testing == true)
+        //    {
+        //        simulationSpeed = 50;
+        //    }
             csv = new CSVContext();
             schema = csv.getSchema();
         }

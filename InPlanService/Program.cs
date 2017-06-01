@@ -9,13 +9,15 @@ namespace InPlanService
 {
     class Program
     {
-        static LogistiekInPlanServer server = new LogistiekInPlanServer();
+        static LogistiekInPlanServer server;
 
         static void Main(string[] args)
         {
+            server = new LogistiekInPlanServer();
             Timer CheckForChanges = new Timer(2500);
             CheckForChanges.Elapsed += new ElapsedEventHandler(CheckForChanges_Tick);
             CheckForChanges.Enabled = true;
+            Console.ReadLine();
         }
 
         private static void CheckForChanges_Tick(object sender, ElapsedEventArgs e)
