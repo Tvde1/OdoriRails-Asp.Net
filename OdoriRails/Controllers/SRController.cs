@@ -144,6 +144,12 @@ namespace OdoriRails.Controllers
             return View(viewmodel);
         }
 
+        public ActionResult TramHistory()
+        {
+            var model = new TramHistoryModel();
+            return View(model);
+        }
+
         [HttpPost]
         public ActionResult EditCleaning(EditCleaningViewModel viewmodel)
         {
