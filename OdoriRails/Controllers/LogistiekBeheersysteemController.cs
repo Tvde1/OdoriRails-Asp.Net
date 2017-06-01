@@ -134,7 +134,7 @@ namespace OdoriRails.Controllers
 
         public ActionResult DeleteTrack(FormResultModel result)
         {
-            if (_logic.DeleteTrack(result.TrackNumber) == false)
+            if (_logic.DeleteTram(result.TrackNumber) == false)
             {
                 var remise = (LogistiekBeheerModel)Session["Remise"];
                 remise.Error = "Failed to delete the track";
