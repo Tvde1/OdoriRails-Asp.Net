@@ -12,13 +12,11 @@ namespace InPlanService
     {
         private LogisticRepository repo;
         private List<BeheerTrack> allTracks;
-        private List<BeheerTram> unassignedTrams;
 
         public SortingAlgoritm(List<BeheerTrack> allTracks, LogisticRepository repo)
         {
             this.repo = repo;
             this.allTracks = allTracks;
-            unassignedTrams = new List<BeheerTram>();
         }
 
         public string AssignTramLocation(BeheerTram tram)
