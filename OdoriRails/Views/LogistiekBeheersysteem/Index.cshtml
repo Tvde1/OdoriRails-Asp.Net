@@ -321,19 +321,44 @@ else
 
         map.mapTypes.set('myStyle', new google.maps.StyledMapType(myStyle, { name: 'My Style' }));
 
+        
+
+        var marker;
+
         function addMarker(location, map) {
             console.log("adding Marker!");
             // Add the marker at the clicked location, and add the next-available label
             // from the array of alphabetical characters.
-            var marker = new google.maps.Marker({
+            marker = new google.maps.Marker({
                 position: location,
-                label: "99",
-                map: map
+                label: "9999",
+                animation: google.maps.Animation.DROP,
+                map: map,
+                title: '9999',
+                icon: "../../fonts/Icons/TransparantIcon16.gif"
+            });
+            marker.addListener('click', function () {
+                infowindow.open(map, marker);
             });
         }
         var coordinates = { lat: 52.348012, lng: 4.852770 };
         addMarker(coordinates, map);
 
+        var contentString = '<div id="content">' +
+            '<div id="siteNotice">' +
+            '</div>' +
+            '<h1 id="firstHeading" class="firstHeading">' + marker.label + '</h1>' +
+            '<div id="bodyContent">' +
+            '<p>hoi</p>' +
+            '<p>hoi1</p>' +
+            '<p>hoi2</p>' +
+            '<p>hoi3</p>' +
+            '</div>' +
+            '</div>';
+
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
     }
 
 

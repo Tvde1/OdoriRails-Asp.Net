@@ -8,14 +8,14 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
 {
     public class BeheerSector : Sector
     {
-        public BeheerSector(int number, int trackNumber, SectorStatus status, Tram tram) : base(number, trackNumber, status, tram.Number)
+        public BeheerSector(int number, int trackNumber, SectorStatus status, Tram tram, string latitude, string longitude) : base(number, trackNumber, status, tram.Number, latitude, longitude)
         {
             SetTram(tram);
         }
 
         public static BeheerSector ToBeheerSector(Sector sector)
         {
-            return new BeheerSector(sector.Number, sector.TrackNumber, sector.Status, sector.OccupyingTram);
+            return new BeheerSector(sector.Number, sector.TrackNumber, sector.Status, sector.OccupyingTram, sector.Latitude, sector.Longitude);
         }
 
         /// <summary>

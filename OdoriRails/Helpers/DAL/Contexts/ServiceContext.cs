@@ -212,6 +212,14 @@ WHERE (ServiceUser.UserCk IS NULL)) AS derivedtbl_1 ON Clean.ServiceFk = derived
             return DatabaseHandler.GetData(command);
         }
 
+        public DataRow GetUserByName(string naam)
+        {     
+            var command = new SqlCommand("SELECT * FROM [User] WHERE Name = @naam;");
+            command.Parameters.AddWithValue("@naam", naam);
+            var data = DatabaseHandler.GetData(command);
+            return data.Rows.Count == 0 ? null: data.Rows[0];
+        }
+
         public bool HadBigMaintenance(Tram tram)
         {
             var query = new SqlCommand($@"SELECT * 

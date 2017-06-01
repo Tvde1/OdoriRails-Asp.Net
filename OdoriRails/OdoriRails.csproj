@@ -110,6 +110,9 @@
     <Content Include="Content\signin.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\Icons\TransparantIcon1.gif" />
+    <Content Include="fonts\Icons\TransparantIcon16.gif" />
+    <Content Include="fonts\Icons\TransparantIcon8.gif" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -145,6 +148,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BaseControllerFunctions.cs" />
+    <Compile Include="Helpers\DAL\Repository\ApiRepository.cs" />
     <Compile Include="Helpers\DAL\Repository\BaseRepository.cs" />
     <Compile Include="Helpers\Driver\InUitRitTram.cs" />
     <Compile Include="Helpers\LogistiekBeheersysteem\LogistiekLogic.cs" />
@@ -152,6 +156,7 @@
     <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\BeheerTrack.cs" />
     <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\BeheerTram.cs" />
     <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\InUItRijSchema.cs" />
+    <Compile Include="Helpers\Objects\ApiTram.cs" />
     <Compile Include="Helpers\Objects\Cleaning.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\ILoginContext.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\IServiceContext.cs" />
@@ -183,6 +188,8 @@
     <Compile Include="Models\LogistiekBeheer\FormResultModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\LogistiekBeheer\LogistiekBeheerModel.cs" />
+    <Compile Include="Models\SRManagement\EditRepairViewModel.cs" />
+    <Compile Include="Models\SRManagement\EditCleaningViewModel.cs" />
     <Compile Include="Models\SRManagement\SRModel.cs" />
     <Compile Include="Models\SRManagement\TramHistoryModel.cs" />
     <Compile Include="Models\UserBeheer\EditUserModel.cs" />
