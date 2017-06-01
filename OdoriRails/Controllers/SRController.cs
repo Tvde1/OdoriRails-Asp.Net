@@ -35,7 +35,7 @@ namespace OdoriRails.Controllers
             if (result is ActionResult) return result as ActionResult;
             var user = (User) result;
 
-            var model = new SRModel { User = user };   
+            var model = new SRModel(Role.Engineer) { User = user };   
 
             if (user.Role != Role.HeadEngineer)
             {
@@ -54,7 +54,7 @@ namespace OdoriRails.Controllers
             if (result is ActionResult) return result as ActionResult;
             var user = (User) result;
 
-            var model = new SRModel { User = user };
+            var model = new SRModel(Role.Cleaner) { User = user };
             
             if (user.Role != Role.HeadCleaner)
             {
