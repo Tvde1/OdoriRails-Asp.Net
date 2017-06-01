@@ -4,7 +4,7 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem.ObjectClasses
 {
     public class BeheerSector : Sector
     {
-        private BeheerSector(int number, int trackNumber, SectorStatus status, Tram tram, string latitude, string longitude) : base(number, trackNumber, status, tram?.Number, latitude, longitude)
+        private BeheerSector(int number, int trackNumber, SectorStatus status, Tram tram, decimal latitude, decimal longitude) : base(number, trackNumber, status, tram?.Number, latitude, longitude)
         {
             SetTram(tram);
         }

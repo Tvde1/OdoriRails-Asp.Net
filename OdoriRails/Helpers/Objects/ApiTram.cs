@@ -10,12 +10,12 @@ namespace OdoriRails.Helpers.Objects
         public int TramNumber { get; }
         public int? TrackNumber { get; }
         public int SectorNumber { get; }
-        public string Latitude { get; }
-        public string Longitude { get; }
+        public decimal Latitude { get; }
+        public decimal Longitude { get; }
         public TrackType? TrackType { get; }
         public int Line { get; }
 
-        public ApiTram(int tramNumber, int? trackNumber, int sectorNumber, string latitude, string longitude, TrackType? trackType, int line)
+        public ApiTram(int tramNumber, int? trackNumber, int sectorNumber, decimal latitude, decimal longitude, TrackType? trackType, int line)
         {
             TramNumber = tramNumber;
             TrackNumber = trackNumber;;

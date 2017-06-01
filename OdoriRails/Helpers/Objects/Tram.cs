@@ -26,7 +26,8 @@ namespace OdoriRails.Helpers.Objects
         In,
         ComingIn,
         Out,
-        GoingOut
+        GoingOut,
+        NotAssigned
     }
 
     public class Tram

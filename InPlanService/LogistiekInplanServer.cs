@@ -16,16 +16,9 @@ namespace InPlanService
         private LogisticRepository repo = new LogisticRepository();
         private List<BeheerTrack> allTracks;
         private List<InUitRijSchema> schema;
-
-        //private bool testing = true;
-        //private int simulationSpeed = 600;
-
+        
         public LogistiekInPlanServer()
         {
-            //    if (testing == true)
-            //    {
-            //        simulationSpeed = 50;
-            //    }
             csv = new CSVContext();
             schema = csv.getSchema();
         }
@@ -81,7 +74,7 @@ namespace InPlanService
             return false;
         }
 
-        public DateTime? GetExitTime(BeheerTram tram)
+        private DateTime? GetExitTime(BeheerTram tram)
         {
             foreach (InUitRijSchema entry in schema.Where(entry => entry.Line == tram.Line && entry.TramNumber == null))
             {

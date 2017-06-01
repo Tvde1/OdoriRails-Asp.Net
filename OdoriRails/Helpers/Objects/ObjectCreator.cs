@@ -46,9 +46,9 @@ namespace OdoriRails.Helpers.Objects
             if (row == null) return null;
             var array = row.ItemArray;
             var occupyingTramNumber = row["TramFk"] == DBNull.Value ? null : (int?)row["TramFk"];
-           // var latitude = (string)row["Latidude"];
-           // var longitude = (string)row["Longitude"];
-            return new Sector((int)array[0], (int)array[2], (SectorStatus)array[1], occupyingTramNumber, (string)row["Latitude"], (string)row["Longitude"]);
+            var latitude = (decimal)row["Lat"];
+            var longitude = (decimal)row["Long"];
+            return new Sector((int)array[0], (int)array[2], (SectorStatus)array[1], occupyingTramNumber, latitude, longitude);
         }
 
         public Tram CreateTram(DataRow row)
