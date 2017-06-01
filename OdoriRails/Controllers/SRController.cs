@@ -32,13 +32,33 @@ namespace OdoriRails.Controllers
 
             return View(model);
         }
+        public ActionResult MarkAsDone(int id)
+        {
+            var model = new SRModel();
+            var markasdonemodel = new MarkAsDoneViewModel();
+            var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
 
+            if (result is ActionResult) return result as ActionResult;
+            var user = (User)result;
+
+            if (user.Role == Role.HeadEngineer || user.Role == Role.Engineer)
+            {
+                Repair servicetomarkasdone = model.GetRepairToEdit(id);
+                markasdonemodel.RepairMarkAsDone = servicetomarkasdone;
+
+            }
+            if (user.Role == Role.HeadCleaner || user.Role == Role.Cleaner)
+            {
+                Cleaning servicetomarkasdone = model.GetCleaningToEdit(id);
+                markasdonemodel.CleaningMarkAsDone= servicetomarkasdone;
+            }
+            return View(markasdonemodel);
+        }
         public ActionResult EditRepair(int id)
         {
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
             var user = (User)result;
-
             var model = new SRModel(Role.Engineer) { User = user };
             var viewmodel = new EditRepairViewModel();
 
@@ -79,6 +99,7 @@ namespace OdoriRails.Controllers
 
             return View(viewmodel);
         }
+
         [HttpPost]
         public ActionResult EditCleaning(EditCleaningViewModel viewmodel)
         {
@@ -122,5 +143,25 @@ namespace OdoriRails.Controllers
             //TempData["SRModel"] = model;
             return RedirectToAction("Index", "SR");
         }
+
+        [HttpPost]
+        public ActionResult MarkAsDone(MarkAsDoneViewModel viewmodel)
+        {
+            var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
+            if (result is ActionResult) return result as ActionResult;
+            var user = (User)result;
+            if (user.Role == Role.HeadEngineer || user.Role == Role.Engineer)
+            {
+                
+
+            }
+            if (user.Role == Role.HeadCleaner || user.Role == Role.Cleaner)
+            {
+               
+            }
+            return null;
+        }
+
+        
     }
 }

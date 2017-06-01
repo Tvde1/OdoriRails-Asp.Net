@@ -191,6 +191,7 @@
     <Compile Include="Models\LogistiekBeheer\LogistiekBeheerModel.cs" />
     <Compile Include="Models\SRManagement\EditRepairViewModel.cs" />
     <Compile Include="Models\SRManagement\EditCleaningViewModel.cs" />
+    <Compile Include="Models\SRManagement\MarkAsDoneViewModel.cs" />
     <Compile Include="Models\SRManagement\SRModel.cs" />
     <Compile Include="Models\SRManagement\TramHistoryModel.cs" />
     <Compile Include="Models\UserBeheer\EditUserModel.cs" />
@@ -214,11 +215,11 @@
     <Content Include="Views\LogistiekBeheersysteem\Index.cshtml" />
     <Content Include="Views\Shared\_SRLayoutShared.cshtml" />
     <Content Include="Views\SR\EditCleaning.cshtml" />
-    <Content Include="Views\SR\TramGeschiedenis.cshtml" />
     <Content Include="Views\SR\EditRepair.cshtml" />
     <Content Include="Views\SR\AddRepair.cshtml" />
     <Content Include="Views\SR\AddCleaning.cshtml" />
     <Content Include="Views\SR\TramHistory.cshtml" />
+    <Content Include="Views\SR\MarkAsDone.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

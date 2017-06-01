@@ -64,7 +64,8 @@
                         <td>@cleaning.TramId</td>
                         <td>@cleaning.Size</td>
                         <td>@cleaning.Comments</td>
-                        <td>@Html.ActionLink("Edit", "EditCleaning", "SR", new { id = cleaning.Id }, null)</td>
+                        <td>@Html.ActionLink("Edit |", "EditCleaning", "SR", new { id = cleaning.Id }, null)</td>
+                        <td>@Html.ActionLink("Mark as Done", "MarkAsDone", "SR", new { id = cleaning.Id }, null)</td>
                     </tr>
                 }
 
@@ -90,6 +91,7 @@
                         <td>@repair.Defect</td>
                         <td>@repair.Solution</td>
                         <td>@Html.ActionLink("Edit", "EditRepair", "SR", new { id = repair.Id }, null)</td>
+                        <td>@Html.ActionLink("Mark as Done", "MarkAsDone", "SR", new { id = repair.Id }, null)</td>
                     </tr>
 
                 }

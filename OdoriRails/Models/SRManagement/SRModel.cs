@@ -54,11 +54,13 @@ namespace OdoriRails.Models.SRManagement
         public List<User> GetAllCleaners()
         {     
             var clist =_repository.GetAllUsersWithFunction(Role.Cleaner);
+            clist.AddRange(_repository.GetAllUsersWithFunction(Role.HeadCleaner));         
             return clist;
         }
         public List<User> GetAllEngineers()
         {
             var rlist = _repository.GetAllUsersWithFunction(Role.Engineer);
+            rlist.AddRange(_repository.GetAllUsersWithFunction(Role.HeadEngineer));
             return rlist;
         }
 

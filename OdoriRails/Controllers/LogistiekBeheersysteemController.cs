@@ -63,8 +63,7 @@ namespace OdoriRails.Controllers
         //Main Actions
         public ActionResult LockTrack(FormResultModel result)
         {
-            var tracks = result.TrackNumbers.Split(',');
-
+            //var tracks = result.TrackNumbers.Split(',');
             if (result.RadioButton == 1)
             {
                 if (!_logic.Lock(result.TrackNumbers, result.SectorNumbers))
