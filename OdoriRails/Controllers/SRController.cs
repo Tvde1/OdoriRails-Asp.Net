@@ -1,5 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using OdoriRails.Helpers;
+using OdoriRails.Helpers.DAL.ContextInterfaces;
+using OdoriRails.Helpers.DAL.Repository;
 using OdoriRails.Helpers.Objects;
 using OdoriRails.Models.SRManagement;
 
@@ -7,15 +10,16 @@ namespace OdoriRails.Controllers
 {
     public class SRController : BaseControllerFunctions
     {
+        public SchoonmaakReparatieRepository _Repo = new SchoonmaakReparatieRepository();
         // GET: SchoonmaakReparatie
         public ActionResult Index()
         {
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
-            var user = (User)result;
+            var user = (User) result;
 
 
-            var model = TempData["SRModel"] as SRModel ?? new SRModel { User = user };
+            var model = TempData["SRModel"] as SRModel ?? new SRModel { User = user};
 
             if (user.Role == Role.Cleaner || user.Role == Role.HeadCleaner)
             {
@@ -23,7 +27,7 @@ namespace OdoriRails.Controllers
             }
             if (user.Role == Role.Engineer || user.Role == Role.HeadEngineer)
             {
-                model.Repairs = model.RepairListFromUser();
+                model.Repairs = model.RepairListFromUser(); 
             }
 
             return View(model);
@@ -33,9 +37,9 @@ namespace OdoriRails.Controllers
         {
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
-            var user = (User)result;
+            var user = (User) result;
 
-            var model = new SRModel(Role.Engineer) { User = user };
+            var model = new SRModel(Role.Engineer) { User = user };   
 
             if (user.Role != Role.HeadEngineer)
             {
@@ -52,46 +56,46 @@ namespace OdoriRails.Controllers
         {
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
-            var user = (User)result;
+            var user = (User) result;
 
             var model = new SRModel(Role.Cleaner) { User = user };
+            var viewmodel = new EditCleaningViewModel();
 
             if (user.Role != Role.HeadCleaner)
             {
                 model.Error = "You do not have permission to do this!";
                 TempData["SRModel"] = model;
 
-                return RedirectToAction("Index", "SR"); ;
+                return RedirectToAction("Index", "SR");
             }
-            model.Cleaners = model.GetAllCleaners();
-            model.CleaningToEdit = model.GetCleaningToEdit(id);
-            return View(model);
+
+            viewmodel.CleaningToChange = model.GetCleaningToEdit(id);
+            viewmodel.Id = viewmodel.CleaningToChange.Id;
+            viewmodel.AssignedWorkers = model.AssignedWorkers;
+
+            return View(viewmodel);
         }
         [HttpPost]
-        public ActionResult EditCleaning(SRModel model)
+        public ActionResult EditCleaning(EditCleaningViewModel viewmodel)
         {
-            model.EditCleaningInDb(model.CleaningToEdit);
+            SRModel model = new SRModel();
+            List<User> listusers = new List<User>();
+            
+            foreach (var user in viewmodel.AssignedWorkers)
+            {
+                if (user.Value)
+                {
+                    User usertoinsert = _Repo.GetUserFromName(user.Key);
+                    listusers.Add(usertoinsert);
+                }
+            }
+
+            Cleaning changedCleaning = new Cleaning(viewmodel.StartDate, viewmodel.EndDate, viewmodel.Size, viewmodel.Comment, listusers, viewmodel.TramID);
+            _Repo.EditService(changedCleaning);
             model.Error = "Cleaning posted succesfully!";
             TempData["SRModel"] = model;
             return RedirectToAction("Index", "SR");
         }
 
-
-        public ActionResult TramHistory(string id)
-        {
-            if (id == null) return RedirectToAction("Index");
-
-            var newId = 0;
-            if (!int.TryParse(id, out newId)) return RedirectToAction("Index");
-
-            var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
-            if (result is ActionResult) return result as ActionResult;
-            var user = (User)result;
-
-            var model = new TramHistoryModel { User = user, TramId = newId };
-            model.GetServices();
-
-            return View(model);
-        }
     }
 }
