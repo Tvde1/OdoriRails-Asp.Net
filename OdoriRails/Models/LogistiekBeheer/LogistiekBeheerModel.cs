@@ -6,7 +6,8 @@ namespace OdoriRails.Models.LogistiekBeheer
     public enum LogistiekState
     {
         Main,
-        Edit
+        Edit,
+        Delete
     }
 
 

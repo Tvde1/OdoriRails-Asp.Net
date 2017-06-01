@@ -42,8 +42,10 @@ namespace InPlanService
             //Put tram on track thats connected to the line the tram is on
             foreach (BeheerTrack track in _allTracks.Where(track => track.Line == tram.Line && track.Type == TrackType.Normal))
             {
+                Console.WriteLine("Normal");
                 for (int i = 0; i < track.Sectors.Count - 1; i++)
                 {
+                    Console.Write(i);
                     if (track.Sectors[i].OccupyingTram == null && track.Sectors[i].Status == SectorStatus.Open)
                     {
                         BeheerSector beheerSector = track.Sectors[i] == null ? null : BeheerSector.ToBeheerSector(track.Sectors[i]);
@@ -67,6 +69,7 @@ namespace InPlanService
             //If not successful put tram on any other normal track (that doesn't have another line connected to it)
             foreach (BeheerTrack track in _allTracks.Where(track => track.Type == TrackType.Normal))
             {
+                Console.WriteLine("Tram status is overig");
                 for (int i = 0; i < track.Sectors.Count - 1; i++)
                 {
                     if (track.Sectors[0].OccupyingTram == null && track.Sectors[0].Status == SectorStatus.Open)
@@ -88,6 +91,7 @@ namespace InPlanService
             //If not successful put on an exit line
             foreach (BeheerTrack track in _allTracks.Where(track => track.Type == TrackType.Exit))
             {
+                Console.WriteLine("Tram status is exit");
                 for (int i = 0; i < track.Sectors.Count - 1; i++)
                 {
                     if (track.Sectors[0].OccupyingTram == null && track.Sectors[0].Status == SectorStatus.Open)

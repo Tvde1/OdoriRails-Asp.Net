@@ -14,6 +14,8 @@
         public int SectorNumber { get; set; }
         public string SectorNumbers { get; set; }
         public int SectorAmount { get; set; }
+        public int Latitude { get; set; }
+        public int Longitude { get; set; }
         //Other
         public int? DefaultLine { get; set; }
         public int RadioButton { get; set; }

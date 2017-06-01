@@ -62,7 +62,6 @@ namespace OdoriRails.Controllers
 
             return View(model);
         }
-
         private ActionResult TrySignInWithCookies()
         {
             var cookie = Request.Cookies["UserSettings"];
@@ -76,7 +75,6 @@ namespace OdoriRails.Controllers
 
             return result == 1 ? LogIn(username, password, true, true) : null;
         }
-
         private ActionResult AttemptLogin(string username, string password, bool rememberMe)
         {
             var result = _repository.ValidateUser(username, password);
@@ -107,7 +105,6 @@ namespace OdoriRails.Controllers
                 }
             }
         }
-        
         private ActionResult LogIn(string username, string password, bool rememberme, bool isAutomatic = false)
         {
             if (!isAutomatic)
