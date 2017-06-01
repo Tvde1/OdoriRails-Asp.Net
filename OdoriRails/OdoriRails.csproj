@@ -186,6 +186,7 @@
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\LogistiekBeheer\LogistiekBeheerModel.cs" />
     <Compile Include="Models\SRManagement\SRModel.cs" />
+    <Compile Include="Models\SRManagement\TramHistoryModel.cs" />
     <Compile Include="Models\UserBeheer\EditUserModel.cs" />
     <Compile Include="Models\UserBeheer\UserBeheerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -211,6 +212,7 @@
     <Content Include="Views\SR\EditRepair.cshtml" />
     <Content Include="Views\SR\AddRepair.cshtml" />
     <Content Include="Views\SR\AddCleaning.cshtml" />
+    <Content Include="Views\SR\TramHistory.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
