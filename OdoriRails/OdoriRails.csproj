@@ -110,6 +110,9 @@
     <Content Include="Content\signin.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\Icons\TransparantIcon1.gif" />
+    <Content Include="fonts\Icons\TransparantIcon16.gif" />
+    <Content Include="fonts\Icons\TransparantIcon8.gif" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
