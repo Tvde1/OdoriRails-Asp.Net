@@ -51,7 +51,7 @@
                     var userList = new List<SelectListItem> { new SelectListItem() };
                     userList.AddRange(Model.AllUsers.Select(x => new SelectListItem { Text = x.Name }).ToList());
                 }
-                <td>@Html.DropDownListFor(x => x.EditUser.ManagerName, userList, new { Id = "DropDownManager" }) </td> @*Todo: kijken of persoon bestaat.*@
+                <td>@Html.DropDownListFor(x => x.EditUser.ManagerName, userList, new { Id = "DropDownManager" }) </td>
             </tr>
             <tr>
                 <td>Tram Id</td>
@@ -71,6 +71,5 @@
                     }
 
 <script type="text/javascript">
-    document.getElementById('DropDownRole').Value = @Model.EditUser.Role;
     document.getElementById('DropDownManager').Value = @Model.EditUser.ManagerName;
 </script>
