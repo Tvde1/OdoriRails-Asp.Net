@@ -7,7 +7,6 @@ namespace InPlanService.CSV
 {
     public class CSVContext : I_CSVContext
     {
-        //string path = @"..\..\DAL\InUitRijSchema.csv"; //Select for testing file in project
         string path = @"Uitnummerlijst.csv"; //Select for testing file in executable folder
 
         public List<InUitRijSchema> getSchema()
@@ -39,9 +38,8 @@ namespace InPlanService.CSV
             }
             catch
             {
-                //MessageBox.Show("Bestand uitlezen mislukt");
+                throw new CouldNotReadCSVFileExeption();
             }
-            return null;
         }
     }
 }

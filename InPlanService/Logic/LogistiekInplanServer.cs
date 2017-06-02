@@ -20,7 +20,14 @@ namespace InPlanService
         public LogistiekInPlanServer()
         {
             _csv = new CSVContext();
-            _schema = _csv.getSchema();
+            try
+            {
+                _schema = _csv.getSchema();
+            }
+            catch (CouldNotReadCSVFileExeption)
+            {
+                Console.WriteLine("ERROR: Could not find Uitnummerlijst.CSV");
+            }
         }
 
         public void FetchMovingTrams()
