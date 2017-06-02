@@ -44,8 +44,6 @@ namespace OdoriRails.Helpers.DAL.Repository
         {
             var sector = _sectors.FirstOrDefault(x => x.TramId == tram.Number);
 
-            
-
             foreach (var track in _tracks)
             {
                 foreach (var temp in track.Value.Sectors)
@@ -56,9 +54,7 @@ namespace OdoriRails.Helpers.DAL.Repository
                     }
                 }
             }
-            //var track = _tracks.FirstOrDefault(x => x.Value.Sectors.Exists(y => x.Key == y.TrackNumber));
             if (tempExportTrack == null) return new KeyValuePair<Track, Sector>(null, null);
-            //var sectors = _sectors.FirstOrDefault(x => x.TrackNumber == track.Key);
             
             return new KeyValuePair<Track, Sector>(tempExportTrack, sector);
         }

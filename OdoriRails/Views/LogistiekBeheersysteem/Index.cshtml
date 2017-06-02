@@ -43,7 +43,7 @@
                             @Html.Label("Lock:") @Html.RadioButtonFor(m => m.Form.RadioButton, new { id = 0 }, true)
                         </td>
                         <td>
-                            @Html.Label("Unlock:") @Html.RadioButtonFor(m => m.Form.RadioButton, new { id = 0 }, true)
+                            @Html.Label("Unlock:") @Html.RadioButtonFor(m => m.Form.RadioButton, new { id = 1 }, true)
                         </td>
                     </tr>
                 </table>
@@ -329,6 +329,9 @@ else
             }
         ];
 
+        var markersArray = [];
+        var oldJson;
+
         console.log("initmap...");
         map = new google.maps.Map(document.getElementById('map'),
             {
@@ -363,7 +366,6 @@ else
             marker = new google.maps.Marker({
                 position: location,
                 label: labeltext,
-                animation: google.maps.Animation.DROP,
                 map: map,
                 icon: "../../fonts/Icons/TransparantIcon16.gif"
             });
@@ -378,46 +380,65 @@ else
                 textBox.value = parseInt(marker.label);
                 infowindowold = infowindow;
             });
+            markersArray.push(marker);
         }
         //var coordinates = { lat: 52.348012, lng: 4.852770 };
         //addMarker(coordinates, map);
 
         var requestMethod = function (data) {
-            for (var i = 0; i < data.length; i++) {
-                var lat = parseFloat(data[i].Latitude);
-                var lng = parseFloat(data[i].Longitude);
-                var location = { lat, lng };
-                console.log(String(data[i].TramNumber));
-                console.log(location);
-                contentString = '<div id="content">' +
-                    '<div id="siteNotice">' +
-                    '</div>' +
-                    '<h1 id="firstHeading" class="firstHeading">' +
-                    String(data[i].TramNumber) +
-                    '</h1>' +
-                    '<div id="bodyContent">' +
-                    '<p>Tracknumber: ' +
-                    String(data[i].TrackNumber) +
-                    '</p>' +
-                    '<p>Tracktype: ' +
-                    String(data[i].TrackType) +
-                    '</p>' +
-                    '<p>Sectornumber: ' +
-                    String(data[i].SectorNumber) +
-                    '</p>' +
-                    '<p>Line: ' +
-                    String(data[i].Line) +
-                    '</p>' +
-                    '</div>' +
-                    '</div>';
-                addMarker(location, map, String(data[i].TramNumber), contentString);
+            if (oldJson !== data) {
+                for (var i = 0; i < data.length; i++) {
+                    var lat = parseFloat(data[i].Latitude);
+                    var lng = parseFloat(data[i].Longitude);
+                    var location = { lat, lng };
+                    console.log(String(data[i].TramNumber));
+                    console.log(location);
+                    contentString = '<div id="content">' +
+                        '<div id="siteNotice">' +
+                        '</div>' +
+                        '<h1 id="firstHeading" class="firstHeading">' +
+                        String(data[i].TramNumber) +
+                        '</h1>' +
+                        '<div id="bodyContent">' +
+                        '<p>Tracknumber: ' +
+                        String(data[i].TrackNumber) +
+                        '</p>' +
+                        '<p>Tracktype: ' +
+                        String(data[i].TrackType) +
+                        '</p>' +
+                        '<p>Sectornumber: ' +
+                        String(data[i].SectorNumber) +
+                        '</p>' +
+                        '<p>Line: ' +
+                        String(data[i].Line) +
+                        '</p>' +
+                        '</div>' +
+                        '</div>';
+                    addMarker(location, map, String(data[i].TramNumber), contentString);
+                    oldJson = data;
+                }
             }
         }
 
         var documentReady = function () {
             $.getJSON('/api/GoogleMapsAPI').done(requestMethod);
             console.log("json read!");
+            map.clearOverlays();
+            }
+
+        google.maps.Map.prototype.clearOverlays = function () {
+            for (var i = 0; i < markersArray.length; i++) {
+                markersArray[i].setMap(null);
+            }
+            markersArray.length = 0;
         }
+
+        var myVar = setInterval(myTimer, 5000);
+
+        function myTimer() {
+            documentReady();
+        }
+
         $(document).ready(documentReady());
     }
 
