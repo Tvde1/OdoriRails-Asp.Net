@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>OdoriRailsIcon.png.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -42,12 +45,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CSV\CSVContext.cs" />
-    <Compile Include="CSV\I_CSVContext.cs" />
-    <Compile Include="LogistiekInplanServer.cs" />
+    <Compile Include="Logic\CSV\CouldNotReadCSVFileError.cs" />
+    <Compile Include="Logic\CSV\CSVContext.cs" />
+    <Compile Include="Logic\CSV\I_CSVContext.cs" />
+    <Compile Include="Logic\LogistiekInplanServer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SortingAlgoritm.cs" />
+    <Compile Include="Logic\SortingAlgoritm.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -57,6 +61,9 @@
       <Project>{20e46844-6914-470f-8dda-e1bb9dd09143}</Project>
       <Name>OdoriRails</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="OdoriRailsIcon.png.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
