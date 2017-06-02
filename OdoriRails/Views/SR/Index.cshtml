@@ -1,7 +1,7 @@
 ﻿@using System.Security.Cryptography
 @using OdoriRails.Helpers.Objects
 @using OdoriRails.Models.SRManagement
-@model OdoriRails.Models.SRManagement.SRModel
+@model OdoriRails.Models.SRManagement.SRLogic
 @{
     ViewBag.Title = "About";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,12 +9,13 @@
 <div class="secondarybar">
     @if (Model.User.Role == Role.HeadCleaner)
     {
-        Html.ActionLink("Add Service", "AddCleaning", "SR");
+        @Html.ActionLink("Add Service", "AddCleaning", "SR")
     }
     @if (Model.User.Role == Role.HeadEngineer)
     {
-        Html.ActionLink("Add Service", "AddCleaning", "SR");
+        @Html.ActionLink("Add Service", "AddRepair", "SR")
     }
+    @Html.ActionLink("Tram History", "TramHistory", "SR")
 </div>
 <div class="container" align="center">
     <table class="table table-striped table-hover">

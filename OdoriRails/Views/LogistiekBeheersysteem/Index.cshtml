@@ -295,8 +295,10 @@ else
     <div style="border-radius: 4px; margin-top: 10px; height: 800px; width: 100%;" id="map"></div>
 </div>
 </div>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 <script>
     var map;
+    var markers;
     function initMap() {
 
         var myStyle = [
@@ -327,6 +329,9 @@ else
             }
         ];
 
+        var markersArray = [];
+        var oldJson;
+
         console.log("initmap...");
         map = new google.maps.Map(document.getElementById('map'),
             {
@@ -335,7 +340,7 @@ else
             },
             center: { lat: 52.348012, lng: 4.852770 },
             zoom: 18,
-            draggable: false,
+            draggable: true,
             scrollwheel: false,
             navigationControl: false,
             mapTypeControl: false,
@@ -347,77 +352,95 @@ else
 
         map.mapTypes.set('myStyle', new google.maps.StyledMapType(myStyle, { name: 'My Style' }));
 
-        
+        var contentString;
 
-        var marker;
+        var infowindowold;
 
-        function addMarker(location, map, labeltext) {
+        var textBox = document.getElementById('Form_TramNumber');
+
+        function addMarker(location, map, labeltext, contentString) {
+            var marker;
             console.log("adding Marker!");
             // Add the marker at the clicked location, and add the next-available label
             // from the array of alphabetical characters.
             marker = new google.maps.Marker({
                 position: location,
                 label: labeltext,
-                animation: google.maps.Animation.DROP,
                 map: map,
                 icon: "../../fonts/Icons/TransparantIcon16.gif"
             });
             marker.addListener('click', function () {
+                var infowindow = new google.maps.InfoWindow({
+                    content: contentString
+                });
+                if (infowindowold) {
+                    infowindowold.close();
+                }
                 infowindow.open(map, marker);
+                textBox.value = parseInt(marker.label);
+                infowindowold = infowindow;
             });
+            markersArray.push(marker);
         }
         //var coordinates = { lat: 52.348012, lng: 4.852770 };
         //addMarker(coordinates, map);
 
-        var contentString;
-
-        var infowindow = new google.maps.InfoWindow({
-            content: contentString
-        });
-
-        var DocumentReady = function () {
-            $.getJSON('/api/GoogleMapsAPI').done(RequestMethod);
-            console.log("json read!");
-        }
-
-        var RequestMethod = function (data) {
-            var long = $('#Longitude');
-            var lat = $('#Latitude');
-            var line = $('#Line');
-            var tracknumber = $('#TrackNumber');
-            var tramnumber = $('#TramNumber');
-            var tracktype = $('#TrackType');
-            var sectornumber = $('#SectorNumber');
-            for (var i = 0; i < data.length; i++) {
-                var location = { lat, long }
-                addMarker(location, map, tramnumber);
-                contentString = '<div id="content">' +
-                    '<div id="siteNotice">' +
-                    '</div>' +
-                    '<h1 id="firstHeading" class="firstHeading">' +
-                    'temp' +
-                    '</h1>' +
-                    '<div id="bodyContent">' +
-                    '<p>Tracknumber: ' +
-                    tracknumber +
-                    '</p>' +
-                    '<p>Tracktype: ' +
-                    tracktype +
-                    '</p>' +
-                    '<p>Sectornumber: ' +
-                    sectornumber +
-                    '</p>' +
-                    '<p>Line: ' +
-                    line +
-                    '</p>' +
-                    '</div>' +
-                    '</div>';
+        var requestMethod = function (data) {
+            if (oldJson !== data) {
+                for (var i = 0; i < data.length; i++) {
+                    var lat = parseFloat(data[i].Latitude);
+                    var lng = parseFloat(data[i].Longitude);
+                    var location = { lat, lng };
+                    console.log(String(data[i].TramNumber));
+                    console.log(location);
+                    contentString = '<div id="content">' +
+                        '<div id="siteNotice">' +
+                        '</div>' +
+                        '<h1 id="firstHeading" class="firstHeading">' +
+                        String(data[i].TramNumber) +
+                        '</h1>' +
+                        '<div id="bodyContent">' +
+                        '<p>Tracknumber: ' +
+                        String(data[i].TrackNumber) +
+                        '</p>' +
+                        '<p>Tracktype: ' +
+                        String(data[i].TrackType) +
+                        '</p>' +
+                        '<p>Sectornumber: ' +
+                        String(data[i].SectorNumber) +
+                        '</p>' +
+                        '<p>Line: ' +
+                        String(data[i].Line) +
+                        '</p>' +
+                        '</div>' +
+                        '</div>';
+                    addMarker(location, map, String(data[i].TramNumber), contentString);
+                    oldJson = data;
+                }
             }
         }
 
-        $(document).ready(DocumentReady);
-    }
+        var documentReady = function () {
+            $.getJSON('/api/GoogleMapsAPI').done(requestMethod);
+            console.log("json read!");
+            map.clearOverlays();
+            }
 
+        google.maps.Map.prototype.clearOverlays = function () {
+            for (var i = 0; i < markersArray.length; i++) {
+                markersArray[i].setMap(null);
+            }
+            markersArray.length = 0;
+        }
+
+        var myVar = setInterval(myTimer, 5000);
+
+        function myTimer() {
+            documentReady();
+        }
+
+        $(document).ready(documentReady());
+    }
 
 
     

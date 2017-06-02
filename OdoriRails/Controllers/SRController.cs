@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using OdoriRails.Helpers;
 using OdoriRails.Helpers.DAL.ContextInterfaces;
@@ -11,16 +12,17 @@ namespace OdoriRails.Controllers
 {
     public class SRController : BaseControllerFunctions
     {
+
         public SchoonmaakReparatieRepository _Repo = new SchoonmaakReparatieRepository();
         // GET: SchoonmaakReparatie
         public ActionResult Index()
         {
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
-            var user = (User) result;
+            var user = (User)result;
 
 
-            var model = TempData["SRModel"] as SRModel ?? new SRModel { User = user};
+            var model = TempData["SRLogic"] as SRLogic ?? new SRLogic { User = user };
 
             if (user.Role == Role.Cleaner || user.Role == Role.HeadCleaner)
             {
@@ -28,14 +30,51 @@ namespace OdoriRails.Controllers
             }
             if (user.Role == Role.Engineer || user.Role == Role.HeadEngineer)
             {
-                model.Repairs = model.RepairListFromUser(); 
+                model.Repairs = model.RepairListFromUser();
             }
 
             return View(model);
         }
+
+        public ActionResult AddCleaning()
+        {
+            var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
+            if (result is ActionResult) return result as ActionResult;
+            var user = (User)result;
+            SRLogic _logic = new SRLogic();
+            AddCleaningModel model = new AddCleaningModel();
+
+            if (user.Role != Role.HeadCleaner)
+            {
+                _logic.Error = "You do not have permission to do this!";
+                TempData["SRLogic"] = _logic;
+
+                return RedirectToAction("Index", "SR");
+            }
+            model.AssignedWorkers = _logic.AssignedWorkers;
+            return View(model);
+        }
+
+        public ActionResult AddRepair()
+        {
+            var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
+            if (result is ActionResult) return result as ActionResult;
+            var user = (User)result;
+            SRLogic _logic = new SRLogic(Role.Engineer);
+            AddRepairModel model = new AddRepairModel();
+
+            if (user.Role != Role.HeadEngineer)
+            {
+                _logic.Error = "You do not have permission to do this!";
+
+                return RedirectToAction("Index", "SR");
+            }
+            model.AssignedWorkers = _logic.AssignedWorkers;
+            return View(model);
+        }
         public ActionResult MarkAsDone(int id)
         {
-            var model = new SRModel();
+            var model = new SRLogic();
             var markasdonemodel = new MarkAsDoneViewModel();
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
 
@@ -46,13 +85,17 @@ namespace OdoriRails.Controllers
             {
                 Repair servicetomarkasdone = model.GetRepairToEdit(id);
                 markasdonemodel.RepairMarkAsDone = servicetomarkasdone;
+                markasdonemodel.Serviceid = servicetomarkasdone.Id;
 
             }
             if (user.Role == Role.HeadCleaner || user.Role == Role.Cleaner)
             {
                 Cleaning servicetomarkasdone = model.GetCleaningToEdit(id);
-                markasdonemodel.CleaningMarkAsDone= servicetomarkasdone;
+                markasdonemodel.CleaningMarkAsDone = servicetomarkasdone;
+                markasdonemodel.Serviceid = servicetomarkasdone.Id;
             }
+
+            markasdonemodel.User = user;
             return View(markasdonemodel);
         }
         public ActionResult EditRepair(int id)
@@ -60,20 +103,20 @@ namespace OdoriRails.Controllers
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
             var user = (User)result;
-            var model = new SRModel(Role.Engineer) { User = user };
+            var _logic = new SRLogic(Role.Engineer) { User = user };
             var viewmodel = new EditRepairViewModel();
 
             if (user.Role != Role.HeadEngineer)
             {
-                model.Error = "You do not have permission to do this!";
-                TempData["SRModel"] = model;
+                _logic.Error = "You do not have permission to do this!";
+                TempData["SRLogic"] = _logic;
 
                 return RedirectToAction("Index", "SR");
             }
 
-            viewmodel.RepairToChange = model.GetRepairToEdit(id);
+            viewmodel.RepairToChange = _logic.GetRepairToEdit(id);
             viewmodel.Id = viewmodel.RepairToChange.Id;
-            viewmodel.AssignedWorkers = model.AssignedWorkers;
+            viewmodel.AssignedWorkers = _logic.AssignedWorkers;
 
             return View(viewmodel);
         }
@@ -81,32 +124,38 @@ namespace OdoriRails.Controllers
         {
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
-            var user = (User) result;
+            var user = (User)result;
 
-            var model = new SRModel(Role.Cleaner) { User = user };
+            var _logic = new SRLogic(Role.Cleaner) { User = user };
             var viewmodel = new EditCleaningViewModel();
 
             if (user.Role != Role.HeadCleaner)
             {
-                model.Error = "You do not have permission to do this!";
-                TempData["SRModel"] = model;
+                _logic.Error = "You do not have permission to do this!";
+                TempData["SRLogic"] = _logic;
 
                 return RedirectToAction("Index", "SR");
             }
 
-            viewmodel.CleaningToChange = model.GetCleaningToEdit(id);
+            viewmodel.CleaningToChange = _logic.GetCleaningToEdit(id);
             viewmodel.Id = viewmodel.CleaningToChange.Id;
-            viewmodel.AssignedWorkers = model.AssignedWorkers;
+            viewmodel.AssignedWorkers = _logic.AssignedWorkers;
 
             return View(viewmodel);
+        }
+
+        public ActionResult TramHistory()
+        {
+            var model = new TramHistoryModel();
+            return View(model);
         }
 
         [HttpPost]
         public ActionResult EditCleaning(EditCleaningViewModel viewmodel)
         {
-            SRModel model = new SRModel();
+            SRLogic logic = new SRLogic();
             List<User> listusers = new List<User>();
-            
+
             foreach (var user in viewmodel.AssignedWorkers)
             {
                 if (user.Value)
@@ -118,15 +167,15 @@ namespace OdoriRails.Controllers
 
             Cleaning changedCleaning = new Cleaning(viewmodel.Id, viewmodel.StartDate, viewmodel.EndDate, viewmodel.Size, viewmodel.Comment, listusers, viewmodel.TramID);
             _Repo.EditService(changedCleaning);
-            model.Error = "Cleaning posted succesfully!";
-            //TempData["SRModel"] = model; 
+            logic.Error = "Cleaning posted succesfully!";
+            //TempData["SRLogic"] = logic; 
             return RedirectToAction("Index", "SR");
         }
 
         [HttpPost]
         public ActionResult EditRepair(EditRepairViewModel viewmodel)
         {
-            SRModel model = new SRModel();
+            SRLogic logic = new SRLogic();
             List<User> listusers = new List<User>();
 
             foreach (var user in viewmodel.AssignedWorkers)
@@ -140,8 +189,8 @@ namespace OdoriRails.Controllers
 
             Repair changedRepair = new Repair(viewmodel.Id, viewmodel.StartDate, viewmodel.EndDate, viewmodel.Size, viewmodel.Defect, viewmodel.Solution, listusers, viewmodel.TramID);
             _Repo.EditService(changedRepair);
-            model.Error = "Repair posted succesfully!";
-            //TempData["SRModel"] = model;
+            logic.Error = "Repair posted succesfully!";
+            //TempData["SRLogic"] = logic;
             return RedirectToAction("Index", "SR");
         }
 
@@ -151,21 +200,69 @@ namespace OdoriRails.Controllers
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
             var user = (User)result;
+
             if (user.Role == Role.HeadEngineer || user.Role == Role.Engineer)
             {
-                _Repo.SetTramStatusToIdle(viewmodel.RepairMarkAsDone.TramId);
-                _Repo.AddSolution(viewmodel.RepairMarkAsDone, viewmodel.Solution); 
-                viewmodel.RepairMarkAsDone.EndDate = DateTime.Now;
-                _Repo.EditService(viewmodel.RepairMarkAsDone);
+                var rlist = _Repo.GetRepairFromId(viewmodel.Serviceid);
+                var repairtofinish = rlist.ElementAt(0);
+                _Repo.SetTramStatusToIdle(viewmodel.TramIdtoCarryOver);
+                repairtofinish.EndDate = DateTime.Now;
+                repairtofinish.Solution = viewmodel.Solution;
+                _Repo.EditService(repairtofinish);
 
             }
             if (user.Role == Role.HeadCleaner || user.Role == Role.Cleaner)
             {
-               
+                var clist = _Repo.GetCleanFromId(viewmodel.Serviceid);
+                var cleantofinish = clist.ElementAt(0);
+                _Repo.SetTramStatusToIdle(viewmodel.TramIdtoCarryOver);
+                cleantofinish.EndDate = DateTime.Now;
+                cleantofinish.Comments = viewmodel.Comment;
+                _Repo.EditService(cleantofinish);
             }
-            return null;
+
+            return RedirectToAction("Index");
         }
 
-        
+        [HttpPost]
+        public ActionResult AddCleaning(AddCleaningModel model)
+        {
+            List<User> listusers = new List<User>();
+
+            foreach (var user in model.AssignedWorkers)
+            {
+                if (user.Value)
+                {
+                    User usertoinsert = _Repo.GetUserFromName(user.Key);
+                    listusers.Add(usertoinsert);
+                }
+            }
+            Cleaning cleaningtopost = new Cleaning(model.StartDate, null, model.Size, model.Comment, listusers, model.TramID);
+
+            _Repo.AddCleaning(cleaningtopost);
+            return RedirectToAction("Index");
+
+        }
+        [HttpPost]
+        public ActionResult AddRepair(AddRepairModel model)
+        {
+            List<User> listusers = new List<User>();
+
+            foreach (var user in model.AssignedWorkers)
+            {
+                if (user.Value)
+                {
+                    User usertoinsert = _Repo.GetUserFromName(user.Key);
+                    listusers.Add(usertoinsert);
+                }
+            }
+            Repair repairtopost = new Repair(model.StartDate, null, model.Type, model.Defect, "", listusers, model.TramID);
+
+            _Repo.AddRepair(repairtopost);
+
+            return RedirectToAction("Index");
+
+        }
+
     }
 }

@@ -85,7 +85,7 @@ namespace OdoriRails.Helpers.Objects
 
         public Repair CreateRepair(DataRow row)
         {
-            var id = (int)row["ServicePk"];
+            var id = (int)row["ServiceFk"];
             var startDate = (DateTime)row["StartDate"];
             var endDate = row["EndDate"] == DBNull.Value ? (DateTime?)null : (DateTime)row["EndDate"];
             var tramId = (int)row["TramFk"];
@@ -93,7 +93,7 @@ namespace OdoriRails.Helpers.Objects
             var solution = (string)row["Solution"];
             var defect = (string)row["Defect"];
             var type = (RepairType)row["Type"];
-            var users = GenerateListWithFunction(_serviceContext.GetUsersInServiceById((int)row["ServicePk"]), CreateUser);
+            var users = GenerateListWithFunction(_serviceContext.GetUsersInServiceById((int)row["ServiceFk"]), CreateUser);
 
             return new Repair(id, startDate, endDate, type, defect, solution, users, tramId);
         }
