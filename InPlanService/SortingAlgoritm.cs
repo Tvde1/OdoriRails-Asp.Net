@@ -31,10 +31,13 @@ namespace InPlanService
                 {
                     for (int i = 0; i < track.Sectors.Count; i++)
                     {
-                        if (track.Sectors[i].OccupyingTram != null || track.Sectors[i].Status != SectorStatus.Open) continue;
-                        BeheerSector beheerSector = track.Sectors[i] == null ? null : BeheerSector.ToBeheerSector(track.Sectors[i]);
-                        track.Sectors[i] = Assign(beheerSector, tram);
-                        Console.WriteLine($"Moved tram {tram.Number} to track: {beheerSector.TrackNumber}, sector: {beheerSector.Number} ({tram.Status})");
+                        if (track.Sectors[i].OccupyingTram == null && track.Sectors[i].Status == SectorStatus.Open)
+                        {
+                            BeheerSector beheerSector = BeheerSector.ToBeheerSector(track.Sectors[i]);
+                            track.Sectors[i] = Assign(beheerSector, tram);
+                            Console.WriteLine("Moved tram {0} to track: {1}, sector: {2} ({3})", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1, tram.Status.ToString());
+                            return;
+                        }
                     }
                 }
             }
@@ -46,19 +49,21 @@ namespace InPlanService
                 {
                     if (track.Sectors[i].OccupyingTram == null && track.Sectors[i].Status == SectorStatus.Open)
                     {
-                        BeheerSector beheerSector = track.Sectors[i] == null ? null : BeheerSector.ToBeheerSector(track.Sectors[i]);
+                        BeheerSector beheerSector = BeheerSector.ToBeheerSector(track.Sectors[i]);
                         track.Sectors[i] = Assign(beheerSector, tram);
-                        Console.WriteLine($"Moved tram {tram.Number} to track: {beheerSector.TrackNumber}, sector: {beheerSector.Number}");
+                        Console.WriteLine("Moved tram {0} to track: {1}, sector: {2}", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1);
+                        return;
                     }
 
                     if (track.Sectors[i].Status == SectorStatus.Occupied && track.Sectors[i].OccupyingTram.DepartureTime < tram.DepartureTime)
                     {
-                        if (track.Sectors[i + 1].Status != SectorStatus.Open) continue;
-                        BeheerSector beheerSector = track.Sectors[i + 1] == null
-                            ? null
-                            : BeheerSector.ToBeheerSector(track.Sectors[i + 1]);
-                        track.Sectors[i + 1] = Assign(beheerSector, tram);
-                        Console.WriteLine($"Moved tram {tram.Number} to track: {beheerSector.TrackNumber}, sector: {beheerSector.Number}");
+                        if (track.Sectors[i + 1].Status == SectorStatus.Open)
+                        {
+                            BeheerSector beheerSector = BeheerSector.ToBeheerSector(track.Sectors[i + 1]);
+                            track.Sectors[i + 1] = Assign(beheerSector, tram);
+                            Console.WriteLine("Moved tram {0} to track: {1}, sector: {2}", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1);
+                            return;
+                        }
                     }
                 }
             }
@@ -70,16 +75,20 @@ namespace InPlanService
                 {
                     if (track.Sectors[0].OccupyingTram == null && track.Sectors[0].Status == SectorStatus.Open)
                     {
-                        BeheerSector beheerSector = track.Sectors[i] == null ? null : BeheerSector.ToBeheerSector(track.Sectors[i]);
+                        BeheerSector beheerSector = BeheerSector.ToBeheerSector(track.Sectors[i]);
                         track.Sectors[i] = Assign(beheerSector, tram);
-                        Console.WriteLine($"Moved tram {tram.Number} to track: {beheerSector.TrackNumber}, sector: {beheerSector.Number}");
+                        Console.WriteLine("Moved tram {0} to track: {1}, sector: {2}", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1);
+                        return;
                     }
-                    if (track.Sectors[i].Status == SectorStatus.Occupied && track.Sectors[i].OccupyingTram.DepartureTime < tram.DepartureTime)
+                    else if (track.Sectors[i].Status == SectorStatus.Occupied && track.Sectors[i].OccupyingTram.DepartureTime < tram.DepartureTime)
                     {
-                        if (track.Sectors[i + 1].Status != SectorStatus.Open) continue;
-                        BeheerSector beheerSector = track.Sectors[i + 1] == null ? null : BeheerSector.ToBeheerSector(track.Sectors[i + 1]);
-                        track.Sectors[i + 1] = Assign(beheerSector, tram);
-                        Console.WriteLine($"Moved tram {tram.Number} to track: {beheerSector.TrackNumber}, sector: {beheerSector.Number}");
+                        if (track.Sectors[i + 1].Status == SectorStatus.Open)
+                        {
+                            BeheerSector beheerSector = BeheerSector.ToBeheerSector(track.Sectors[i + 1]);
+                            track.Sectors[i + 1] = Assign(beheerSector, tram);
+                            Console.WriteLine("Moved tram {0} to track: {1}, sector: {2}", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1);
+                            return;
+                        }
                     }
                 }
             }
@@ -91,23 +100,30 @@ namespace InPlanService
                 {
                     if (track.Sectors[0].OccupyingTram == null && track.Sectors[0].Status == SectorStatus.Open)
                     {
-                        BeheerSector beheerSector = track.Sectors[i] == null ? null : BeheerSector.ToBeheerSector(track.Sectors[i]);
+                        BeheerSector beheerSector = BeheerSector.ToBeheerSector(track.Sectors[i]);
                         track.Sectors[i] = Assign(beheerSector, tram);
-                        Console.WriteLine($"Moved tram {tram.Number} to track: {beheerSector.TrackNumber}, sector: {beheerSector.Number}");
+                        Console.WriteLine("Moved tram {0} to track: {1}, sector: {2}", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1);
+                        return;
                     }
-                    if (track.Sectors[i].Status == SectorStatus.Occupied && track.Sectors[i].OccupyingTram.DepartureTime < tram.DepartureTime)
+                    else if (track.Sectors[i].Status == SectorStatus.Occupied && track.Sectors[i].OccupyingTram.DepartureTime < tram.DepartureTime)
                     {
-                        if (track.Sectors[i + 1].Status != SectorStatus.Open) continue;
-                        BeheerSector beheerSector = track.Sectors[i + 1] == null ? null : BeheerSector.ToBeheerSector(track.Sectors[i + 1]);
-                        track.Sectors[i + 1] = Assign(beheerSector, tram);
-                        Console.WriteLine($"Moved tram {tram.Number} to track: {beheerSector.TrackNumber}, sector: {beheerSector.Number}");
+                        if (track.Sectors[i + 1].Status == SectorStatus.Open)
+                        {
+                            BeheerSector beheerSector = BeheerSector.ToBeheerSector(track.Sectors[i + 1]);
+                            track.Sectors[i + 1] = Assign(beheerSector, tram);
+                            Console.WriteLine("Moved tram {0} to track: {1}, sector: {2}", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1);
+                            return;
+                        }
                     }
-                    if (track.Sectors[i].Status == SectorStatus.Occupied && track.Sectors[0].OccupyingTram.DepartureTime == null)
+                    else if (track.Sectors[i].Status == SectorStatus.Occupied && track.Sectors[0].OccupyingTram.DepartureTime == null)
                     {
-                        if (track.Sectors[i + 1].Status != SectorStatus.Open) continue;
-                        BeheerSector beheerSector = track.Sectors[i + 1] == null ? null : BeheerSector.ToBeheerSector(track.Sectors[i + 1]);
-                        track.Sectors[i + 1] = Assign(beheerSector, tram);
-                        Console.WriteLine($"Moved tram {tram.Number} to track: {beheerSector.TrackNumber}, sector: {beheerSector.Number}");
+                        if (track.Sectors[i + 1].Status == SectorStatus.Open)
+                        {
+                            BeheerSector beheerSector = BeheerSector.ToBeheerSector(track.Sectors[i + 1]);
+                            track.Sectors[i + 1] = Assign(beheerSector, tram);
+                            Console.WriteLine("Moved tram {0} to track: {1}, sector: {2}", tram.Number, beheerSector.TrackNumber, beheerSector.Number + 1);
+                            return;
+                        }
                     }
                 }
             }
