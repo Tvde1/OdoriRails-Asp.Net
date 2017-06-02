@@ -61,10 +61,14 @@ namespace OdoriRails.Helpers.DAL.Contexts
         public void AddSector(Sector sector, Track track)
         {
             var query = new SqlCommand(
-                "INSERT INTO Sector (SectorPk, TrackFk, RemiseFK) VALUES (@id, @track, @remise)");
+                "INSERT INTO Sector (SectorPk, TrackFk, RemiseFK, lat, long) VALUES (@id, @track, @remise, @lat, @long)");
             query.Parameters.AddWithValue("@id", sector.Number);
             query.Parameters.AddWithValue("@track", track.Number);
             query.Parameters.AddWithValue("@remise", 1);
+            if (sector.Latitude != null) query.Parameters.AddWithValue("@lat", sector.Latitude.Value);
+            else query.Parameters.AddWithValue("@lat", DBNull.Value);
+            if (sector.Longitude != null) query.Parameters.AddWithValue("@long", sector.Longitude.Value);
+            else query.Parameters.AddWithValue("@long", DBNull.Value);
             DatabaseHandler.GetData(query);
         }
 
@@ -83,9 +87,9 @@ namespace OdoriRails.Helpers.DAL.Contexts
 
         public void DeleteSectorFromTrack(Track track, Sector sector)
         {
-            var query = new SqlCommand("DELETE FROM Sector WHERE TrackFk = @track AND SectorPK = @sector");
+            var query = new SqlCommand("DELETE FROM Sector WHERE TrackFk = @track AND SectorPk = @sector");
             query.Parameters.AddWithValue("@track", track.Number);
-            query.Parameters.AddWithValue("@sector", sector.Number + 1);
+            query.Parameters.AddWithValue("@sector", sector.Number);
             DatabaseHandler.GetData(query);
         }
 

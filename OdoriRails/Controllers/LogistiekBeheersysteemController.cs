@@ -29,7 +29,8 @@ namespace OdoriRails.Controllers
             return View(remise);
         }
 
-        //Tab Actions
+        #region tab actions
+
         public ActionResult SetStateMain()
         {
             var remise = (LogistiekBeheerModel)Session["Remise"];
@@ -52,121 +53,133 @@ namespace OdoriRails.Controllers
             return RedirectToAction("Index");
         }
 
-        //Main Actions
-        public ActionResult LockTrack(FormResultModel result)
-        {
-            var remise = (LogistiekBeheerModel)Session["Remise"];
-            if (remise == null) return RedirectToAction("Index");
-            //var tracks = result.TrackNumbers.Split(',');
-            if (result.RadioButton == 1)
-            {
-                if (string.IsNullOrEmpty(result.TrackNumbers) || !_logic.Lock(result.TrackNumbers, result.SectorNumbers))
-                {
-                    remise.Error = "Input is incorrect.";
-                    return RedirectToAction("Index");
-                }
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(result.TrackNumbers) ||  !_logic.Unlock(result.TrackNumbers, result.SectorNumbers))
-                {
-                    remise.Error = "Input is incorrect.";
-                    return RedirectToAction("Index");
-                }
-            }
-            remise = null;
-            return RedirectToAction("Index");
-        }
-        public ActionResult MoveTram(FormResultModel result)
-        {
-            var remise = (LogistiekBeheerModel)Session["Remise"];
-            if (remise == null) return RedirectToAction("Index");
-
-            if (_logic.MoveTram(result.TramNumber, result.TrackNumber, result.SectorNumber) == false)
-            {
-                remise.Error = "Failed to move the tram";
-            }
-            else
-            {
-                Session["Remise"] = null; //Reload Display after update
-            }
-
-            return RedirectToAction("Index");
-        }
-        public ActionResult ToggleDisabled(FormResultModel result)
-        {
-            var remise = (LogistiekBeheerModel) Session["Remise"];
-            if (remise == null) return RedirectToAction("Index");
-            _logic.ToggleDisabled(result.TramNumbers);
-            Session["Remise"] = null;
-            return RedirectToAction("Index");
-        }
+        #endregion
 
         //Main Actions
-        public ActionResult AddTram(FormResultModel result)
+        public ActionResult LockTrack(LogistiekBeheerModel result)
         {
+            //Testen
             var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
-            _logic.AddTram(result.TramNumber, result.DefaultLine, result.TramModel);
+
+            if (string.IsNullOrEmpty(result.Form.TrackNumbers))
+            {
+                remise.Error = "U moet wel spoornummers opgeven.";
+                return RedirectToAction("Index");
+            }
+
+
+            if (result.Form.RadioButton == 1)
+            {
+                var lockStatus = _logic.Lock(result.Form.TrackNumbers, result.Form.SectorNumbers);
+
+                if (lockStatus != null)
+                {
+                    remise.Error = lockStatus;
+                    return RedirectToAction("Index");
+                }
+
+                remise.Sucess = "Input is incorrect.";
+                return RedirectToAction("Index");
+            }
+            if (result.Form.RadioButton == 0)
+            {
+                var unlock = _logic.Unlock(result.Form.TrackNumbers, result.Form.SectorNumbers);
+                remise.Error = unlock;
+                if (unlock == null)
+                    remise.Sucess = "Track verplaatst!";
+                Session["Remise"] = null;
+            }
             Session["Remise"] = null;
             return RedirectToAction("Index");
         }
-        public ActionResult DeleteTram(FormResultModel result)
+        public ActionResult MoveTram(LogistiekBeheerModel result)
         {
+            //Testen
             var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
-            if (_logic.DeleteTram(result.TramNumber) == false)
-            {
-                remise.Error = "Failed to delete the tram";
-            }
-            else
-            {
-                Session["Remise"] = null; //Reload Display after update
-            }
+
+            var moveTramResult = _logic.MoveTram(result.Form.TramNumber, result.Form.TrackNumber, result.Form.SectorNumber);
+
+            remise.Error = moveTramResult;
+            if (moveTramResult == null)
+                remise.Sucess = "De tram is verplaatst.";
+
             return RedirectToAction("Index");
         }
-        public ActionResult AddTrack(FormResultModel result)
+
+        public ActionResult ToggleDisabled(LogistiekBeheerModel result)
         {
+            //Testen
             var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
-            _logic.AddTrack(result.TrackNumber, result.SectorAmount, result.TrackType, result.DefaultLine);
+            _logic.ToggleDisabled(result.Form.TramNumbers);
             Session["Remise"] = null;
             return RedirectToAction("Index");
         }
-        public ActionResult DeleteTrack(FormResultModel result)
+
+        //Main Actions
+        public ActionResult AddTram(LogistiekBeheerModel result)
         {
             var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
-            if (_logic.DeleteTrack(result.TrackNumber) == false)
-            {
-                remise.Error = "Failed to delete the track";
-            }
-            else
-            {
-                Session["Remise"] = null; //Reload Display after update
-            }
+            _logic.AddTram(result.Form.TramNumber, result.Form.DefaultLine, result.Form.TramModel);
+            Session["Remise"] = null;
             return RedirectToAction("Index");
         }
-        public ActionResult AddSector(FormResultModel result)
+        public ActionResult DeleteTram(LogistiekBeheerModel result)
         {
             var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
-            if (_logic.AddSector(result.TrackNumber) == false)
-            {
-                remise.Error = "Failed to delete the sector from the track";
-            }
-            else
-            {
-                Session["Remise"] = null; //Reload Display after update
-            }
+            var deleteResult = _logic.DeleteTram(result.Form.TramNumber);
+
+            remise.Error = deleteResult;
+            if (deleteResult == null)
+                remise.Sucess = "De tram is verwijderd.";
             return RedirectToAction("Index");
         }
-        public ActionResult DeleteSector(FormResultModel result)
+        public ActionResult AddTrack(LogistiekBeheerModel result)
         {
             var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
-            _logic.DeleteSector(result.TrackNumber);
-            remise.Error = "Failed to add the sector to the track";
+            _logic.AddTrack(result.Form.TrackNumber, result.Form.SectorAmount, result.Form.TrackType, result.Form.DefaultLine);
+
+            Session["Remise"] = null;
+            return RedirectToAction("Index");
+        }
+        public ActionResult DeleteTrack(LogistiekBeheerModel result)
+        {
+            var remise = (LogistiekBeheerModel)Session["Remise"];
+            if (remise == null) return RedirectToAction("Index");
+            var deleteResult = _logic.DeleteTrack(result.Form.TrackNumber);
+
+            remise.Error = deleteResult;
+            if (deleteResult == null)
+                remise.Sucess = "Het spoor is verwijderd.";
+
+            return RedirectToAction("Index");
+        }
+        public ActionResult AddSector(LogistiekBeheerModel result)
+        {
+            var remise = (LogistiekBeheerModel)Session["Remise"];
+            if (remise == null) return RedirectToAction("Index");
+            var addResult = _logic.AddSector(result.Form.TrackNumber);
+
+            remise.Error = addResult;
+
+            if (addResult == null)
+                result.Sucess = "De sector is toegevoegd.";
+
+            return RedirectToAction("Index");
+        }
+        public ActionResult DeleteSector(LogistiekBeheerModel result)
+        {
+            var remise = (LogistiekBeheerModel)Session["Remise"];
+            if (remise == null) return RedirectToAction("Index");
+            var sectorResult = _logic.DeleteSector(result.Form.TrackNumber);
+            remise.Error = sectorResult;
+            if (sectorResult == null)
+                remise.Sucess = "De sector is sucessvol verwijderd.";
             return RedirectToAction("Index");
         }
     }

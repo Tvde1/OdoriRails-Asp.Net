@@ -180,6 +180,7 @@ else if (Model.State == LogistiekState.Edit)
                         <td>
                             @Html.TextBoxFor(m => m.Form.DefaultLine, new { type = "number" })
                         </td>
+                        @* TODO: Add optie om te kiezen hoeveel sectoren toe te voegen. *@
                     </tr>
                 </table>
             </div>
@@ -281,7 +282,7 @@ else
                             @Html.Label("Track Number:")
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.Form.SectorNumber, new { type = "number" })
+                            @Html.TextBoxFor(m => m.Form.TrackNumber, new { type = "number" })
                         </td>
                     </tr>
                 </table>

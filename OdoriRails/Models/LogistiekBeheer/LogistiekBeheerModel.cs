@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using OdoriRails.Helpers.LogistiekBeheersysteem;
 
 namespace OdoriRails.Models.LogistiekBeheer
@@ -17,8 +18,8 @@ namespace OdoriRails.Models.LogistiekBeheer
         {
             var logic = new LogistiekLogic();
 
-            Tracks = logic.AllTracks;
-            Trams = logic.AllTrams;
+            Tracks = logic.AllTracks.Values.ToList();
+            Trams = logic.AllTrams.Values.ToList();
         }
 
         public LogistiekState State { get; set; }

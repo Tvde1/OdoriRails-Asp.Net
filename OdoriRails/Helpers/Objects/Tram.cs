@@ -66,6 +66,7 @@ namespace OdoriRails.Helpers.Objects
             Line = line;
             Model = model;
             Status = TramStatus.Idle;
+            Location = TramLocation.ComingIn;
         }
 
         /// <summary>

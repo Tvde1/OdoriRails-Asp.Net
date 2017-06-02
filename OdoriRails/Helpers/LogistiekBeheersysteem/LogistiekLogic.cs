@@ -10,76 +10,81 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
 {
     public class LogistiekLogic
     {
-        public List<BeheerTrack> AllTracks { get; private set; }
-        public List<BeheerTram> AllTrams { get; private set; }
+        public Dictionary<int, BeheerTrack> AllTracks { get; private set; }
+        public Dictionary<int, BeheerTram> AllTrams { get; private set; }
 
         private readonly LogisticRepository _repo = new LogisticRepository();
 
-        public void Update()
+        public LogistiekLogic()
         {
-            AllTracks = new List<BeheerTrack>();
+            Update();
+        }
+
+        private void Update()
+        {
+            AllTracks = new Dictionary<int, BeheerTrack>();
             foreach (Track track in _repo.GetTracksAndSectors())
             {
-                AllTracks.Add(track == null ? null : BeheerTrack.ToBeheerTrack(track));
+                if (track == null) continue;
+                AllTracks.Add(track.Number, BeheerTrack.ToBeheerTrack(track));
             }
-            AllTrams = new List<BeheerTram>();
+            AllTrams = new Dictionary<int, BeheerTram>();
             foreach (Tram tram in _repo.GetAllTrams())
             {
-                AllTrams.Add(tram == null ? null : BeheerTram.ToBeheerTram(tram));
+                if (tram == null) continue;
+                AllTrams.Add(tram.Number, BeheerTram.ToBeheerTram(tram));
             }
         }
 
-        public bool AddSector(int trackNumber)
+        public string AddSector(int trackNumber)
         {
-            foreach (Track track in AllTracks.Where(x => x.Number == trackNumber))
-            {
-                track.AddSector(new Sector(track.Sectors.Count + 1));
-                _repo.AddSector(track.Sectors[track.Sectors.Count - 1], track);
-                Update();
-                return true;
-            }
-            return false;
+            if (!AllTracks.ContainsKey(trackNumber)) return "Dit spoor bestaat niet.";
+            var track = AllTracks[trackNumber];
+            track.AddSector(new Sector(track.Sectors.Count + 1));
+            _repo.AddSector(track.Sectors[track.Sectors.Count - 1], track);
+            Update();
+            return null;
         }
 
-        public bool DeleteSector(int trackNumber)
+        public string DeleteSector(int trackNumber)
         {
-            foreach (Track track in AllTracks.Where(x => x.Number == trackNumber && x.Sectors[x.Sectors.Count - 1].OccupyingTram == null))
-            {
-                track.DeleteSector();
-                _repo.DeleteSectorFromTrack(track, track.Sectors[track.Sectors.Count - 1]);
-                Update();
-                return true;
-            }
-            return false;
+            if (!AllTracks.ContainsKey(trackNumber)) return "Dit spoor bestaat niet.";
+            var track = AllTracks[trackNumber];
+            var sector = track.Sectors.Last();
+
+            if (sector == null) return "Dit spoor heeft geen sectoren.";
+            if (sector.OccupyingTram != null) return "Er staat een tram op deze sector. Haal deze eerst weg.";
+
+            track.DeleteSector();
+            _repo.DeleteSectorFromTrack(track, sector);
+            Update();
+            return null;
         }
 
-        public bool DeleteTram(int tramNumber)
+        public string DeleteTram(int tramNumber)
         {
-            foreach (Tram tram in AllTrams.Where(x => x.Number == tramNumber))
-            {
-                _repo.RemoveTram(tram);
-                Update();
-                return true;
-            }
-            return false;
+            if (!AllTrams.ContainsKey(tramNumber)) return "Deze tram bestaat niet.";
+            var tram = AllTrams[tramNumber];
+
+            _repo.RemoveTram(tram);
+            Update();
+            return null;
         }
 
-        public bool DeleteTrack(int trackNumber)
+        public string DeleteTrack(int trackNumber)
         {
-            foreach (Track track in AllTracks.Where(x => x.Number == trackNumber))
-            {
-                if (track.Sectors.Where(x => x.OccupyingTram != null).Count() > 0)
-                {
-                    return false;
-                }
-                _repo.DeleteTrack(track);
-                Update();
-                return true;
-            }
-            return false;
+            if (!AllTracks.ContainsKey(trackNumber)) return "Dit spoor bestaat niet.";
+            var track = AllTracks[trackNumber];
+
+            if (track.Sectors.Any(x => x.OccupyingTram != null))
+                return "Er staat een tram op dit spoor. haal het eerst weg.";
+
+            _repo.DeleteTrack(track);
+            Update();
+            return null;
         }
-    
-        public bool Lock(string tracks, string sectors)
+
+        public string Lock(string tracks, string sectors)
         {
             int[] lockSectors = { -1 };
             int[] lockTracks;
@@ -99,40 +104,40 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             }
             catch
             {
-                return false;
+                return "De input klopt niet.";
             }
-            if (lockTracks[0] == -1) return true;
+            if (lockTracks[0] == -1) return "";
 
-            if (sectors == "")
+            var newLockTracks = AllTracks.Where(x => lockTracks.Contains(x.Key));
+
+            foreach (var track in newLockTracks)
             {
-                foreach (var track in AllTracks)
+                var beheerTrack = BeheerTrack.ToBeheerTrack(track.Value);
+                beheerTrack.LockTrack();
+                _repo.EditTrack(beheerTrack);
+            }
+
+
+            foreach (var track in AllTracks)
+            {
+                if (Array.IndexOf(lockTracks, track.Key) <= -1) continue;
+                for (var i = 0; i < track.Value.Sectors.Count - 1; i++)
                 {
-                    if (Array.IndexOf(lockTracks, track.Number) <= -1) continue;
-                    var beheerTrack = BeheerTrack.ToBeheerTrack(track);
-                    beheerTrack.LockTrack();
-                    _repo.EditTrack(beheerTrack);
+                    if (Array.IndexOf(lockSectors, i) <= -1) continue;
+                    var beheerSector = track.Value.Sectors[i] == null
+                        ? null
+                        : BeheerSector.ToBeheerSector(track.Value.Sectors[i]);
+                    if (beheerSector == null) continue;
+                    beheerSector.Lock();
+                    _repo.EditSector(beheerSector);
                 }
             }
-            else
-            {
-                foreach (var track in AllTracks)
-                {
-                    if (Array.IndexOf(lockTracks, track.Number) <= -1) continue;
-                    for (var i = 0; i < track.Sectors.Count - 1; i++)
-                    {
-                        if (Array.IndexOf(lockSectors, i) <= -1) continue;
-                        var beheerSector = track.Sectors[i] == null ? null : BeheerSector.ToBeheerSector(track.Sectors[i]);
-                        if (beheerSector == null) continue;
-                        beheerSector.Lock();
-                        _repo.EditSector(beheerSector);
-                    }
-                }
-            }
+
             Update();
-            return true;
+            return null;
         }
 
-        public bool Unlock(string tracks, string sectors)
+        public string Unlock(string tracks, string sectors)
         {
             int[] unlockSectors = { -1 };
             int[] unlockTracks;
@@ -151,38 +156,32 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             }
             catch
             {
-                return false;
+                return "De input is incorrect.";
             }
 
-            if (unlockTracks[0] == -1) return true;
-            if (sectors == "")
+            foreach (var track in AllTracks)
             {
-                foreach (var track in AllTracks)
-                {
-                    if (Array.IndexOf(unlockTracks, track.Number) <= -1) continue;
-                    BeheerTrack beheerTrack = BeheerTrack.ToBeheerTrack(track);
-                    beheerTrack.UnlockTrack();
-                    _repo.EditTrack(beheerTrack);
-                }
+                if (Array.IndexOf(unlockTracks, track.Key) <= -1) continue;
+                var beheerTrack = BeheerTrack.ToBeheerTrack(track.Value);
+                beheerTrack.UnlockTrack();
+                _repo.EditTrack(beheerTrack);
             }
-            else
+
+            foreach (var track in AllTracks)
             {
-                foreach (BeheerTrack track in AllTracks)
+                if (Array.IndexOf(unlockTracks, track.Key) <= -1) continue;
+                for (var i = 0; i < track.Value.Sectors.Count - 1; i++)
                 {
-                    if (Array.IndexOf(unlockTracks, track.Number) <= -1) continue;
-                    for (var i = 0; i < track.Sectors.Count - 1; i++)
-                    {
-                        if (Array.IndexOf(unlockSectors, i) <= -1) continue;
-                        var beheerSector =
-                            track.Sectors[i] == null ? null : BeheerSector.ToBeheerSector(track.Sectors[i]);
-                        if (beheerSector == null) continue;
-                        beheerSector.UnLock();
-                        _repo.EditSector(beheerSector);
-                    }
+                    if (Array.IndexOf(unlockSectors, i) <= -1) continue;
+                    var beheerSector =
+                        track.Value.Sectors[i] == null ? null : BeheerSector.ToBeheerSector(track.Value.Sectors[i]);
+                    if (beheerSector == null) continue;
+                    beheerSector.UnLock();
+                    _repo.EditSector(beheerSector);
                 }
             }
             Update();
-            return true;
+            return null;
         }
 
         public void ToggleDisabled(string trams)
@@ -190,39 +189,52 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             var iTrams = Parse(trams);
             foreach (var tram in AllTrams)
             {
-                var pos = Array.IndexOf(iTrams, tram.Number);
+                var pos = Array.IndexOf(iTrams, tram.Value);
                 if (pos <= -1) continue;
-                if (tram.Status == TramStatus.Defect)
+                if (tram.Value.Status == TramStatus.Defect)
                 {
-                    tram.EditTramStatus(TramStatus.Idle);
-                    _repo.EditTram(tram);
+                    tram.Value.EditTramStatus(TramStatus.Idle);
+                    _repo.EditTram(tram.Value);
                 }
                 else
                 {
-                    tram.EditTramStatus(TramStatus.Defect);
-                    _repo.EditTram(tram);
+                    tram.Value.EditTramStatus(TramStatus.Defect);
+                    _repo.EditTram(tram.Value);
                 }
             }
             Update();
         }
 
-        public bool MoveTram(int moveTram, int moveTrack, int moveSector)
+        public string MoveTram(int moveTram, int moveTrack, int moveSector)
         {
-            moveSector -= 1;
+            //moveSector -= 1;
 
-            foreach (var track in AllTracks.Where(x => x.Number == moveTrack && x.Sectors.Count > moveSector))
+            if (!AllTrams.ContainsKey(moveTram)) return "Deze tram bestaat niet.";
+            var tram = AllTrams[moveTram];
+            if (!AllTracks.ContainsKey(moveTrack)) return "Dit spoor betaat niet.";
+            var track = AllTracks[moveTrack];
+            if (track.Sectors.Count < moveSector+1) return $"Spoor {track.Number} heeft zo veel secoren niet";
+            var sector = track.Sectors[moveSector];
+
+            switch (sector.Status)
             {
-                foreach (var tram in AllTrams.Where(x => x.Number == moveTram))
-                {
-                    var beheerSector = track.Sectors[moveSector] == null ? null : BeheerSector.ToBeheerSector(track.Sectors[moveSector]);
-                    if (beheerSector == null || !beheerSector.SetOccupyingTram(tram)) continue;
-                    _repo.WipeSectorByTramId(tram.Number);
-                    _repo.EditSector(beheerSector);
-                    Update();
-                    return true;
-                }
+                case SectorStatus.Locked:
+                    return "Deze sector is afgesloten.";
+                case SectorStatus.Occupied:
+                    return "Deze sector is bezet.";
+                case SectorStatus.Open:
+                    {
+                        var beheerSector = BeheerSector.ToBeheerSector(sector);
+                        if (beheerSector == null || !beheerSector.SetOccupyingTram(tram))
+                            _repo.WipeSectorByTramId(tram.Number);
+                        _repo.EditSector(beheerSector);
+                        Update();
+                        break;
+                    }
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            return false;
+            return null;
         }
 
         public void AddTram(int tramNumber, int? defaultLine, string model)
@@ -255,17 +267,7 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
 
         private static int[] Parse(string _string)
         {
-            int[] array = { };
-            try
-            {
-                array = Array.ConvertAll(_string.Split(','), int.Parse);
-            }
-            catch
-            {
-                //TODO: Hier een fatsoenlijke trycatch van maken dat een waarschuwing in ASP.NET geeft.
-            }
-
-            return array;
+            return Array.ConvertAll(_string.Split(','), int.Parse);
         }
 
         private static int ToInt(int? _int)
