@@ -18,8 +18,7 @@ namespace OdoriRails.Models
         public string Comments { get; set; }
 
         public DriverModel()
-        {
-            
+        {            
         }
 
         public DriverModel(User user)
@@ -32,23 +31,33 @@ namespace OdoriRails.Models
         public string GetAssignedTramLocation()
         {
             string text;
-            switch (Tram.Location)
+            if (Tram != null)
             {
-                case TramLocation.In:
-                    var sector = _inUitrijRepository.GetAssignedSector(Tram);
-                    text = sector != null ? $"Track: {sector.TrackNumber}, Sector: {sector.Number + 1}" : null;
-                    break;
-                case TramLocation.ComingIn:
-                    text = "Wachten op locatie.";
-                    break;
-                case TramLocation.Out:
-                    text = "Buiten de remise.";
-                    break;
-                case TramLocation.GoingOut:
-                    text = "Aan het vertrekken.";
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                switch (Tram.Location)
+                {
+                    case TramLocation.In:
+                        var sector = _inUitrijRepository.GetAssignedSector(Tram);
+                        text = sector != null ? $"Track: {sector.TrackNumber}, Sector: {sector.Number + 1}" : null;
+                        break;
+                    case TramLocation.ComingIn:
+                        text = "Wachten op locatie.";
+                        break;
+                    case TramLocation.Out:
+                        text = "Buiten de remise.";
+                        break;
+                    case TramLocation.GoingOut:
+                        text = "Aan het vertrekken.";
+                        break;
+                    case TramLocation.NotAssigned:
+                        text = "Nog niet ingedeeld.";
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            else
+            {
+                text = "Nog geen tram toegewezen.";
             }
 
             return text;
