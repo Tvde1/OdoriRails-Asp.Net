@@ -14,12 +14,14 @@ namespace OdoriRails.Models.LogistiekBeheer
 
     public class LogistiekBeheerModel : BaseModel
     {
+        public readonly LogistiekLogic Logic;
+
         public LogistiekBeheerModel()
         {
-            var logic = new LogistiekLogic();
+            Logic = new LogistiekLogic();
 
-            Tracks = logic.AllTracks.Values.ToList();
-            Trams = logic.AllTrams.Values.ToList();
+            Tracks = Logic.AllTracks.Values.ToList();
+            Trams = Logic.AllTrams.Values.ToList();
         }
 
         public LogistiekState State { get; set; }
