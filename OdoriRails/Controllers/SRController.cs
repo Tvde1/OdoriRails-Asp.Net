@@ -144,12 +144,6 @@ namespace OdoriRails.Controllers
             return View(viewmodel);
         }
 
-        public ActionResult TramHistory()
-        {
-            var model = new TramHistoryModel();
-            return View(model);
-        }
-
         [HttpPost]
         public ActionResult EditCleaning(EditCleaningViewModel viewmodel)
         {
@@ -261,8 +255,21 @@ namespace OdoriRails.Controllers
             _Repo.AddRepair(repairtopost);
 
             return RedirectToAction("Index");
-
         }
 
+        public ActionResult TramHistory(string id)
+        {
+            var newId = 0;
+            if (!int.TryParse(id ?? "0", out newId)) return RedirectToAction("Index");
+
+            var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
+            if (result is ActionResult) return result as ActionResult;
+            var user = (User)result;
+
+            var model = new TramHistoryModel { User = user, TramId = newId };
+            model.GetServices();
+
+            return View(model);
+        }
     }
 }
