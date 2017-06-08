@@ -35,7 +35,7 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             }
         }
 
-        public string AddSector(int trackNumber, int latitude, int longitude)
+        public string AddSector(int trackNumber, decimal latitude, decimal longitude)
         {
             if (!AllTracks.ContainsKey(trackNumber)) return "Dit spoor bestaat niet.";
             var track = AllTracks[trackNumber];
