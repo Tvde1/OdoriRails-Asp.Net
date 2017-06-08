@@ -157,7 +157,10 @@ namespace OdoriRails.Controllers
 
                 return RedirectToAction("Index", "SR");
             }
-
+            if (viewmodel.EndDate < viewmodel.StartDate)
+            {
+                viewmodel.EndDate = null;
+            }
             viewmodel.CleaningToChange = _logic.GetCleaningToEdit(id);
             viewmodel.Id = viewmodel.CleaningToChange.Id;
             viewmodel.AssignedWorkers = _logic.AssignedWorkers;
@@ -179,7 +182,10 @@ namespace OdoriRails.Controllers
                     listusers.Add(usertoinsert);
                 }
             }
-
+            if (viewmodel.EndDate < viewmodel.StartDate)
+            {
+                viewmodel.EndDate = null;
+            }
             Cleaning changedCleaning = new Cleaning(viewmodel.Id, viewmodel.StartDate, viewmodel.EndDate, viewmodel.Size, viewmodel.Comment, listusers, viewmodel.TramID);
             _repo.EditService(changedCleaning);
             logic.Error = "Cleaning posted succesfully!";

@@ -11,7 +11,7 @@ namespace OdoriRails.Models.SRManagement
         public Dictionary<string, bool> AssignedWorkers { get; set; }
         public Cleaning CleaningToChange { get; set; }
         public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public CleaningSize Size { get; set; }
         public string Comment { get; set; }
         public int TramID { get; set; }
