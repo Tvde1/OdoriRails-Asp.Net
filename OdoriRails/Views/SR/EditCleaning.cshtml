@@ -25,9 +25,9 @@
         <input type="radio" name="Size" value="@Model.CleaningToChange.Size == @CleaningSize.Big"/>Big<br/>
 
         <br /><label> Comment:</label><br/>
-        <input type="text" name="Comment" value="@Model.CleaningToChange.Comments"/>
+        <input type="text" name="Comment" value="@Model.CleaningToChange.Comments"/><br />
         <label> Tram Nummer:</label><br/>
-        <input type="text" name="TramId" value="@Model.CleaningToChange.TramId" />
+        <input type="text" name="TramId" value="@Model.CleaningToChange.TramId" /><br />
         <label>Assigned Users:</label><br/>
 
         @foreach (var user in Model.AssignedWorkers)

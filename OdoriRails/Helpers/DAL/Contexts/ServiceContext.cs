@@ -70,23 +70,17 @@ ON Repair.ServiceFk = @ServiceID");
 
         public DataTable GetAllRepairsWithoutUsers()
         {
-            var command = new SqlCommand(@"SELECT Repair.*
-FROM Repair INNER JOIN
-(SELECT Service.ServicePk
-FROM ServiceUser RIGHT OUTER JOIN
-Service ON ServiceUser.ServiceCk = Service.ServicePk
-WHERE (ServiceUser.UserCk IS NULL)) AS derivedtbl_1 ON Repair.ServiceFk = derivedtbl_1.ServicePk");
+            var command = new SqlCommand(@"SELECT ServiceFK, StartDate, EndDate, Type, Defect,
+            Solution, TramFk FROM Repair INNER JOIN Service ON ServicePK = ServiceFK AND
+                ServiceFK NOT IN(SELECT ServiceCK FROM ServiceUser);");
             return DatabaseHandler.GetData(command);
         }
 
         public DataTable GetAllCleansWithoutUsers()
         {
-            var command = new SqlCommand(@"SELECT Clean.*
-FROM Clean INNER JOIN
-(SELECT Service.ServicePk
-FROM ServiceUser RIGHT OUTER JOIN
-Service ON ServiceUser.ServiceCk = Service.ServicePk
-WHERE (ServiceUser.UserCk IS NULL)) AS derivedtbl_1 ON Clean.ServiceFk = derivedtbl_1.ServicePk");
+            var command = new SqlCommand(@"SELECT ServiceFK, StartDate, EndDate, Size, Remarks,
+            TramFk FROM Clean INNER JOIN Service ON ServicePK = ServiceFK AND
+                ServiceFK NOT IN(SELECT ServiceCK FROM ServiceUser);");
 
             return DatabaseHandler.GetData(command);
         }
@@ -195,7 +189,7 @@ WHERE (ServiceUser.UserCk IS NULL)) AS derivedtbl_1 ON Clean.ServiceFk = derived
         public DataTable GetAllRepairsFromTram(int tramId)
         {
             return DatabaseHandler.GetData(new SqlCommand(
-                $"SELECT S.ServicePk, S.TramFK, R.Defect, R.Solution, R.Type, S.StartDate, S.EndDate FROM Repair R INNER JOIN Service S ON R.ServiceFk = S.ServicePk AND S.TramFk = {tramId} ORDER BY S.TramFk"));
+                $"SELECT R.ServiceFk, S.TramFK, R.Defect, R.Solution, R.Type, S.StartDate, S.EndDate FROM Repair R INNER JOIN Service S ON R.ServiceFk = S.ServicePk AND S.TramFk = {tramId} ORDER BY S.TramFk"));
         }
 
         public DataTable GetAllCleaningsFromTram(int tramId)

@@ -195,7 +195,7 @@
     <Compile Include="Models\SRManagement\EditRepairViewModel.cs" />
     <Compile Include="Models\SRManagement\EditCleaningViewModel.cs" />
     <Compile Include="Models\SRManagement\MarkAsDoneViewModel.cs" />
-    <Compile Include="Models\SRManagement\SRLogic.cs" />
+    <Compile Include="Helpers\SR\SRLogic.cs" />
     <Compile Include="Models\SRManagement\TramHistoryModel.cs" />
     <Compile Include="Models\UserBeheer\EditUserModel.cs" />
     <Compile Include="Models\UserBeheer\UserBeheerModel.cs" />
@@ -223,6 +223,7 @@
     <Content Include="Views\SR\AddCleaning.cshtml" />
     <Content Include="Views\SR\TramHistory.cshtml" />
     <Content Include="Views\SR\MarkAsDone.cshtml" />
+    <Content Include="Views\SR\AssignUsers.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

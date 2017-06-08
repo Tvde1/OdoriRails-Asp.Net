@@ -25,11 +25,11 @@
         <input type="radio" name="Type" value="@Model.RepairToChange.Type == @RepairType.Repair"/>Repair<br/>
 
         <br/><label> Defect:</label><br/>
-        <input type="text" name="Defect" value="@Model.RepairToChange.Defect"/>
+        <input type="text" name="Defect" value="@Model.RepairToChange.Defect"/><br />
         <br/><label> Oplossing:</label><br/>
-        <input type="text" name="Solution" value="@Model.RepairToChange.Solution"/>
+        <input type="text" name="Solution" value="@Model.RepairToChange.Solution"/><br />
         <br /><label> Tram Nummer:</label><br/>
-        <input type="text" name="TramId" value="@Model.RepairToChange.TramId"/>
+        <input type="text" name="TramId" value="@Model.RepairToChange.TramId"/><br />
         <br /><label>Assigned Users:</label><br/><br />
 
         @foreach (var user in Model.AssignedWorkers)

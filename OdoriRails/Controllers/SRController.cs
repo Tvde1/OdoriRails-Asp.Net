@@ -13,7 +13,7 @@ namespace OdoriRails.Controllers
     public class SRController : BaseControllerFunctions
     {
 
-        public SchoonmaakReparatieRepository _Repo = new SchoonmaakReparatieRepository();
+        private SchoonmaakReparatieRepository _repo = new SchoonmaakReparatieRepository();
         // GET: SchoonmaakReparatie
         public ActionResult Index()
         {
@@ -70,6 +70,27 @@ namespace OdoriRails.Controllers
                 return RedirectToAction("Index", "SR");
             }
             model.AssignedWorkers = _logic.AssignedWorkers;
+            return View(model);
+        }
+
+        public ActionResult AssignUsers()
+        {
+            var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
+            if (result is ActionResult) return result as ActionResult;
+            var user = (User)result;
+
+
+            var model = TempData["SRLogic"] as SRLogic ?? new SRLogic { User = user };
+
+            if (user.Role == Role.Cleaner || user.Role == Role.HeadCleaner)
+            {
+                model.Cleans = _repo.GetAllCleansWithoutUsers();
+            }
+            if (user.Role == Role.Engineer || user.Role == Role.HeadEngineer)
+            {
+                model.Repairs = _repo.GetAllRepairsWithoutUsers();
+            }
+
             return View(model);
         }
         public ActionResult MarkAsDone(int id)
@@ -154,13 +175,13 @@ namespace OdoriRails.Controllers
             {
                 if (user.Value)
                 {
-                    User usertoinsert = _Repo.GetUserFromName(user.Key);
+                    User usertoinsert = _repo.GetUserFromName(user.Key);
                     listusers.Add(usertoinsert);
                 }
             }
 
             Cleaning changedCleaning = new Cleaning(viewmodel.Id, viewmodel.StartDate, viewmodel.EndDate, viewmodel.Size, viewmodel.Comment, listusers, viewmodel.TramID);
-            _Repo.EditService(changedCleaning);
+            _repo.EditService(changedCleaning);
             logic.Error = "Cleaning posted succesfully!";
             //TempData["SRLogic"] = logic; 
             return RedirectToAction("Index", "SR");
@@ -176,13 +197,13 @@ namespace OdoriRails.Controllers
             {
                 if (user.Value)
                 {
-                    User usertoinsert = _Repo.GetUserFromName(user.Key);
+                    User usertoinsert = _repo.GetUserFromName(user.Key);
                     listusers.Add(usertoinsert);
                 }
             }
 
             Repair changedRepair = new Repair(viewmodel.Id, viewmodel.StartDate, viewmodel.EndDate, viewmodel.Size, viewmodel.Defect, viewmodel.Solution, listusers, viewmodel.TramID);
-            _Repo.EditService(changedRepair);
+            _repo.EditService(changedRepair);
             logic.Error = "Repair posted succesfully!";
             //TempData["SRLogic"] = logic;
             return RedirectToAction("Index", "SR");
@@ -197,22 +218,22 @@ namespace OdoriRails.Controllers
 
             if (user.Role == Role.HeadEngineer || user.Role == Role.Engineer)
             {
-                var rlist = _Repo.GetRepairFromId(viewmodel.Serviceid);
+                var rlist = _repo.GetRepairFromId(viewmodel.Serviceid);
                 var repairtofinish = rlist.ElementAt(0);
-                _Repo.SetTramStatusToIdle(viewmodel.TramIdtoCarryOver);
+                _repo.SetTramStatusToIdle(viewmodel.TramIdtoCarryOver);
                 repairtofinish.EndDate = DateTime.Now;
                 repairtofinish.Solution = viewmodel.Solution;
-                _Repo.EditService(repairtofinish);
+                _repo.EditService(repairtofinish);
 
             }
             if (user.Role == Role.HeadCleaner || user.Role == Role.Cleaner)
             {
-                var clist = _Repo.GetCleanFromId(viewmodel.Serviceid);
+                var clist = _repo.GetCleanFromId(viewmodel.Serviceid);
                 var cleantofinish = clist.ElementAt(0);
-                _Repo.SetTramStatusToIdle(viewmodel.TramIdtoCarryOver);
+                _repo.SetTramStatusToIdle(viewmodel.TramIdtoCarryOver);
                 cleantofinish.EndDate = DateTime.Now;
                 cleantofinish.Comments = viewmodel.Comment;
-                _Repo.EditService(cleantofinish);
+                _repo.EditService(cleantofinish);
             }
 
             return RedirectToAction("Index");
@@ -227,13 +248,13 @@ namespace OdoriRails.Controllers
             {
                 if (user.Value)
                 {
-                    User usertoinsert = _Repo.GetUserFromName(user.Key);
+                    User usertoinsert = _repo.GetUserFromName(user.Key);
                     listusers.Add(usertoinsert);
                 }
             }
             Cleaning cleaningtopost = new Cleaning(model.StartDate, null, model.Size, model.Comment, listusers, model.TramID);
 
-            _Repo.AddCleaning(cleaningtopost);
+            _repo.AddCleaning(cleaningtopost);
             return RedirectToAction("Index");
 
         }
@@ -246,13 +267,13 @@ namespace OdoriRails.Controllers
             {
                 if (user.Value)
                 {
-                    User usertoinsert = _Repo.GetUserFromName(user.Key);
+                    User usertoinsert = _repo.GetUserFromName(user.Key);
                     listusers.Add(usertoinsert);
                 }
             }
             Repair repairtopost = new Repair(model.StartDate, null, model.Type, model.Defect, "", listusers, model.TramID);
 
-            _Repo.AddRepair(repairtopost);
+            _repo.AddRepair(repairtopost);
 
             return RedirectToAction("Index");
         }
