@@ -199,5 +199,16 @@ namespace OdoriRails.Helpers.DAL.Repository
             return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllRepairsFromUser(user),
                 _objectCreator.CreateRepair);
         }
+
+        public bool DoesTramExist(int tramNumber)
+        {
+            return _tramContext.DoesTramExist(tramNumber);
+        }
+
+        public Track GetTrack(int trackNumber)
+        {
+            var row = _trackSectorContext.GetTrack(trackNumber);
+            return ObjectCreator.CreateTrack(row);
+        }
     }
 }

@@ -53,6 +53,7 @@ namespace OdoriRails.Helpers.DAL.Contexts
 
         public void DeleteTrack(Track track)
         {
+            if (track == null) return;
             var query = new SqlCommand("DELETE FROM Track WHERE TrackPK = @track");
             query.Parameters.AddWithValue("@track", track.Number);
             DatabaseHandler.GetData(query);
@@ -102,6 +103,12 @@ namespace OdoriRails.Helpers.DAL.Contexts
             query = new SqlCommand("UPDATE Sector SET TramFk = null WHERE TramFk = @id");
             query.Parameters.AddWithValue("@id", id);
             DatabaseHandler.GetData(query);
+        }
+
+        public DataRow GetTrack(int trackNumber)
+        {
+            var data = DatabaseHandler.GetData(new SqlCommand($"SELECT * FROM Track WHERE TrackPk = {trackNumber}"));
+            return data.Rows.Count == 0 ? null : data.Rows[0];
         }
 
         public void WipeTramsFromSectors()

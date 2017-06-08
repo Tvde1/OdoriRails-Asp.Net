@@ -30,5 +30,6 @@ namespace OdoriRails.Helpers.DAL.ContextInterfaces
         void WipeTramsFromSectors();
 
         void WipeTramFromSectorByTramId(int id);
+        DataRow GetTrack(int trackNumber);
     }
 }

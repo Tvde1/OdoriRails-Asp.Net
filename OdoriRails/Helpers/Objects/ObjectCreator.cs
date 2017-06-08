@@ -22,6 +22,7 @@ namespace OdoriRails.Helpers.Objects
 
         public User CreateUser(DataRow row)
         {
+            if (row == null) return null;
             var array = row.ItemArray;
             //name gebr wachtw email rol 
             var parentUserString = array[6] == DBNull.Value
@@ -31,14 +32,14 @@ namespace OdoriRails.Helpers.Objects
             var tramRow = _tramContext.GetTramIdByDriverId((int)array[0]);
             var tramId = (int?)tramRow?["TramPk"];
 
-            return new User((int)array[0], (string)array[1], (string)array[2], (string)array[4], (string)array[3],
+            return new User((int)row["UserPk"], (string)row["Name"], (string)row["Username"], (string)row["Email"], (string)array[3],
                 (Role)(int)array[5], parentUserString, tramId);
         }
 
         public static Track CreateTrack(DataRow row)
         {
-            var array = row.ItemArray;
-            return new Track((int)array[0], (int)array[1], (TrackType)array[2]);
+            if (row == null) return null;
+            return new Track((int)row["TrackPk"], (int)row["Line"], (TrackType)row["Type"]);
         }
 
         public Sector CreateSector(DataRow row)
@@ -53,15 +54,15 @@ namespace OdoriRails.Helpers.Objects
 
         public Tram CreateTram(DataRow row)
         {
-            var array = row.ItemArray;
-            var id = (int)array[0];
-            var line = (int)array[1];
-            var status = (TramStatus)array[2];
-            var driver = array[3] == DBNull.Value ? null : CreateUser(_userContext.GetUser((int)array[3]));
-            var model = (TramModel)array[4];
-            var location = (TramLocation)array[6];
+            if (row == null) return null;
+            var id = (int)row["TramPk"];
+            var line = (int) row["Line"];
+            var status = (TramStatus)row["Status"];
+            var driver = row["DriverFk"] == DBNull.Value ? null : CreateUser(_userContext.GetUser((int)row["DriverFk"]));
+            var model = (TramModel)row["ModelFk"];
+            var location = (TramLocation)row["Location"];
             DateTime? depart = null;
-            if (array[7] != DBNull.Value) depart = (DateTime)array[7];
+            if (row["DepartureTime"] != DBNull.Value) depart = (DateTime)row["DepartureTime"];
 
             return new Tram(id, status, line, driver, model, location, depart);
         }

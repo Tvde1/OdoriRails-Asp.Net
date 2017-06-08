@@ -46,7 +46,7 @@ namespace OdoriRails.Helpers.Objects
             Role = role;
             Username = username;
             Password = password;
-            ManagerName = managedByName;
+            ManagerName = managedByName ?? "";
             TramId = tramId;
         }
 

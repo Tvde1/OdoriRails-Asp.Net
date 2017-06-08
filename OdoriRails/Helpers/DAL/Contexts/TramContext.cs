@@ -38,6 +38,7 @@ namespace OdoriRails.Helpers.DAL.Contexts
 
         public void RemoveTram(Tram tram)
         {
+            if (tram == null) return;
             DatabaseHandler.GetData(new SqlCommand($"DELETE FROM Tram WHERE TramPk = {tram.Number}"));
         }
 
