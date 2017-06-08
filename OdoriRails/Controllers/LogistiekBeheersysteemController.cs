@@ -161,7 +161,7 @@ namespace OdoriRails.Controllers
         {
             var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
-            var addResult = remise.Logic.AddSector(result.Form.TrackNumber);
+            var addResult = remise.Logic.AddSector(result.Form.TrackNumber, result.Form.Latitude, result.Form.Longitude);
 
             remise.Error = addResult;
 

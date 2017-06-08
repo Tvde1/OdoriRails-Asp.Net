@@ -22,7 +22,7 @@ namespace OdoriRails.Helpers.DAL.Contexts
             query.Parameters.AddWithValue("@role", (int)user.Role);
 
             if (string.IsNullOrEmpty(user.ManagerName)) query.Parameters.AddWithValue("@managedBy", DBNull.Value);
-            else query.Parameters.AddWithValue("@managedBy", GetUserId(user.ManagerName));
+            else query.Parameters.AddWithValue("@managedBy", GetUserIdByName(user.ManagerName));
 
             user.SetId(Convert.ToInt32((decimal)DatabaseHandler.GetData(query).Rows[0][0]));
             return user;

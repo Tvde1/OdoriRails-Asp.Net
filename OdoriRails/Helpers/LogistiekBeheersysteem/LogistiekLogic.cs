@@ -35,11 +35,11 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             }
         }
 
-        public string AddSector(int trackNumber)
+        public string AddSector(int trackNumber, int latitude, int longitude)
         {
             if (!AllTracks.ContainsKey(trackNumber)) return "Dit spoor bestaat niet.";
             var track = AllTracks[trackNumber];
-            track.AddSector(new Sector(track.Sectors.Count + 1));
+            track.AddSector(new Sector(track.Sectors.Count + 1, track.Number, SectorStatus.Open, null, latitude, longitude));
             _repo.AddSector(track.Sectors[track.Sectors.Count - 1], track);
             Update();
             return null;
@@ -406,6 +406,5 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
 
         //        return integer;
         //    }
-
     }
 }
