@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using System.Diagnostics.Eventing.Reader;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using OdoriRails.Helpers.DAL.Repository;
 using OdoriRails.Helpers.Objects;
@@ -55,7 +57,26 @@ namespace OdoriRails.Tests
             var user = _userBeheerRepository.GetUser("TestUser");
             Assert.IsTrue(_userBeheerRepository.DoesUserExist(user.Username));
 
+            _userBeheerRepository.RemoveUser(user.Id);
+        }
 
+        [TestMethod]
+        public void GetAllUsers()
+        {
+            var user = _userBeheerRepository.GetUser("Driver");
+            bool found = false;
+
+            foreach (User item in _userBeheerRepository.GetAllUsers())
+            {
+
+                if (JsonConvert.SerializeObject(user) == JsonConvert.SerializeObject(item))
+                {
+                    found = true;
+                }
+
+            }
+            
+            Assert.IsTrue(found);
         }
 
     }

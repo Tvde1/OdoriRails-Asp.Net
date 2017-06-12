@@ -94,5 +94,25 @@ namespace OdoriRails.Tests
 
             Assert.IsNull(fetchedTrack);
         }
+
+        [TestMethod]
+        public void GetAllTrams()
+        {
+
+            var tram = _logisticRepository.GetTram(999);
+            bool found = false;
+
+            foreach (Tram item in _logisticRepository.GetAllTrams())
+            {
+
+                if (JsonConvert.SerializeObject(tram) == JsonConvert.SerializeObject(item))
+                {
+                    found = true;
+                }
+
+            }
+            Assert.IsTrue(found);
+        }
+
     }
 }
