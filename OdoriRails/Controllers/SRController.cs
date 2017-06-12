@@ -95,27 +95,27 @@ namespace OdoriRails.Controllers
         }
         public ActionResult MarkAsDone(int id)
         {
-            var model = new SRLogic();
+            var logic = new SRLogic();
             var markasdonemodel = new MarkAsDoneViewModel();
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
 
             if (result is ActionResult) return result as ActionResult;
             var user = (User)result;
 
+            
             if (user.Role == Role.HeadEngineer || user.Role == Role.Engineer)
             {
-                Repair servicetomarkasdone = model.GetRepairToEdit(id);
+                Repair servicetomarkasdone = logic.GetRepairToEdit(id);
                 markasdonemodel.RepairMarkAsDone = servicetomarkasdone;
                 markasdonemodel.Serviceid = servicetomarkasdone.Id;
 
             }
             if (user.Role == Role.HeadCleaner || user.Role == Role.Cleaner)
             {
-                Cleaning servicetomarkasdone = model.GetCleaningToEdit(id);
+                Cleaning servicetomarkasdone = logic.GetCleaningToEdit(id);
                 markasdonemodel.CleaningMarkAsDone = servicetomarkasdone;
                 markasdonemodel.Serviceid = servicetomarkasdone.Id;
             }
-
             markasdonemodel.User = user;
             return View(markasdonemodel);
         }
@@ -187,7 +187,16 @@ namespace OdoriRails.Controllers
                 viewmodel.EndDate = null;
             }
             Cleaning changedCleaning = new Cleaning(viewmodel.Id, viewmodel.StartDate, viewmodel.EndDate, viewmodel.Size, viewmodel.Comment, listusers, viewmodel.TramID);
-            _repo.EditService(changedCleaning);
+            
+            try
+            {
+                _repo.EditService(changedCleaning);
+            }
+            catch
+            {
+                viewmodel.Error = "Something went wrong with posting the ervice. Check if the date field is filled and if the tram number is valid!";
+                return View(viewmodel);
+            }
             logic.Error = "Cleaning posted succesfully!";
             //TempData["SRLogic"] = logic; 
             return RedirectToAction("Index", "SR");
@@ -207,9 +216,21 @@ namespace OdoriRails.Controllers
                     listusers.Add(usertoinsert);
                 }
             }
-
+            if (viewmodel.EndDate < viewmodel.StartDate)
+            {
+                viewmodel.EndDate = null;
+            }
             Repair changedRepair = new Repair(viewmodel.Id, viewmodel.StartDate, viewmodel.EndDate, viewmodel.Size, viewmodel.Defect, viewmodel.Solution, listusers, viewmodel.TramID);
-            _repo.EditService(changedRepair);
+            try
+            {
+                _repo.EditService(changedRepair);
+            }
+            catch
+            {
+                viewmodel.Error = "Something went wrong with posting the ervice. Check if the date field is filled and if the tram number is valid!";
+                return View(viewmodel);
+            }
+            
             logic.Error = "Repair posted succesfully!";
             //TempData["SRLogic"] = logic;
             return RedirectToAction("Index", "SR");
@@ -229,6 +250,12 @@ namespace OdoriRails.Controllers
                 _repo.SetTramStatusToIdle(viewmodel.TramIdtoCarryOver);
                 repairtofinish.EndDate = DateTime.Now;
                 repairtofinish.Solution = viewmodel.Solution;
+                if (string.IsNullOrEmpty(viewmodel.Solution))
+                {
+                    viewmodel.Error = "Fill the text field and try again!";
+                    viewmodel.User = user;
+                    return View(viewmodel);
+                }
                 _repo.EditService(repairtofinish);
 
             }
@@ -239,8 +266,15 @@ namespace OdoriRails.Controllers
                 _repo.SetTramStatusToIdle(viewmodel.TramIdtoCarryOver);
                 cleantofinish.EndDate = DateTime.Now;
                 cleantofinish.Comments = viewmodel.Comment;
+                if (string.IsNullOrEmpty(viewmodel.Comment))
+                {
+                    viewmodel.Error = "Fill the text field and try again!";
+                    return View(viewmodel);
+                }
                 _repo.EditService(cleantofinish);
             }
+
+     
 
             return RedirectToAction("Index");
         }
@@ -249,7 +283,6 @@ namespace OdoriRails.Controllers
         public ActionResult AddCleaning(AddCleaningModel model)
         {
             List<User> listusers = new List<User>();
-
             foreach (var user in model.AssignedWorkers)
             {
                 if (user.Value)
@@ -259,8 +292,16 @@ namespace OdoriRails.Controllers
                 }
             }
             Cleaning cleaningtopost = new Cleaning(model.StartDate, null, model.Size, model.Comment, listusers, model.TramID);
-
-            _repo.AddCleaning(cleaningtopost);
+            try
+            {
+                _repo.AddCleaning(cleaningtopost);
+            }
+            catch
+            {
+                model.Error = "Something went wrong with posting the ervice. Check if the date field is filled and if the tram number is valid!";
+                return View(model);
+            }
+            
             return RedirectToAction("Index");
 
         }
@@ -280,6 +321,16 @@ namespace OdoriRails.Controllers
             Repair repairtopost = new Repair(model.StartDate, null, model.Type, model.Defect, "", listusers, model.TramID);
 
             _repo.AddRepair(repairtopost);
+            try
+            {
+                _repo.AddRepair(repairtopost);
+            }
+            catch
+            {
+                model.Error = "Something went wrong with posting the ervice. Check if the date field is filled and if the tram number is valid!";
+                return View(model);
+            }
+
 
             return RedirectToAction("Index");
         }

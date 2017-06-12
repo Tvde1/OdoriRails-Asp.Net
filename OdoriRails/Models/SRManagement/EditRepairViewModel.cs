@@ -11,7 +11,7 @@ namespace OdoriRails.Models.SRManagement
         public Dictionary<string, bool> AssignedWorkers { get; set; }
         public Repair RepairToChange { get; set; }
         public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public RepairType Size { get; set; }
         public string Defect { get; set; }
         public string Solution { get; set; }
