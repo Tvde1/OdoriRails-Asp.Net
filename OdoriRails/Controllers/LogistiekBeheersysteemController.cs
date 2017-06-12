@@ -11,11 +11,11 @@ namespace OdoriRails.Controllers
         public ActionResult Index()
         {
             //Check if logged-in
-            var result = GetLoggedInUser(new[] {Role.Logistic, Role.Administrator});
+            var result = GetLoggedInUser(new[] { Role.Logistic, Role.Administrator });
             if (result is ActionResult) return result as ActionResult;
             var user = result as User;
 
-            var remise = (LogistiekBeheerModel) Session["Remise"];
+            var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null)
             {
                 remise = new LogistiekBeheerModel();
@@ -29,8 +29,7 @@ namespace OdoriRails.Controllers
         //Main Actions
         public ActionResult LockTrack(LogistiekBeheerModel result)
         {
-            //Testen
-            var remise = (LogistiekBeheerModel) Session["Remise"];
+            var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
 
             if (string.IsNullOrEmpty(result.Form.TrackNumbers))
@@ -40,25 +39,20 @@ namespace OdoriRails.Controllers
             }
 
 
-            if (result.Form.RadioButton == 0)
+            if (result.Form.Lock)
             {
                 var lockStatus = remise.Logic.Lock(result.Form.TrackNumbers, result.Form.SectorNumbers);
 
+                remise.Error = lockStatus;
                 if (lockStatus != null)
-                {
-                    remise.Error = lockStatus;
-                    return RedirectToAction("Index");
-                }
-
-                remise.Sucess = "Input is incorrect.";
-                return RedirectToAction("Index");
+                    remise.Sucess = "The sectors have been locked..";
             }
-            if (result.Form.RadioButton == 1)
+            else
             {
                 var unlock = remise.Logic.Unlock(result.Form.TrackNumbers, result.Form.SectorNumbers);
                 remise.Error = unlock;
                 if (unlock == null)
-                    remise.Sucess = "Sector verplaatst!";
+                    remise.Sucess = "The sectors have been unlocked!";
             }
 
             return RedirectToAction("Index");
@@ -67,7 +61,7 @@ namespace OdoriRails.Controllers
         public ActionResult MoveTram(LogistiekBeheerModel result)
         {
             //Testen
-            var remise = (LogistiekBeheerModel) Session["Remise"];
+            var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
 
             var moveTramResult = remise.Logic.MoveTram(result.Form.TramNumber, result.Form.TrackNumber,
@@ -83,7 +77,7 @@ namespace OdoriRails.Controllers
         public ActionResult ToggleDisabled(LogistiekBeheerModel result)
         {
             //Testen
-            var remise = (LogistiekBeheerModel) Session["Remise"];
+            var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
             remise.Logic.ToggleDisabled(result.Form.TramNumbers);
             Session["Remise"] = null;
@@ -93,7 +87,7 @@ namespace OdoriRails.Controllers
         //Main Actions
         public ActionResult AddTram(LogistiekBeheerModel result)
         {
-            var remise = (LogistiekBeheerModel) Session["Remise"];
+            var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
             remise.Logic.AddTram(result.Form.TramNumber, result.Form.DefaultLine, result.Form.TramModel);
             Session["Remise"] = null;
@@ -102,7 +96,7 @@ namespace OdoriRails.Controllers
 
         public ActionResult DeleteTram(LogistiekBeheerModel result)
         {
-            var remise = (LogistiekBeheerModel) Session["Remise"];
+            var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
             var deleteResult = remise.Logic.DeleteTram(result.Form.TramNumber);
 
@@ -114,7 +108,7 @@ namespace OdoriRails.Controllers
 
         public ActionResult AddTrack(LogistiekBeheerModel result)
         {
-            var remise = (LogistiekBeheerModel) Session["Remise"];
+            var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
             remise.Logic.AddTrack(result.Form.TrackNumber, result.Form.SectorAmount, result.Form.TrackType,
                 result.Form.DefaultLine);
@@ -125,7 +119,7 @@ namespace OdoriRails.Controllers
 
         public ActionResult DeleteTrack(LogistiekBeheerModel result)
         {
-            var remise = (LogistiekBeheerModel) Session["Remise"];
+            var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
             var deleteResult = remise.Logic.DeleteTrack(result.Form.TrackNumber);
 
@@ -138,7 +132,7 @@ namespace OdoriRails.Controllers
 
         public ActionResult AddSector(LogistiekBeheerModel result)
         {
-            var remise = (LogistiekBeheerModel) Session["Remise"];
+            var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
             var addResult = remise.Logic.AddSector(result.Form.TrackNumber, result.Form.Latitude,
                 result.Form.Longitude);
@@ -153,7 +147,7 @@ namespace OdoriRails.Controllers
 
         public ActionResult DeleteSector(LogistiekBeheerModel result)
         {
-            var remise = (LogistiekBeheerModel) Session["Remise"];
+            var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
             var sectorResult = remise.Logic.DeleteSector(result.Form.TrackNumber);
             remise.Error = sectorResult;
@@ -166,7 +160,7 @@ namespace OdoriRails.Controllers
 
         public ActionResult SetStateMain()
         {
-            var remise = (LogistiekBeheerModel) Session["Remise"];
+            var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
             remise.State = LogistiekState.Main;
             return RedirectToAction("Index");
@@ -174,7 +168,7 @@ namespace OdoriRails.Controllers
 
         public ActionResult SetStateEdit()
         {
-            var remise = (LogistiekBeheerModel) Session["Remise"];
+            var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
             remise.State = LogistiekState.Edit;
             return RedirectToAction("Index");
@@ -182,7 +176,7 @@ namespace OdoriRails.Controllers
 
         public ActionResult SetStateDelete()
         {
-            var remise = (LogistiekBeheerModel) Session["Remise"];
+            var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
             remise.State = LogistiekState.Delete;
             return RedirectToAction("Index");

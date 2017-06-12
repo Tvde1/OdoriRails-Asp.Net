@@ -18,6 +18,7 @@
         public decimal Longitude { get; set; }
         //Other
         public int? DefaultLine { get; set; }
-        public int RadioButton { get; set; }
+        public bool Lock { get; set; }
+        public bool UnLock { get; set; }
     }
 }

@@ -40,10 +40,10 @@
                     </tr>
                     <tr>
                         <td>
-                            @Html.Label("Lock:") @Html.RadioButtonFor(m => m.Form.RadioButton, new { id = 0 }, true)
+                            @Html.Label("Lock:") @Html.RadioButtonFor(m => m.Form.Lock, true)
                         </td>
                         <td>
-                            @Html.Label("Unlock:") @Html.RadioButtonFor(m => m.Form.RadioButton, new { id = 1 }, true)
+                            @Html.Label("Unlock:") @Html.RadioButtonFor(m => m.Form.Lock, false)
                         </td>
                     </tr>
                 </table>
