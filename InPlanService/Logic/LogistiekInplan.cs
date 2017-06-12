@@ -47,9 +47,9 @@ namespace InPlanService.Logic
                     BeheerTram beheerTram = BeheerTram.ToBeheerTram(movingTrams[i]);
                     if (location == TramLocation.ComingIn)
                     {
-                        if (movingTrams[i].DepartureTime == null)
+                        if (beheerTram.DepartureTime == null)
                         {
-                            GetExitTime(beheerTram);
+                            beheerTram.EditTramDepartureTime(GetExitTime(beheerTram));                            
                         }
                         sorter.AssignTramLocation(beheerTram);
                     }
