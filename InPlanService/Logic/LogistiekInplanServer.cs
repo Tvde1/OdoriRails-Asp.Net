@@ -42,7 +42,7 @@ namespace InPlanService
             if (movingTrams.Count != 0)
             {
                 UpdateTracks();
-                SortingAlgoritm sorter = new SortingAlgoritm(_allTracks, _repo);
+                TramSortingAlgoritm sorter = new TramSortingAlgoritm(_allTracks, _repo);
                 for (int i = 0; i < movingTrams.Count; i++)
                 {
                     BeheerTram beheerTram = BeheerTram.ToBeheerTram(movingTrams[i]);

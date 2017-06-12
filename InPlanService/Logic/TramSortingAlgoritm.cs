@@ -7,14 +7,14 @@ using System.Web;
 using OdoriRails.Helpers.LogistiekBeheersysteem;
 using OdoriRails.Helpers.LogistiekBeheersysteem.ObjectClasses;
 
-namespace InPlanService
+namespace InPlanService.Logic
 {
-    public class SortingAlgoritm
+    public class TramSortingAlgoritm
     {
         private readonly LogisticRepository _repo;
         private readonly List<BeheerTrack> _allTracks;
 
-        public SortingAlgoritm(List<BeheerTrack> allTracks, LogisticRepository repo)
+        public TramSortingAlgoritm(List<BeheerTrack> allTracks, LogisticRepository repo)
         {
             _repo = repo;
             _allTracks = allTracks;
