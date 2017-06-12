@@ -1,19 +1,3 @@
---SELECT 
---convert(NVARCHAR(500), 'INSERT INTO Track (TrackPk, Line, [Type], RemiseFk) VALUES (' + 
---convert(NVARCHAR(20), S.Nummer) + ','+ 
---'XXX' + ',' +
---convert(NVARCHAR(5), S.InUitRijspoor) + ',1);') AS UpdateScript
---FROM SPOOR S;
-
---SELECT 
---convert(NVARCHAR(500), 'INSERT INTO Sector (SectorPk, TrackFk, RemiseFK, Lat, Long) VALUES (' + 
---convert(NVARCHAR(20), S.Nummer) + ','+ 
---convert(NVARCHAR(20), R.Nummer) + ',1,'+ 
---convert(NVARCHAR(20), S.Lat) + ','+ 
---convert(NVARCHAR(20), S.Long) + ');') AS UpdateScript
---FROM SECTOR S
---INNER JOIN SPOOR R ON S.Spoor_ID = R.ID;
-
 INSERT INTO Track (TrackPk, [Type], RemiseFk) VALUES (12,1,1);
 INSERT INTO Track (TrackPk, [Type], RemiseFk) VALUES (13,1,1);
 INSERT INTO Track (TrackPk, [Type], RemiseFk) VALUES (14,1,1);
@@ -40,8 +24,8 @@ INSERT INTO Track (TrackPk, Line, [Type], RemiseFk) VALUES (42,	55,		0,	1);
 INSERT INTO Track (TrackPk, Line, [Type], RemiseFk) VALUES (43,	1,		0,	1);
 INSERT INTO Track (TrackPk, Line, [Type], RemiseFk) VALUES (44,	13,		0,	1);
 INSERT INTO Track (TrackPk, Line, [Type], RemiseFk) VALUES (45,	17,		0,	1);
-INSERT INTO Track (TrackPk, Line, [Type], RemiseFk) VALUES (46,			0,	1);
-INSERT INTO Track (TrackPk, Line, [Type], RemiseFk) VALUES (51,			2,	1);
+INSERT INTO Track (TrackPk, [Type], RemiseFk)		VALUES (46,			0,	1);
+INSERT INTO Track (TrackPk, [Type], RemiseFk)		VALUES (51,			2,	1);
 INSERT INTO Track (TrackPk, Line, [Type], RemiseFk) VALUES (52,	17,		0,	1);
 INSERT INTO Track (TrackPk, Line, [Type], RemiseFk) VALUES (53,	13,		0,	1);
 INSERT INTO Track (TrackPk, Line, [Type], RemiseFk) VALUES (54,	5,		0,	1);
@@ -52,7 +36,7 @@ INSERT INTO Track (TrackPk, [Type], RemiseFk) 		VALUES (58,			2,	1);
 INSERT INTO Track (TrackPk, [Type], RemiseFk) 		VALUES (60,			0,	1);
 INSERT INTO Track (TrackPk, [Type], RemiseFk) 		VALUES (61,			0,	1);
 INSERT INTO Track (TrackPk, [Type], RemiseFk) 		VALUES (62,			0,	1);
-INSERT INTO Track (TrackPk, [Type], RemiseFk) 		VALUES (63,	2,		0,	1);
+INSERT INTO Track (TrackPk, Line, [Type], RemiseFk) VALUES (63,	2,		0,	1);
 INSERT INTO Track (TrackPk, [Type], RemiseFk) 		VALUES (64,			0,	1);
 INSERT INTO Track (TrackPk, [Type], RemiseFk) 		VALUES (74,			0,	1);
 INSERT INTO Track (TrackPk, [Type], RemiseFk) 		VALUES (75,			0,	1);
