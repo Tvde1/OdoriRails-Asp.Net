@@ -90,7 +90,7 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
 
             try
             {
-                if (sectors != "")
+                if (!string.IsNullOrEmpty(sectors))
                 {
                     lockSectors = Parse(sectors);
                     for (var i = 0; i < lockSectors.Length; i++)
@@ -105,7 +105,7 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             {
                 return "De input klopt niet.";
             }
-            if (lockTracks[0] == -1) return "";
+            if (lockTracks[0] == -1) return null;
 
             var newLockTracks = AllTracks.Where(x => lockTracks.Contains(x.Key));
 
@@ -143,7 +143,7 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
 
             try
             {
-                if (sectors != "")
+                if (!string.IsNullOrEmpty(sectors))
                 {
                     unlockSectors = Parse(sectors);
                     for (var i = 0; i < unlockSectors.Length; i++)
@@ -212,7 +212,7 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             var tram = AllTrams[moveTram];
             if (!AllTracks.ContainsKey(moveTrack)) return "Dit spoor betaat niet.";
             var track = AllTracks[moveTrack];
-            if (track.Sectors.Count < moveSector+1) return $"Spoor {track.Number} heeft zo veel secoren niet";
+            if (track.Sectors.Count < moveSector + 1) return $"Spoor {track.Number} heeft zo veel secoren niet";
             var sector = track.Sectors[moveSector];
 
             switch (sector.Status)

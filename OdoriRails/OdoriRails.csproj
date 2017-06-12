@@ -158,7 +158,7 @@
     <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\BeheerTrack.cs" />
     <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\BeheerTram.cs" />
     <Compile Include="Helpers\LogistiekBeheersysteem\ObjectClasses\InUItRijSchema.cs" />
-    <Compile Include="Helpers\Objects\ApiTram.cs" />
+    <Compile Include="Helpers\Objects\ApiObject.cs" />
     <Compile Include="Helpers\Objects\Cleaning.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\ILoginContext.cs" />
     <Compile Include="Helpers\DAL\ContextInterfaces\IServiceContext.cs" />

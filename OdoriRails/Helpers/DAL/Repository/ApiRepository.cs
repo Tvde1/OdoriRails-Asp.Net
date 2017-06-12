@@ -13,50 +13,31 @@ namespace OdoriRails.Helpers.DAL.Repository
         private readonly ITrackSectorContext _trackSectorContext = new TrackSectorContext();
 
         private readonly List<Sector> _sectors;
-        private readonly Dictionary<int, Track> _tracks;
-
-        private Track tempExportTrack;
+        private readonly List<Track> _tracks;
+        private readonly Dictionary<int, Tram> _trams;
 
         public ApiRepository()
         {
             _sectors = ObjectCreator.GenerateListWithFunction(_trackSectorContext.GetAllSectors(),
                 _objectCreator.CreateSector);
             _tracks = ObjectCreator.GenerateListWithFunction(_trackSectorContext.GetAllTracks(),
-                ObjectCreator.CreateTrack).ToDictionary(x => x.Number, x => x);
-
-            foreach (var sector in _sectors)
-            {
-                _tracks[sector.TrackNumber].AddSector(sector);
-            }
+                ObjectCreator.CreateTrack);
+            _trams = ObjectCreator.GenerateListWithFunction(_tramContext.GetAllTrams(),
+                _objectCreator.CreateTram).ToDictionary(x => x.Number, x => x);
         }
-
-        public IEnumerable<Tram> GetAllTrams()
+        
+        public List<Track> GetAllTracks()
         {
-            return ObjectCreator.GenerateListWithFunction(_tramContext.GetAllTrams(), _objectCreator.CreateTram);
-        }
-
-        public IEnumerable<Sector> GetSectorsFromTram(Tram tram)
-        {
-            return _sectors.Where(x => x.TramId == tram.Number);
-        }
-
-        public KeyValuePair<Track, Sector> GetTrackFromTram(Tram tram)
-        {
-            var sector = _sectors.FirstOrDefault(x => x.TramId == tram.Number);
-
             foreach (var track in _tracks)
             {
-                foreach (var temp in track.Value.Sectors)
+                foreach (var sector in _sectors.Where(x => x.TrackNumber == track.Number))
                 {
-                    if (temp == sector)
-                    {
-                        tempExportTrack = track.Value;
-                    }
+                    if (sector.TramId != null)
+                        sector.SetTram(_trams[sector.TramId.Value]);
+                    track.AddSector(sector);
                 }
             }
-            if (tempExportTrack == null) return new KeyValuePair<Track, Sector>(null, null);
-            
-            return new KeyValuePair<Track, Sector>(tempExportTrack, sector);
+            return _tracks;
         }
     }
 }
