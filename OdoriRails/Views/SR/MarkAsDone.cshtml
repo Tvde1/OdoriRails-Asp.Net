@@ -9,21 +9,24 @@
 <h2>Mark this task as Done</h2>
 @using (Html.BeginForm("MarkAsDone", "SR", FormMethod.Post))
 {
-    if (@Model.User.Role == Role.Cleaner || @Model.User.Role == Role.HeadCleaner)
+    if (Model.User.Role == Role.Cleaner || Model.User.Role == Role.HeadCleaner)
     { 
-        <p>Vul de tekstveld met een opmerking en druk op submit om de taak te beindigen.</p>
-        <p>Opmerkingen:</p><input type="text" name="Comment" value="@Model.CleaningMarkAsDone.Comments" size="150" />
+        <p>Fill the comment section in and press the button to finish the service!</p>
+        <p>Comments:</p><input type="text" name="Comment" value="@Model.CleaningMarkAsDone.Comments" size="150" />
+        <input type="hidden" name="TramIdToCarryOver" value="@Model.CleaningMarkAsDone.TramId"/>
+        <input type="hidden" name="Serviceid" value="@Model.Serviceid" />
     }
     if (@Model.User.Role == Role.Engineer || @Model.User.Role == Role.HeadEngineer)
     { 
-        <p>Vul de tekstveld met de uitgevoerde oplossing en druk op submit om de taak te beindigen.</p>
-        <p>Oplossing:</p><input type="text" name="Solution" value="@Model.RepairMarkAsDone.Solution" size="150" />
+        <p>Fill the solution for the problem in the text field to finish the service!</p>
+        <p>Solution:</p><input type="text" name="Solution" value="@Model.RepairMarkAsDone.Solution" size="150" />
+        <input type="hidden" name="TramIdToCarryOver" value="@Model.RepairMarkAsDone.TramId"/>
+        <input type="hidden" name="Serviceid" value="@Model.Serviceid" />
     }
-    <input type="hidden" name="TramIdToCarryOver" value="@Model.RepairMarkAsDone.TramId"/>
-    <input type="hidden" name="Serviceid" value="@Model.Serviceid" />
+
 
     <br/>
-    <input type="submit" value="EditRepair"/>
+    <input type="submit" value="Edit Service"/>
 
 }
 

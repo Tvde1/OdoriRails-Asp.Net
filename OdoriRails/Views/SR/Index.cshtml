@@ -28,13 +28,13 @@
                 Id
             </th>
             <th>
-                StartDate
+                Start Date
             </th>
             <th>
-                EndDate
+                End Date
             </th>
             <th>
-                TramId
+                Tram Id
             </th>
             <th>
                 Type
@@ -69,7 +69,7 @@
                         <td>@cleaning.TramId</td>
                         <td>@cleaning.Size</td>
                         <td>@cleaning.Comments</td>
-                        <td>@Html.ActionLink("Edit |", "EditCleaning", "SR", new { id = cleaning.Id }, null)</td>
+                        <td>@Html.ActionLink("Edit ", "EditCleaning", "SR", new { id = cleaning.Id }, null)</td>
                         <td>@Html.ActionLink("Mark as Done", "MarkAsDone", "SR", new { id = cleaning.Id }, null)</td>
                     </tr>
                 }

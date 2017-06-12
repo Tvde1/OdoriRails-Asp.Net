@@ -41,7 +41,7 @@ namespace OdoriRails.Controllers
             var result = GetLoggedInUser(new[] { Role.Cleaner, Role.Engineer, Role.HeadCleaner, Role.HeadEngineer });
             if (result is ActionResult) return result as ActionResult;
             var user = (User)result;
-            SRLogic _logic = new SRLogic();
+            SRLogic _logic = new SRLogic(Role.Cleaner);
             AddCleaningModel model = new AddCleaningModel();
 
             if (user.Role != Role.HeadCleaner)
