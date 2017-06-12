@@ -4,20 +4,19 @@ using OdoriRails.Helpers.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Web;
 using InPlanService.CSV;
+using InPlanService.Logic;
 
-namespace InPlanService
+namespace InPlanService.Logic
 {
-    public class LogistiekInPlanServer
+    public class LogistiekInPlan
     {
         private I_CSVContext _csv;
         private LogisticRepository _repo = new LogisticRepository();
         private List<BeheerTrack> _allTracks;
         private List<InUitRijSchema> _schema;
 
-        public LogistiekInPlanServer()
+        public LogistiekInPlan()
         {
             _csv = new CSVContext();
             try

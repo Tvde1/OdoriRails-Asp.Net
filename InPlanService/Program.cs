@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using InPlanService.Logic;
+using System;
 using System.Timers;
 
 namespace InPlanService
 {
     class Program
     {
-        static LogistiekInPlanServer server;
+        static LogistiekInPlan logServer;
+        static ServiceInplan serServer;
         static Timer CheckForChanges;
 
         static void Main(string[] args)
@@ -19,19 +17,22 @@ namespace InPlanService
             Console.WriteLine("Press escape to exit.");
             Console.WriteLine();
 
-            server = new LogistiekInPlanServer();
+            logServer = new LogistiekInPlan();
+            serServer = new ServiceInplan();
             CheckForChanges = new Timer(5000);
             CheckForChanges.Elapsed += new ElapsedEventHandler(CheckForChanges_Tick);
             CheckForChanges.Enabled = true;
 
             while (Console.ReadKey(true).Key != ConsoleKey.Escape) { }
+
             Console.Clear();
             Console.WriteLine("Shutting down...");
         }
 
         private static void CheckForChanges_Tick(object sender, ElapsedEventArgs e)
         {
-            server.FetchMovingTrams();
+            logServer.FetchMovingTrams();
+            serServer.Update();
         }
     }
 }
