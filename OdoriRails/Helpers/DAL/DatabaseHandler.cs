@@ -22,7 +22,7 @@ namespace OdoriRails.Helpers.DAL
                     return dataTable;
                 }
             }
-            catch (Exception ex)
+            catch 
             {
                 var newCommand = command;
                 //MessageBox.Show("Lost connection to the database.");

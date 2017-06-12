@@ -342,11 +342,9 @@ else
             center: { lat: 52.348012, lng: 4.852770 },
             zoom: 18,
             draggable: true,
-            scrollwheel: false,
             navigationControl: false,
             mapTypeControl: false,
             scaleControl: false,
-            zoomControl: false,
             streetViewControl: false,
             mapTypeId: 'myStyle'
             });
@@ -360,7 +358,14 @@ else
 
         var textBox = document.getElementById('Form_TramNumber');
 
-        function addMarker(location, map, labeltext, contentString) {
+        function addMarker(location, map, labeltext, contentString, status) {
+            var icon;
+
+            if (status === 1) {
+                icon = "../../fonts/Icons/TransparantIcon161.gif";
+            } else {
+                icon = "../../fonts/Icons/TransparantIcon16.gif";
+            }
             var marker;
             console.log("adding Marker!");
             // Add the marker at the clicked location, and add the next-available label
@@ -369,7 +374,7 @@ else
                 position: location,
                 label: labeltext,
                 map: map,
-                icon: "../../fonts/Icons/TransparantIcon16.gif"
+                icon: icon
             });
             marker.addListener('click', function () {
                 var infowindow = new google.maps.InfoWindow({
@@ -391,31 +396,61 @@ else
             if (JSON.stringify(oldJson) !== JSON.stringify(data)) {
                 map.clearOverlays();
                 for (var i = 0; i < data.length; i++) {
-                    var lat = parseFloat(data[i].Latitude);
-                    var lng = parseFloat(data[i].Longitude);
-                    var location = { lat, lng };
-                    contentString = '<div id="content">' +
-                        '<div id="siteNotice">' +
-                        '</div>' +
-                        '<h1 id="firstHeading" class="firstHeading">' +
-                        String(data[i].TramNumber) +
-                        '</h1>' +
-                        '<div id="bodyContent">' +
-                        '<p>Tracknumber: ' +
-                        String(data[i].TrackNumber) +
-                        '</p>' +
-                        '<p>Tracktype: ' +
-                        String(data[i].TrackType) +
-                        '</p>' +
-                        '<p>Sectornumber: ' +
-                        String(data[i].SectorNumber) +
-                        '</p>' +
-                        '<p>Line: ' +
-                        String(data[i].Line) +
-                        '</p>' +
-                        '</div>' +
-                        '</div>';
-                    addMarker(location, map, String(data[i].TramNumber), contentString);
+                    console.log(data[i]);
+                    for (var y = 0; y < data[i].Sectors.length; y++) {
+                        
+                        console.log(data[i].Sectors[y]);
+                        var lat = parseFloat(data[i].Sectors[y].Latitude);
+                        var lng = parseFloat(data[i].Sectors[y].Longitude);
+                        var location = { lat, lng };
+                        var tramNumber;
+                        if (data[i].Sectors[y].OccupyingTram === null) {
+                            contentString = '<div id="content">' +
+                                '<div id="siteNotice">' +
+                                '</div>' +
+                                '<div id="bodyContent">' +
+                                '<p>Tracknumber: ' +
+                                String(data[i].Number) +
+                                '</p>' +
+                                '<p>Tracktype: ' +
+                                String(data[i].TrackType) +
+                                '</p>' +
+                                '<p>Sectornumber: ' +
+                                String(data[i].Sectors[y].Number) +
+                                '</p>' +
+                                '<p>Line: ' +
+                                String(data[i].Line) +
+                                '</p>' +
+                                '</div>' +
+                                '</div>';
+                            tramNumber = '';
+                        } else {
+                            tramNumber = String(data[i].Sectors[y].OccupyingTram.Number);
+                            contentString = '<div id="content">' +
+                                '<div id="siteNotice">' +
+                                '</div>' +
+                                '<h1 id="firstHeading" class="firstHeading">' +
+                                 tramNumber +
+                                '</h1>' +
+                                '<div id="bodyContent">' +
+                                '<p>Tracknumber: ' +
+                                String(data[i].Number) +
+                                '</p>' +
+                                '<p>Tracktype: ' +
+                                String(data[i].TrackType) +
+                                '</p>' +
+                                '<p>Sectornumber: ' +
+                                String(data[i].Sectors[y].Number) +
+                                '</p>' +
+                                '<p>Line: ' +
+                                String(data[i].Line) +
+                                '</p>' +
+                                '</div>' +
+                                '</div>';
+                        }
+                        addMarker(location, map, tramNumber, contentString, parseInt(data[i].Sectors[y].Status));
+                    }
+                    
                 }
                 oldJson = data;
             }
