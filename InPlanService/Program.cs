@@ -23,6 +23,8 @@ namespace InPlanService
             CheckForChanges.Elapsed += new ElapsedEventHandler(CheckForChanges_Tick);
             CheckForChanges.Enabled = true;
 
+            serServer.Update();
+
             while (Console.ReadKey(true).Key != ConsoleKey.Escape) { }
 
             Console.Clear();
@@ -32,7 +34,6 @@ namespace InPlanService
         private static void CheckForChanges_Tick(object sender, ElapsedEventArgs e)
         {
             logServer.FetchMovingTrams();
-            serServer.Update();
         }
     }
 }
