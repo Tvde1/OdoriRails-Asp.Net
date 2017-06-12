@@ -9,7 +9,7 @@
 
 
     @Html.TextBoxFor(x => x.TramId, new {@class="form-control", id = "tramId"})
-    <button class="btn form-control btn-default" onclick="location.href=`/SR/TramHistory/${$('#tramId').val()}`;">Ververs</button>
+    <button class="btn form-control btn-default" onclick="location.href=`/SR/TramHistory/${$('#tramId').val()}`;">Refresh</button>
 
 
 <h2>Tram History</h2>
@@ -21,11 +21,11 @@
         <tr>
             <th>Id</th>
             <th>Type</th>
-            <th>Begindatum</th>
-            <th>Einddatum</th>
-            <th>Reparateurs</th>
+            <th>Begin Date</th>
+            <th>End date</th>
+            <th>Engineers</th>
             <th>Defect</th>
-            <th>Oplossing</th>
+            <th>Solution</th>
         </tr>
     </thead>
     <tbody>
@@ -39,10 +39,10 @@
                     @switch (reparatie.Type)
                 {
                     case RepairType.Maintenance:
-                            @Html.Raw("Onderhoud")
+                            @Html.Raw("Maintenance")
                             break;
                         case RepairType.Repair:
-                            @Html.Raw("Reparatie")
+                            @Html.Raw("Repair")
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -74,10 +74,10 @@
     <thead>
         <tr>
             <th>Id</th>
-            <th>Grootte</th>
-            <th>Begindatum</th>
-            <th>Einddatum</th>
-            <th>Schoonmakers</th>
+            <th>Size</th>
+            <th>Begin Date</th>
+            <th>End Date</th>
+            <th>Cleaners</th>
             <th>Details</th>
         </tr>
     </thead>
@@ -92,10 +92,10 @@
                     @switch (schoonmaak.Size)
                 {
                     case CleaningSize.Big:
-                            @Html.Raw("Groot")
+                            @Html.Raw("Big")
                             break;
                         case CleaningSize.Small:
-                            @Html.Raw("Klein")
+                            @Html.Raw("Small")
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();

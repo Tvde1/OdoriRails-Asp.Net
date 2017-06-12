@@ -35,11 +35,28 @@ namespace OdoriRails.Tests
                 return;
             }
 
-            _userBeheerRepository.RemoveUser(user.Id);
 
-            var fetchUser = _userBeheerRepository.GetUser("TestUser");
 
-            Assert.IsNull(fetchUser);
         }
+
+        [TestMethod]
+        public void GetUserIdByFullName()
+        {
+            var user = _userBeheerRepository.GetUser("TestUser");
+            int? id = _userBeheerRepository.GetUserIdByFullName("Test User");
+            Assert.AreEqual(user.Id,id);
+
+
+        }
+
+        [TestMethod]
+        public void DosUserExist()
+        {
+            var user = _userBeheerRepository.GetUser("TestUser");
+            Assert.IsTrue(_userBeheerRepository.DoesUserExist(user.Username));
+
+
+        }
+
     }
 }

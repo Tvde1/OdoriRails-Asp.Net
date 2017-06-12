@@ -357,6 +357,7 @@ else
 
         var infowindowold;
 
+
         var textBox = document.getElementById('Form_TramNumber');
 
         function addMarker(location, map, labeltext, contentString) {
@@ -387,13 +388,12 @@ else
         //addMarker(coordinates, map);
 
         var requestMethod = function (data) {
-            if (oldJson !== data) {
+            if (JSON.stringify(oldJson) !== JSON.stringify(data)) {
+                map.clearOverlays();
                 for (var i = 0; i < data.length; i++) {
                     var lat = parseFloat(data[i].Latitude);
                     var lng = parseFloat(data[i].Longitude);
                     var location = { lat, lng };
-                    console.log(String(data[i].TramNumber));
-                    console.log(location);
                     contentString = '<div id="content">' +
                         '<div id="siteNotice">' +
                         '</div>' +
@@ -416,15 +416,14 @@ else
                         '</div>' +
                         '</div>';
                     addMarker(location, map, String(data[i].TramNumber), contentString);
-                    oldJson = data;
                 }
+                oldJson = data;
             }
         }
 
         var documentReady = function () {
             $.getJSON('/api/GoogleMapsAPI').done(requestMethod);
             console.log("json read!");
-            map.clearOverlays();
             }
 
         google.maps.Map.prototype.clearOverlays = function () {
@@ -434,7 +433,7 @@ else
             markersArray.length = 0;
         }
 
-        var myVar = setInterval(myTimer, 5000);
+        var myVar = setInterval(myTimer, 1000);
 
         function myTimer() {
             documentReady();

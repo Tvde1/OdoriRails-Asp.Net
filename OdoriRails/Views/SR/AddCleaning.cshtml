@@ -12,11 +12,11 @@
     <p>
         <label>Start Date:</label>
         <br />
-        <input type="date" name="StartDate" value="@Model.StartDate" />
+        <input type="date" name="Start Date" value="@DateTime.Today" />
         <br />
         <label>End Date:</label>
         <br />
-        <input type="date" name="EndDate" value="@Model.EndDate" />
+        <input type="date" name="End Date" value="@Model.EndDate" />
         <br />
         <label>Cleaning Size:</label>
         <br />
@@ -24,9 +24,9 @@
         <input type="radio" name="Size" value="@Model.Size == @CleaningSize.Big" />Big<br />
 
         <br /><label> Comment:</label><br />
-        <input type="text" name="Comment" value="@Model.Comment" />
-        <label> Tram Nummer:</label><br />
-        <input type="text" name="TramId" value="@Model.TramID" />
+        <input type="text" name="Comment" value="@Model.Comment" /><br />
+        <label> Tram Number:</label><br />
+        <input type="text" name="TramId" value="801" /><br />
         <label>Assigned Users:</label><br />
 
         @foreach (var user in Model.AssignedWorkers)

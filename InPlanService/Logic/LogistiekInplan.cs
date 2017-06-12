@@ -4,20 +4,19 @@ using OdoriRails.Helpers.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Web;
 using InPlanService.CSV;
+using InPlanService.Logic;
 
-namespace InPlanService
+namespace InPlanService.Logic
 {
-    public class LogistiekInPlanServer
+    public class LogistiekInPlan
     {
         private I_CSVContext _csv;
         private LogisticRepository _repo = new LogisticRepository();
         private List<BeheerTrack> _allTracks;
         private List<InUitRijSchema> _schema;
 
-        public LogistiekInPlanServer()
+        public LogistiekInPlan()
         {
             _csv = new CSVContext();
             try
@@ -42,7 +41,7 @@ namespace InPlanService
             if (movingTrams.Count != 0)
             {
                 UpdateTracks();
-                SortingAlgoritm sorter = new SortingAlgoritm(_allTracks, _repo);
+                TramSortingAlgoritm sorter = new TramSortingAlgoritm(_allTracks, _repo);
                 for (int i = 0; i < movingTrams.Count; i++)
                 {
                     BeheerTram beheerTram = BeheerTram.ToBeheerTram(movingTrams[i]);
