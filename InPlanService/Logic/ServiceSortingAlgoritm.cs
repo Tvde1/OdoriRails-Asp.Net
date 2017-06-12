@@ -36,7 +36,7 @@ namespace InPlanService.Logic
                     }
                 }
 
-                for (int i = 0; i <= 3;) // checks three times for small services 
+                for (int i = 0; i < 3;) // checks three times for small services 
                 {
                     Console.WriteLine();
                     Console.WriteLine("Check Small Service: " + i);
