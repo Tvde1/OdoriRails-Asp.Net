@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace OdoriRails.Helpers.Objects
 {
@@ -9,6 +10,7 @@ namespace OdoriRails.Helpers.Objects
         Exit
     }
 
+    [DataContract]
     public class Track
     {
         /// <summary>
@@ -32,12 +34,17 @@ namespace OdoriRails.Helpers.Objects
             Type = type;
         }
 
-        public List<Sector> Sectors { get; } = new List<Sector>();
+        [DataMember]
+        public List<Sector> Sectors { get; set; } = new List<Sector>();
 
-        public int Number { get; }
-        public int? Line { get; }
+        [DataMember]
+        public int Number { get; set; }
 
-        public TrackType Type { get; }
+        [DataMember]
+        public int? Line { get; set; }
+
+        [DataMember]
+        public TrackType Type { get; set; }
 
         /// <summary>
         ///     Voegt een nieuwe sector toe aan het track.

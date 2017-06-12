@@ -38,8 +38,7 @@ namespace OdoriRails.Helpers.Objects
 
         public static Track CreateTrack(DataRow row)
         {
-            if (row == null) return null;
-            return new Track((int)row["TrackPk"], (int)row["Line"], (TrackType)row["Type"]);
+            return row == null ? null : new Track((int)row["TrackPk"], (int)row["Line"], (TrackType)row["Type"]);
         }
 
         public Sector CreateSector(DataRow row)

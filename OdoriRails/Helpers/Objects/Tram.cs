@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace OdoriRails.Helpers.Objects
 {
@@ -30,6 +31,7 @@ namespace OdoriRails.Helpers.Objects
         NotAssigned
     }
 
+    [DataContract]
     public class Tram
     {
         /// <summary>
@@ -72,17 +74,20 @@ namespace OdoriRails.Helpers.Objects
         /// <summary>
         ///     Ophalen tramnummer
         /// </summary>
-        public int Number { get; protected set; }
+        [DataMember]
+        public int Number { get; set; }
 
         /// <summary>
         ///     Ophalen Tramstatus
         /// </summary>
-        public TramStatus Status { get; protected set; }
+        [DataMember]
+        public TramStatus Status { get; set; }
 
         /// <summary>
         ///     Get/Set lijn waar de tram opstaat
         /// </summary>
-        public int Line { get; protected set; }
+        [DataMember]
+        public int Line { get; set; }
 
         /// <summary>
         ///     Get/Set bestuurder van de tram
@@ -92,7 +97,8 @@ namespace OdoriRails.Helpers.Objects
         /// <summary>
         ///     Ophalen model van de tram
         /// </summary>
-        public TramModel Model { get; protected set; }
+        [DataMember]
+        public TramModel Model { get; set; }
 
         /// <summary>
         ///     De departure time.
@@ -102,6 +108,7 @@ namespace OdoriRails.Helpers.Objects
         /// <summary>
         ///     De locatie van de tram.
         /// </summary>
-        public TramLocation Location { get; protected set; }
+        [DataMember]
+        public TramLocation Location { get; set; }
     }
 }

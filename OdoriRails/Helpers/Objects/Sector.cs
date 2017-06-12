@@ -1,4 +1,6 @@
-﻿namespace OdoriRails.Helpers.Objects
+﻿using System.Runtime.Serialization;
+
+namespace OdoriRails.Helpers.Objects
 {
     public enum SectorStatus
     {
@@ -7,6 +9,7 @@
         Occupied
     }
 
+    [DataContract]
     public class Sector
     {
         /// <summary>
@@ -37,13 +40,18 @@
             Number = number;
         }
 
-        public int Number { get; }
-        public SectorStatus Status { get; protected set; }
+        [DataMember]
+        public int Number { get; set; }
+        [DataMember]
+        public SectorStatus Status { get; set; }
+        [DataMember]
         public Tram OccupyingTram { get; set; }
-        public int TrackNumber { get; }
-        public int? TramId { get; }
-        public decimal? Latitude { get; }
-        public decimal? Longitude { get; }
+        public int TrackNumber { get; set; }
+        public int? TramId { get; set; }
+        [DataMember]
+        public decimal? Latitude { get; set; }
+        [DataMember]
+        public decimal? Longitude { get; set; }
 
         public void SetTram(Tram tram)
         {
