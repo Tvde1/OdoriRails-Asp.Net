@@ -1,5 +1,23 @@
-DROP PROCEDURE IF EXISTS dbo.PlanServices;
-DROP PROCEDURE IF EXISTS dbo.AddRepairService;
+DROP PROCEDURE dbo.PlanServices;
+DROP PROCEDURE dbo.AddRepairService;
+
+GO
+CREATE PROCEDURE dbo.AddRepairService 
+@startDate DATE,
+@tram int,
+@defect NVARCHAR (1000),
+@type NVARCHAR (1000)
+AS
+BEGIN
+	DECLARE @service int;
+	--Create service
+	INSERT INTO Service (StartDate, TramFk) VALUES (@startDate, @tram);
+	--Get serviceId
+	SELECT @service FROM Service WHERE StartDate = @startDate AND TramFk = @tram;
+	--Create Repair
+	INSERT INTO Repair (ServiceFk, Defect, Type) VALUES (@service, @defect, @type);
+END
+
 
 GO
 CREATE PROCEDURE dbo.PlanServices 
@@ -11,7 +29,6 @@ BEGIN
 			@currentDate DATE,
 			@previousBigService DATE,
 			@previousSmallService DATE,
-			@amountDays int = 5,
 			@tram int,
 			@serviceCount int;
 	
@@ -44,7 +61,7 @@ BEGIN
 			SELECT @serviceCount = COUNT(S.StartDate)
 			FROM [Service] S
 			FULL JOIN [Repair] R ON S.ServicePk = R.ServiceFk
-			WHERE S.StartDate = @currentDate AND R.Defect = 'Big Planned Maintenance' ))
+			WHERE S.StartDate = @currentDate AND R.Defect = 'Big Planned Maintenance';
 			
 			if (@serviceCount < 1)--Kan 1 per dag
 			BEGIN
@@ -54,9 +71,12 @@ BEGIN
 			SET @currentDate = DATEADD(d, 1, @currentDate);
 		END
 	END
+
+	CLOSE @BigMaintenance;
 	
 	--Alle trams ophalen die of een small maintenace meer als een kwart jaar geleden of er nog geen gehad hebben
 	DECLARE @SmallMaintenace AS CURSOR;
+
 	SET @SmallMaintenace = CURSOR FOR 
 		SELECT TramPk
 		FROM Tram T
@@ -65,11 +85,11 @@ BEGIN
 		WHERE (S.EndDate < @previousSmallService AND R.Defect = 'Small Planned Maintenance') OR S.Startdate IS NULL
 		ORDER BY TramPk;
 		
-	OPEN @SmallMaintenance;
+	OPEN @SmallMaintenace;
 		
 	WHILE (@@FETCH_STATUS = 0)
 	BEGIN
-		FETCH NEXT FROM @SmallMaintenance INTO @tram;
+		FETCH NEXT FROM @SmallMaintenace INTO @tram;
 		
 		WHILE (@currentDate <= @endDate)
 		BEGIN
@@ -77,7 +97,7 @@ BEGIN
 			SELECT @serviceCount = COUNT(S.StartDate)
 			FROM [Service] S
 			FULL JOIN [Repair] R ON S.ServicePk = R.ServiceFk
-			WHERE S.StartDate = @currentDate AND R.Defect = 'Big Planned Maintenance' ))
+			WHERE S.StartDate = @currentDate AND R.Defect = 'Big Planned Maintenance';
 			
 			if (@serviceCount < 3)--Kan 3 per dag
 			BEGIN
@@ -88,31 +108,3 @@ BEGIN
 		END
 	END
 END
-
-GO
-CREATE PROCEDURE dbo.AddRepairService 
-@startDate DATE,
-@tram int,
-@defect NVARCHAR (1000),
-@type NVARCHAR (1000)
-AS
-BEGIN
-	DECLARE @service int;
-	--Create service
-	INSERT INTO Service (StartDate, TramFk) VALUES (@startDate, @tram);
-	--Get serviceId
-	SELECT @service FROM Service WHERE StartDate = @startDate AND TramFk = @tram;
-	--Create Repair
-	INSERT INTO Repair (ServiceFk, Defect, Type) VALUES (@service, @defect, @type);
-END
-
-
-SELECT S.StartDate
-FROM [Service] S
-FULL JOIN [Repair] R ON S.ServicePk = R.ServiceFk
-WHERE S.Startdate >= @startDate AND S.StartDate <= @endDate AND R.Defect = 'Big Planned Maintenance'
-
-SELECT S.StartDate
-FROM [Service] S
-FULL JOIN [Repair] R ON S.ServicePk = R.ServiceFk
-WHERE S.Startdate >= @startDate AND S.StartDate <= @endDate AND R.Defect = 'Small Planned Maintenance'
