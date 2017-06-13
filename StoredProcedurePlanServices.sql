@@ -1,4 +1,6 @@
 DROP PROCEDURE dbo.PlanServices;
+DROP PROCEDURE dbo.PlanBigMaintenance;
+DROP PROCEDURE dbo.PlanSmallMaintenance;
 DROP PROCEDURE dbo.AddRepairService;
 
 GO
@@ -18,9 +20,8 @@ BEGIN
 	INSERT INTO Repair (ServiceFk, Defect, Type) VALUES (@service, @defect, @type);
 END
 
-
 GO
-CREATE PROCEDURE dbo.PlanServices 
+CREATE PROCEDURE dbo.PlanBigMaintenance 
 @amountDays int
 AS
 BEGIN
@@ -39,12 +40,10 @@ BEGIN
 	SET @currentDate = @startDate
 	SET @endDate = DATEADD(d, @amountDays, @startdate);
 	SET @previousBigService = DATEADD(m, -6, @startdate);
-	SET @previousSmallService = DATEADD(m, -3, @startdate);
 
 	PRINT 'StartDate: ' + CAST(@startDate AS VARCHAR);
 	PRINT 'EndDate: ' + CAST(@endDate AS VARCHAR);
 	PRINT 'BigService from: ' + CAST(@previousBigService AS VARCHAR);
-	PRINT 'SmallService from: ' + CAST(@previousSmallService AS VARCHAR);
 	
 	--Check of alle mogelijke posities zijn ingedeeld
 	SELECT @totalServiceCount = COUNT(S.StartDate)
@@ -59,7 +58,7 @@ BEGIN
 		FROM Tram T
 		FULL JOIN [Service] S ON T.TramPK = S.TramFk
 		FULL JOIN [Repair] R ON S.ServicePk = R.ServiceFk
-		WHERE (S.EndDate < @previousBigService AND R.Defect = 'Big Planned Maintenance') OR S.Startdate IS NULL
+		WHERE (S.EndDate < @previousBigService AND R.Defect = 'Big Planned Maintenance') OR S.Startdate IS NULL OR R.Defect = 'Small Planned Maintenance'
 		ORDER BY TramPk;
 		
 	OPEN @BigMaintenance;
@@ -83,7 +82,7 @@ BEGIN
 			INNER JOIN [Repair] R ON S.ServicePk = R.ServiceFk
 			WHERE S.StartDate = @currentDate AND R.Defect = 'Big Planned Maintenance';
 			
-			PRINT @serviceCount;
+			PRINT 'DailyServiceCount: ' + CAST(@serviceCount AS VARCHAR);
 			if (@serviceCount < 1)--Kan 1 per dag
 			BEGIN
 				PRINT 'Big Maintenace Planned'
@@ -104,40 +103,99 @@ BEGIN
 		FETCH NEXT FROM @BigMaintenance INTO @tram;
 		PRINT 'Current Tram: ' + CAST(@tram AS VARCHAR);
 	END
+END
 
-	CLOSE @BigMaintenance;
+GO
+CREATE PROCEDURE dbo.PlanSmallMaintenance 
+@amountDays int
+AS
+BEGIN
+	SET NOCOUNT ON;
+	DECLARE @startDate DATE,
+			@endDate DATE,
+			@currentDate DATE,
+			@previousSmallService DATE,
+			@tram int,
+			@serviceCount int,
+			@totalServiceCount int = 0;
 	
-	--Alle trams ophalen die of een small maintenace meer als een kwart jaar geleden of er nog geen gehad hebben
-	DECLARE @SmallMaintenace AS CURSOR;
+	--Datums uitrekenen
+	SET @startDate = GetDate();
+	SET @currentDate = @startDate
+	SET @endDate = DATEADD(d, @amountDays, @startdate);
+	SET @previousSmallService = DATEADD(m, -3, @startdate);
 
-	SET @SmallMaintenace = CURSOR FOR 
+	PRINT 'StartDate: ' + CAST(@startDate AS VARCHAR);
+	PRINT 'EndDate: ' + CAST(@endDate AS VARCHAR);
+	PRINT 'SmallService from: ' + CAST(@previousSmallService AS VARCHAR);
+	
+	--Check of alle mogelijke posities zijn ingedeeld
+	SELECT @totalServiceCount = COUNT(S.StartDate)
+	FROM [Service] S
+	INNER JOIN [Repair] R ON S.ServicePk = R.ServiceFk
+	WHERE S.StartDate <= @endDate AND S.StartDate > @startDate AND R.Defect = 'Small Planned Maintenance';
+
+	--Alle trams ophalen die of een small maintenace meer als een kwart jaar geleden of er nog geen gehad hebben
+	DECLARE @SmallMaintenance AS CURSOR;
+	SET @SmallMaintenance = CURSOR FOR 
 		SELECT TramPk
 		FROM Tram T
 		FULL JOIN [Service] S ON T.TramPK = S.TramFk
 		FULL JOIN [Repair] R ON S.ServicePk = R.ServiceFk
-		WHERE (S.EndDate < @previousSmallService AND R.Defect = 'Small Planned Maintenance') OR S.Startdate IS NULL
+		WHERE (S.EndDate < @previousSmallService AND R.Defect = 'Small Planned Maintenance') OR S.Startdate IS NULL OR R.Defect = 'Big Planned Maintenance'
 		ORDER BY TramPk;
 		
-	OPEN @SmallMaintenace;
+	OPEN @SmallMaintenance;
+
+	PRINT 'Small Maintenace Planning Start'
+
+	FETCH NEXT FROM @SmallMaintenance INTO @tram;
+	PRINT 'Current Tram: ' + CAST(@tram AS VARCHAR);
+	PRINT 'TotalServiceCount: ' + CAST(@totalServiceCount AS VARCHAR);
+	PRINT 'AmountDays: ' + CAST(@amountDays AS VARCHAR);
 		
-	WHILE (@@FETCH_STATUS = 0)
+
+	WHILE (@@FETCH_STATUS = 0 AND @totalServiceCount < (@amountDays * 3))
 	BEGIN
-		FETCH NEXT FROM @SmallMaintenace INTO @tram;
-		
-		WHILE (@currentDate <= @endDate)
+		WHILE (@currentDate <= @endDate AND @totalServiceCount < (@amountDays * 3))
 		BEGIN
+			PRINT @currentDate;
 			--Check of er nog een nog een plaats vrij is die dag
 			SELECT @serviceCount = COUNT(S.StartDate)
 			FROM [Service] S
-			FULL JOIN [Repair] R ON S.ServicePk = R.ServiceFk
-			WHERE S.StartDate = @currentDate AND R.Defect = 'Big Planned Maintenance';
+			INNER JOIN [Repair] R ON S.ServicePk = R.ServiceFk
+			WHERE S.StartDate = @currentDate AND R.Defect = 'Small Planned Maintenance';
 			
+			PRINT 'DailyServiceCount: ' + CAST(@serviceCount AS VARCHAR);
 			if (@serviceCount < 3)--Kan 3 per dag
 			BEGIN
+				PRINT 'Small Maintenace Planned'
 				EXEC AddRepairService @currentDate, @tram, 'Small Planned Maintenance', 1;
 				BREAK;
 			END
 			SET @currentDate = DATEADD(d, 1, @currentDate);
+
+			--Check of alle mogelijke posities zijn ingedeeld
+			SELECT @totalServiceCount = COUNT(S.StartDate)
+			FROM [Service] S
+			INNER JOIN [Repair] R ON S.ServicePk = R.ServiceFk
+			WHERE S.StartDate <= @endDate AND S.StartDate > @startDate AND R.Defect = 'Small Planned Maintenance';
+
+			PRINT 'TotalServiceCount ' + CAST(@totalServiceCount AS VARCHAR);
 		END
+		SET @currentDate = @startDate;
+		FETCH NEXT FROM @SmallMaintenance INTO @tram;
+		PRINT 'Current Tram: ' + CAST(@tram AS VARCHAR);
 	END
+END
+
+GO
+CREATE PROCEDURE dbo.PlanServices 
+@forAmountDays int
+AS
+BEGIN
+	--Plan Big Maintenaces
+	EXEC PlanBigMaintenance @amountDays = @forAmountDays;
+	--Plan Small Maintenaces
+	EXEC PlanSmallMaintenance @amountDays = @forAmountDays;
 END
