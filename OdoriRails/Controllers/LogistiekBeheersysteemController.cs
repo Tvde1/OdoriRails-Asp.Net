@@ -67,6 +67,19 @@ namespace OdoriRails.Controllers
             var moveTramResult = remise.Logic.MoveTram(result.Form.TramNumber, result.Form.TrackNumber,
                 result.Form.SectorNumber);
 
+            if (moveTramResult == "NOT IDLE")
+            {
+                var alertModel = new AlertModel
+                {
+                    Message = "De tram ondergaat een service, weet u zeker dat u de tram wilt verplaatsen?",
+                    TramId = result.Form.TramNumber,
+                    TrackId = result.Form.TrackNumber,
+                    SectorId = result.Form.SectorNumber
+                };
+                TempData["AlertModel"] = alertModel;
+                return RedirectToAction("MoveTramAlert")
+;            }
+
             remise.Error = moveTramResult;
             if (moveTramResult == null)
                 remise.Sucess = "De tram is verplaatst.";
@@ -204,5 +217,30 @@ namespace OdoriRails.Controllers
         }
 
         #endregion
+
+        [HttpGet]
+        public ActionResult MoveTramAlert()
+        {
+            var model = TempData["AlertModel"] as AlertModel;
+            if (model == null)
+                return RedirectToAction("Index");
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult AcceptMoveTram(AlertModel model)
+        {
+            var remise = (LogistiekBeheerModel)Session["Remise"];
+            if (remise == null) return RedirectToAction("Index");
+
+            var moveTramResult = remise.Logic.MoveTram(model.TramId, model.TrackId,
+                model.SectorId, true);
+            
+            remise.Error = moveTramResult;
+            if (moveTramResult == null)
+                remise.Sucess = "De tram is verplaatst.";
+
+            return RedirectToAction("Index");
+        }
     }
 }

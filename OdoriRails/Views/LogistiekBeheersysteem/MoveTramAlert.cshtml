@@ -1,0 +1,22 @@
+﻿@model OdoriRails.Models.LogistiekBeheer.AlertModel
+
+@{
+    ViewBag.Title = "MoveTramAlert";
+}
+<div class="panel panel-default" style="margin-top: 10px">
+        <div class="panel-heading">Warning:</div>
+        <div class="panel-body">@Model.Message</div>
+        <div class="panel-footer">
+            @using (Html.BeginForm("Index", "LogistiekBeheersysteem", FormMethod.Get))
+            {
+                <button type="submit" class="btn btn-default">Annuleren</button>
+            }
+            @using (Html.BeginForm("AcceptMoveTram", "LogistiekBeheersysteem", FormMethod.Post))
+            {
+                @Html.HiddenFor(x => x.TramId)
+                @Html.HiddenFor(x => x.TrackId)
+                @Html.HiddenFor(x => x.SectorId)
+                <button type="submit" class="btn btn-warning">Doorgaan</button>
+            }
+        </div>
+    </div>
