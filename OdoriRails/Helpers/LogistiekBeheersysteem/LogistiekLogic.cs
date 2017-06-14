@@ -188,17 +188,19 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             var iTrams = Parse(trams);
             foreach (var tram in AllTrams)
             {
-                var pos = Array.IndexOf(iTrams, tram.Value);
-                if (pos <= -1) continue;
-                if (tram.Value.Status == TramStatus.Defect)
+                var pos = Array.IndexOf(iTrams, tram.Key);
+                if (pos != -1)
                 {
-                    tram.Value.EditTramStatus(TramStatus.Idle);
-                    _repo.EditTram(tram.Value);
-                }
-                else
-                {
-                    tram.Value.EditTramStatus(TramStatus.Defect);
-                    _repo.EditTram(tram.Value);
+                    if (tram.Value.Status == TramStatus.Defect)
+                    {
+                        tram.Value.EditTramStatus(TramStatus.Idle);
+                        _repo.EditTram(tram.Value);
+                    }
+                    else
+                    {
+                        tram.Value.EditTramStatus(TramStatus.Defect);
+                        _repo.EditTram(tram.Value);
+                    }
                 }
             }
             Update();
