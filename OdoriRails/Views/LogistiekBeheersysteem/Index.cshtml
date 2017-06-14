@@ -362,25 +362,39 @@ else
         var textBox = document.getElementById('Form_TramNumber');
         var listBox = document.getElementById('listBox');
 
-        function addMarker(location, map, labeltext, contentString, status) {
+        function addMarker(location, map, labeltext, contentString, sectorStatus, statusTram) {
             var icon;
-
-            if (status === 1) {
+            console.log(sectorStatus);
+            if (sectorStatus === 1) {
                 icon = "../../fonts/Icons/TransparantIcon161.gif";
             } else {
                 icon = "../../fonts/Icons/TransparantIcon16.gif";
             }
             var marker;
             console.log("adding Marker!");
+            var color;
+            if (statusTram > 0 && statusTram < 4) {
+                color = 'blue';
+            }
+            else if (statusTram === 4) {
+                color = 'red';
+            } else {
+                color = 'black';
+            }
+            
             // Add the marker at the clicked location, and add the next-available label
             // from the array of alphabetical characters.
             marker = new google.maps.Marker({
                 position: location,
-                label: labeltext,
+                label: {
+                    text: labeltext,
+                    color: color,
+                },
                 map: map,
                 icon: icon
             });
             marker.addListener('click', function () {
+                console.log();
                 var infowindow = new google.maps.InfoWindow({
                     content: contentString
                 });
@@ -388,7 +402,11 @@ else
                     infowindowold.close();
                 }
                 infowindow.open(map, marker);
-                textBox.value = parseInt(marker.label);
+
+                if (!isNaN(parseInt(marker.label.text))) {
+                    textBox.value = parseInt(marker.label.text);
+                }
+
                 infowindowold = infowindow;
             });
             markersArray.push(marker);
@@ -409,6 +427,9 @@ else
                         var lng = parseFloat(data[i].Sectors[y].Longitude);
                         var location = { lat, lng };
                         var tramNumber;
+                        var tramStatus;
+                        var sectorStatus = parseInt(data[i].Sectors[y].Status);
+
                         if (data[i].Sectors[y].OccupyingTram === null) {
                             contentString = '<div id="content">' +
                                 '<div id="siteNotice">' +
@@ -418,7 +439,7 @@ else
                                 String(data[i].Number) +
                                 '</p>' +
                                 '<p>Tracktype: ' +
-                                String(data[i].TrackType) +
+                                String(data[i].Type) +
                                 '</p>' +
                                 '<p>Sectornumber: ' +
                                 String(data[i].Sectors[y].Number) +
@@ -428,7 +449,8 @@ else
                                 '</p>' +
                                 '</div>' +
                                 '</div>';
-                            tramNumber = '';
+                            tramNumber = ' ';
+                            tramStatus = 0;
                         } else {
                             tramNumber = String(data[i].Sectors[y].OccupyingTram.Number);
                             contentString = '<div id="content">' +
@@ -442,7 +464,7 @@ else
                                 String(data[i].Number) +
                                 '</p>' +
                                 '<p>Tracktype: ' +
-                                String(data[i].TrackType) +
+                                String(data[i].Type) +
                                 '</p>' +
                                 '<p>Sectornumber: ' +
                                 String(data[i].Sectors[y].Number) +
@@ -452,14 +474,15 @@ else
                                 '</p>' +
                                 '</div>' +
                                 '</div>';
-                            if (parseInt(data[i].Sectors[y].OccupyingTram.Status) === 4) {
+                            if (parseInt(data[i].Sectors[y].OccupyingTram.Location) === 4) {
                                 var opt = document.createElement("option");
                                 opt.text = data[i].Sectors[y].OccupyingTram.Number;
                                 opt.value = parseInt(data[i].Sectors[y].OccupyingTram.Status);
                                 document.getElementById("listBox").options.add(opt);
                             }
+                            tramStatus = parseInt(data[i].Sectors[y].OccupyingTram.Status);
                         }
-                        addMarker(location, map, tramNumber, contentString, parseInt(data[i].Sectors[y].Status));
+                        addMarker(location, map, tramNumber, contentString, sectorStatus, tramStatus);
                     }
                     
                 }
