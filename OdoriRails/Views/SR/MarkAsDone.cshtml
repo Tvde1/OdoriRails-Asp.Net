@@ -9,7 +9,7 @@
 <h2>Mark this task as Done</h2>
 @using (Html.BeginForm("MarkAsDone", "SR", FormMethod.Post))
 {
-    if (Model.User.Role == Role.Cleaner || Model.User.Role == Role.HeadCleaner)
+     if (Model.User.Role == Role.Cleaner || Model.User.Role == Role.HeadCleaner)
     { 
         <p>Fill the comment section in and press the button to finish the service!</p>
         <p>Comments:</p><input type="text" name="Comment" value="@Model.CleaningMarkAsDone.Comments" size="150" />

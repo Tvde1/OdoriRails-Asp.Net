@@ -89,8 +89,7 @@ namespace OdoriRails.Helpers.Objects
             var startDate = (DateTime)row["StartDate"];
             var endDate = row["EndDate"] == DBNull.Value ? (DateTime?)null : (DateTime)row["EndDate"];
             var tramId = (int)row["TramFk"];
-
-            var solution = (string)row["Solution"];
+            var solution = row["Solution"] == DBNull.Value ? "" : (string)row["Solution"];
             var defect = (string)row["Defect"];
             var type = (RepairType)row["Type"];
             var users = GenerateListWithFunction(_serviceContext.GetUsersInServiceById((int)row["ServiceFk"]), CreateUser);

@@ -254,6 +254,7 @@ namespace OdoriRails.Controllers
                 {
                     viewmodel.Error = "Fill the text field and try again!";
                     viewmodel.User = user;
+                    viewmodel.RepairMarkAsDone = repairtofinish;
                     return View(viewmodel);
                 }
                 _repo.EditService(repairtofinish);
@@ -269,6 +270,8 @@ namespace OdoriRails.Controllers
                 if (string.IsNullOrEmpty(viewmodel.Comment))
                 {
                     viewmodel.Error = "Fill the text field and try again!";
+                    viewmodel.User = user;
+                    viewmodel.CleaningMarkAsDone = cleantofinish;
                     return View(viewmodel);
                 }
                 _repo.EditService(cleantofinish);
