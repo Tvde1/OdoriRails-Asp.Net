@@ -1,7 +1,7 @@
 DROP PROCEDURE dbo.PlanServices;
 DROP PROCEDURE dbo.PlanBigMaintenance;
 DROP PROCEDURE dbo.PlanSmallMaintenance;
-DROP PROCEDURE dbo.AddRepairService;
+DROP PROCEDURE dbo.AddCleaningService;
 DROP PROCEDURE dbo.AddRepairService;
 
 GO
@@ -31,11 +31,11 @@ AS
 BEGIN
 	DECLARE @service int;
 	--Create service
-	INSERT INTO Service (StartDate, TramFk) VALUES (@startDate, @tram);
+	INSERT INTO [Service] (StartDate, TramFk) VALUES (@startDate, @tram);
 	--Get serviceId
-	SELECT @service = ServicePk FROM Service WHERE StartDate = @startDate AND TramFk = @tram;
+	SELECT @service = ServicePk FROM [Service] WHERE StartDate = @startDate AND TramFk = @tram;
 	--Create Repair
-	INSERT INTO Cleaning (ServiceFk, Size, Remarks) VALUES (@service, @size, @remarks);
+	INSERT INTO Clean (ServiceFk, Size, Remarks) VALUES (@service, @size, @remarks);
 END
 
 GO
@@ -154,12 +154,12 @@ BEGIN
 			--Check of er nog een nog een plaats vrij is die dag
 			SELECT @serviceCount = COUNT(S.StartDate)
 			FROM [Service] S
-			INNER JOIN [Clean] R ON S.ServicePk = C.ServiceFk
+			INNER JOIN [Clean] C ON S.ServicePk = C.ServiceFk
 			WHERE S.StartDate = @currentDate AND C.Remarks = 'Small Planned Maintenance';
 
 			if (@serviceCount < 3)--Kan 3 per dag
 			BEGIN
-				EXEC AddCleaningService @currentDate, @tram, 1, 'Small Planned Maintenance', 1;
+				EXEC AddCleaningService @currentDate, @tram, 1, 'Small Planned Maintenance';
 				BREAK;
 			END
 			SET @currentDate = DATEADD(d, 1, @currentDate);
@@ -167,7 +167,7 @@ BEGIN
 			--Check of alle mogelijke posities zijn ingedeeld
 			SELECT @totalServiceCount = COUNT(S.StartDate)
 			FROM [Service] S
-			INNER JOIN [Clean] R ON S.ServicePk = C.ServiceFk
+			INNER JOIN [Clean] C ON S.ServicePk = C.ServiceFk
 			WHERE S.StartDate <= @endDate AND S.StartDate > @startDate AND C.Remarks = 'Small Planned Maintenance';
 		END
 		SET @currentDate = @startDate;
