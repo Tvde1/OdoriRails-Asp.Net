@@ -208,7 +208,7 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
 
         public string MoveTram(int moveTram, int moveTrack, int moveSector)
         {
-            //moveSector -= 1;
+            moveSector -= 1;
 
             if (!AllTrams.ContainsKey(moveTram)) return "Deze tram bestaat niet.";
             var tram = AllTrams[moveTram];
@@ -226,7 +226,7 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
                 case SectorStatus.Open:
                     {
                         var beheerSector = BeheerSector.ToBeheerSector(sector);
-                        if (beheerSector == null || !beheerSector.SetOccupyingTram(tram))
+                        if (beheerSector != null && beheerSector.SetOccupyingTram(tram))
                             _repo.WipeSectorByTramId(tram.Number);
                         _repo.EditSector(beheerSector);
                         Update();

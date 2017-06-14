@@ -96,11 +96,7 @@ namespace OdoriRails.Helpers.DAL.Contexts
 
         public void WipeTramFromSectorByTramId(int id)
         {
-            var query = new SqlCommand("UPDATE Sector SET Status = 0 WHERE TramFk = @id");
-            query.Parameters.AddWithValue("@id", id);
-            DatabaseHandler.GetData(query);
-
-            query = new SqlCommand("UPDATE Sector SET TramFk = null WHERE TramFk = @id");
+            var query = new SqlCommand("UPDATE Sector SET Status = 0, TramFk = null WHERE TramFk = @id");
             query.Parameters.AddWithValue("@id", id);
             DatabaseHandler.GetData(query);
         }
