@@ -225,6 +225,7 @@
     <Content Include="Views\SR\TramHistory.cshtml" />
     <Content Include="Views\SR\MarkAsDone.cshtml" />
     <Content Include="Views\SR\AssignUsers.cshtml" />
+    <Content Include="Views\Login\Error.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

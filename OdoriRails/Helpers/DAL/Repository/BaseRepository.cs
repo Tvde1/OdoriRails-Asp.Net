@@ -14,14 +14,14 @@ namespace OdoriRails.Helpers.DAL.Repository
             {
                 using (var conn = new SqlConnection(ConnectionString))
                 {
-                    conn.Open(); // throws if connection string is invalid
+                    conn.Open(); // throws if connection is invalid
                     conn.Close();
                     return null;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                return ex;
+                return new DatabaseException();
             }
         }
     }

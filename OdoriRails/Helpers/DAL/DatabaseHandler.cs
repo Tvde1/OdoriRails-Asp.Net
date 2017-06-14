@@ -7,7 +7,7 @@ namespace OdoriRails.Helpers.DAL
     public static class DatabaseHandler
     {
         private const string ConnectionString =
-            @"Data Source=192.168.20.189;Initial Catalog=OdoriRails;User ID=sa;Password=OdoriRails123;";
+            @"Data Source=192.168.20.189;Initial Catalog=OdoriRails;User ID=sa;Password=OdoriRails123;Connect Timeout=10;";
 
         public static DataTable GetData(SqlCommand command)
         {
@@ -22,13 +22,11 @@ namespace OdoriRails.Helpers.DAL
                     return dataTable;
                 }
             }
-            catch 
+            catch
             {
-                var newCommand = command;
-                //MessageBox.Show("Lost connection to the database.");
+                throw new DatabaseException();
+                //var newCommand = command;
                 //return null;
-                throw;
-                //throw new DatabaseException("Something went wrong while communicating with the database. Here is the ");
             }
         }
     }

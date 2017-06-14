@@ -20,13 +20,19 @@ namespace OdoriRails.Controllers
             var conn = BaseRepository.TestConnection();
             if (conn != null)
             {
-                var errorModel = new LoginModel {Error = "Kan niet met de database verbinden."};
+                var errorModel = new LoginModel { Error = "Kan niet met de database verbinden." };
                 return View(errorModel);
             }
             var result = TrySignInWithCookies();
             if (result != null) return result;
             var model = TempData["SigninModel"] as LoginModel ?? new LoginModel();
             return View(model);
+        }
+
+        public ActionResult Error(string errorText)
+        {
+            var errorModel = new LoginModel { Error = errorText };
+            return View(errorModel);
         }
 
         public ActionResult LogOut()
@@ -50,7 +56,7 @@ namespace OdoriRails.Controllers
             var conn = BaseRepository.TestConnection();
             if (conn != null)
             {
-                var errorModel = new LoginModel {Error = "Kan niet met de database verbinden."};
+                var errorModel = new LoginModel { Error = "Kan niet met de database verbinden." };
                 return View(errorModel);
             }
 
@@ -82,27 +88,27 @@ namespace OdoriRails.Controllers
             switch (result)
             {
                 case 1:
-                {
-                    return LogIn(username, password, rememberMe);
-                }
-                default:
-                {
-                    var model = new LoginModel();
-
-                    switch (result)
                     {
-                        case -2:
-                            model.Error = "This account doesn't exist.";
-                            break;
-                        case -1:
-                            model.Error = "This username and password don't match.";
-                            break;
-                        default:
-                            model.Error = "An uncaught login error has occured.";
-                            break;
+                        return LogIn(username, password, rememberMe);
                     }
-                    return Index(model);
-                }
+                default:
+                    {
+                        var model = new LoginModel();
+
+                        switch (result)
+                        {
+                            case -2:
+                                model.Error = "This account doesn't exist.";
+                                break;
+                            case -1:
+                                model.Error = "This username and password don't match.";
+                                break;
+                            default:
+                                model.Error = "An uncaught login error has occured.";
+                                break;
+                        }
+                        return Index(model);
+                    }
             }
         }
         private ActionResult LogIn(string username, string password, bool rememberme, bool isAutomatic = false)
@@ -124,7 +130,7 @@ namespace OdoriRails.Controllers
 
             //Adh van de user.role de juiste view teruggeven.
 
-            switch (((User) Session["User"]).Role)
+            switch (((User)Session["User"]).Role)
             {
                 case Role.Administrator:
                     return RedirectToAction("Index", "UserBeheer");
