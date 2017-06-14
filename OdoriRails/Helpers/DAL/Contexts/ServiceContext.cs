@@ -305,5 +305,13 @@ WHERE (Service.ServicePk = {serviceId})");
                     DatabaseHandler.GetData(new SqlCommand(
                         $"INSERT INTO ServiceUser (ServiceCk, UserCk) VALUES ({service.Id},{user.Id})"));
         }
+
+        public void PlanMaintenance(int days)
+        {
+            var query = new SqlCommand(
+                "EXEC PlanServices @forAmountDays = @days;");
+            query.Parameters.AddWithValue("@days", days);
+            DatabaseHandler.GetData(query);
+        }
     }
 }

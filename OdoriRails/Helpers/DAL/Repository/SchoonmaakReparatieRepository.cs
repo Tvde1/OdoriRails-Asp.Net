@@ -198,5 +198,10 @@ namespace OdoriRails.Helpers.DAL.Repository
         {
             return ObjectCreator.GenerateListWithFunction(_tramContext.GetAllTrams(), _objectCreator.CreateTram);
         }
+
+        public void PlanMaintenance(int days)
+        {
+            _serviceContext.PlanMaintenance(days);
+        }
     }
 }
