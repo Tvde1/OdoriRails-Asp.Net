@@ -7,7 +7,6 @@ namespace InPlanService
     class Program
     {
         static LogistiekInPlan logServer;
-        static ServiceInplan serServer;
         static Timer CheckForChanges;
 
         static void Main(string[] args)
@@ -18,12 +17,9 @@ namespace InPlanService
             Console.WriteLine();
 
             logServer = new LogistiekInPlan();
-            serServer = new ServiceInplan();
             CheckForChanges = new Timer(5000);
             CheckForChanges.Elapsed += new ElapsedEventHandler(CheckForChanges_Tick);
             CheckForChanges.Enabled = true;
-
-            serServer.Update();
 
             while (Console.ReadKey(true).Key != ConsoleKey.Escape) { }
 

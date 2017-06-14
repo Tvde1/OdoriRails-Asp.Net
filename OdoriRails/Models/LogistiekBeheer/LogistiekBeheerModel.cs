@@ -11,7 +11,6 @@ namespace OdoriRails.Models.LogistiekBeheer
         Delete
     }
 
-
     public class LogistiekBeheerModel : BaseModel
     {
         public readonly LogistiekLogic Logic;

@@ -49,8 +49,6 @@
     <Compile Include="Logic\CSV\CSVContext.cs" />
     <Compile Include="Logic\CSV\I_CSVContext.cs" />
     <Compile Include="Logic\LogistiekInplan.cs" />
-    <Compile Include="Logic\ServiceInplan.cs" />
-    <Compile Include="Logic\ServiceSortingAlgoritm.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Logic\TramSortingAlgoritm.cs" />

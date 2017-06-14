@@ -162,6 +162,9 @@ namespace OdoriRails.Controllers
         {
             var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
+            remise.Error = null;
+            remise.Sucess = null;
+            remise.Warning = null;
             remise.State = LogistiekState.Main;
             return RedirectToAction("Index");
         }
@@ -170,6 +173,9 @@ namespace OdoriRails.Controllers
         {
             var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
+            remise.Error = null;
+            remise.Sucess = null;
+            remise.Warning = null;
             remise.State = LogistiekState.Edit;
             return RedirectToAction("Index");
         }
@@ -178,7 +184,22 @@ namespace OdoriRails.Controllers
         {
             var remise = (LogistiekBeheerModel)Session["Remise"];
             if (remise == null) return RedirectToAction("Index");
+            remise.Error = null;
+            remise.Sucess = null;
+            remise.Warning = null;
             remise.State = LogistiekState.Delete;
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult SetStateSimulation()
+        {
+            var remise = (LogistiekBeheerModel)Session["Remise"];
+            if (remise == null) return RedirectToAction("Index");
+            remise.Error = null;
+            remise.Sucess = null;
+            remise.Warning = null;
+            remise.State = LogistiekState.Main;
+            remise.Logic.StartSimulation();
             return RedirectToAction("Index");
         }
 

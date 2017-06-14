@@ -210,5 +210,10 @@ namespace OdoriRails.Helpers.DAL.Repository
             var row = _trackSectorContext.GetTrack(trackNumber);
             return ObjectCreator.CreateTrack(row);
         }
+
+        public void StartSimulation()
+        {
+            _tramContext.StartSimulation();
+        }
     }
 }

@@ -40,16 +40,16 @@ namespace OdoriRails.Models
                         text = sector != null ? $"Track: {sector.TrackNumber}, Sector: {sector.Number + 1}" : null;
                         break;
                     case TramLocation.ComingIn:
-                        text = "Wachten op locatie.";
+                        text = "Waiting for location.";
                         break;
                     case TramLocation.Out:
-                        text = "Buiten de remise.";
+                        text = "Out of the Remise.";
                         break;
                     case TramLocation.GoingOut:
-                        text = "Aan het vertrekken.";
+                        text = "Leaving...";
                         break;
                     case TramLocation.NotAssigned:
-                        text = "Nog niet ingedeeld.";
+                        text = "Not assigned.";
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

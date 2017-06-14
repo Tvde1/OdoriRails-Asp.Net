@@ -76,5 +76,6 @@ namespace OdoriRails.Helpers.DAL.ContextInterfaces
 
         void SetStatusToIdle(int tramId);
         DataRow GetLocation(int tramNumber);
+        void StartSimulation();
     }
 }

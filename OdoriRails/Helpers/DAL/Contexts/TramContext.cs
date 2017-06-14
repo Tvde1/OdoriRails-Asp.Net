@@ -126,5 +126,12 @@ namespace OdoriRails.Helpers.DAL.Contexts
             var data = DatabaseHandler.GetData(new SqlCommand($"SELECT Location FROM Tram WHERE TramPk = {tramNumber}"));
             return data.Rows.Count == 0 ? null : data.Rows[0];
         }
+
+        public void StartSimulation()
+        {
+            DatabaseHandler.GetData(new SqlCommand($"UPDATE sector SET TramFK = null;" +
+                                                    "UPDATE sector SET status = 0 WHERE status = 2; " +
+                                                    "UPDATE tram SET location = 1"));
+        }
     }
 }
