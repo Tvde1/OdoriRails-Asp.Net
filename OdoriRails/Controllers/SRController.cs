@@ -352,5 +352,11 @@ namespace OdoriRails.Controllers
 
             return View(model);
         }
+
+        public ActionResult PlanMaintenance()
+        {
+            _repo.PlanMaintenance(7); //Hardcoded voor een week momenteel 
+            return RedirectToAction("Index");
+        }
     }
 }

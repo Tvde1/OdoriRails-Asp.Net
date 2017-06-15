@@ -56,5 +56,6 @@ namespace OdoriRails.Helpers.DAL.ContextInterfaces
         int[] CleansForDate(DateTime day);
 
         DataTable GetUsersInServiceById(int i);
+        void PlanMaintenance(int days);
     }
 }

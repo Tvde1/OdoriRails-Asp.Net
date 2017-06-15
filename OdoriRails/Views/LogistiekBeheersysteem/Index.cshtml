@@ -212,7 +212,7 @@ else if (Model.State == LogistiekState.Edit)
                             @Html.Label("Latitude:")
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.Form.Latitude, new { type = "number" })
+                                    @Html.TextBoxFor(m => m.Form.Latitude, new { type = "number", step = "any" })
                         </td>
                     </tr>
                     <tr>
@@ -220,7 +220,7 @@ else if (Model.State == LogistiekState.Edit)
                             @Html.Label("Longitude")
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.Form.Longitude, new { type = "number" })
+                                    @Html.TextBoxFor(m => m.Form.Longitude, new { type = "number", step = "any" })
                         </td>
                     </tr>
                 </table>

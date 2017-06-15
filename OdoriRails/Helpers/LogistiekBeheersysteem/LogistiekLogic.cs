@@ -206,12 +206,13 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             Update();
         }
 
-        public string MoveTram(int moveTram, int moveTrack, int moveSector)
+        public string MoveTram(int moveTram, int moveTrack, int moveSector, bool hasAccepted = false)
         {
-            //moveSector -= 1;
+            moveSector -= 1;
 
             if (!AllTrams.ContainsKey(moveTram)) return "Deze tram bestaat niet.";
             var tram = AllTrams[moveTram];
+            if (!hasAccepted && tram.Status != TramStatus.Idle) return "NOT IDLE";
             if (!AllTracks.ContainsKey(moveTrack)) return "Dit spoor betaat niet.";
             var track = AllTracks[moveTrack];
             if (track.Sectors.Count < moveSector + 1) return $"Spoor {track.Number} heeft zo veel secoren niet";
@@ -226,7 +227,7 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
                 case SectorStatus.Open:
                     {
                         var beheerSector = BeheerSector.ToBeheerSector(sector);
-                        if (beheerSector == null || !beheerSector.SetOccupyingTram(tram))
+                        if (beheerSector != null && beheerSector.SetOccupyingTram(tram))
                             _repo.WipeSectorByTramId(tram.Number);
                         _repo.EditSector(beheerSector);
                         Update();

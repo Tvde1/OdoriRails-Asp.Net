@@ -1,6 +1,7 @@
 DROP PROCEDURE dbo.PlanServices;
 DROP PROCEDURE dbo.PlanBigMaintenance;
 DROP PROCEDURE dbo.PlanSmallMaintenance;
+DROP PROCEDURE dbo.AddCleaningService;
 DROP PROCEDURE dbo.AddRepairService;
 
 GO
@@ -18,6 +19,23 @@ BEGIN
 	SELECT @service = ServicePk FROM [Service] WHERE StartDate = @startDate AND TramFk = @tram;
 	--Create Repair
 	INSERT INTO Repair (ServiceFk, Defect, Type) VALUES (@service, @defect, @type);
+END
+
+GO
+CREATE PROCEDURE dbo.AddCleaningService 
+@startDate DATE,
+@tram int,
+@size int,
+@remarks NVARCHAR (1000)
+AS
+BEGIN
+	DECLARE @service int;
+	--Create service
+	INSERT INTO [Service] (StartDate, TramFk) VALUES (@startDate, @tram);
+	--Get serviceId
+	SELECT @service = ServicePk FROM [Service] WHERE StartDate = @startDate AND TramFk = @tram;
+	--Create Repair
+	INSERT INTO Clean (ServiceFk, Size, Remarks) VALUES (@service, @size, @remarks);
 END
 
 GO
@@ -112,8 +130,8 @@ BEGIN
 	--Check of alle mogelijke posities zijn ingedeeld
 	SELECT @totalServiceCount = COUNT(S.StartDate)
 	FROM [Service] S
-	INNER JOIN [Repair] R ON S.ServicePk = R.ServiceFk
-	WHERE S.StartDate <= @endDate AND S.StartDate > @startDate AND R.Defect = 'Small Planned Maintenance';
+	INNER JOIN [Clean] C ON S.ServicePk = C.ServiceFk
+	WHERE S.StartDate <= @endDate AND S.StartDate > @startDate AND C.Remarks = 'Small Planned Maintenance';
 
 	--Alle trams ophalen die of een small maintenace meer als een kwart jaar geleden of er nog geen gehad hebben
 	DECLARE @SmallMaintenance AS CURSOR;
@@ -121,8 +139,8 @@ BEGIN
 		SELECT TramPk
 		FROM Tram T
 		FULL JOIN [Service] S ON T.TramPK = S.TramFk
-		FULL JOIN [Repair] R ON S.ServicePk = R.ServiceFk
-		WHERE (S.EndDate < @previousSmallService AND R.Defect = 'Small Planned Maintenance') OR S.Startdate IS NULL OR R.Defect = 'Big Planned Maintenance'
+		FULL JOIN [Clean] C ON S.ServicePk = C.ServiceFk
+		WHERE (S.EndDate < @previousSmallService AND C.Remarks = 'Small Planned Maintenance') OR S.Startdate IS NULL OR C.Remarks = 'Big Planned Maintenance'
 		ORDER BY TramPk;
 		
 	OPEN @SmallMaintenance;
@@ -136,12 +154,12 @@ BEGIN
 			--Check of er nog een nog een plaats vrij is die dag
 			SELECT @serviceCount = COUNT(S.StartDate)
 			FROM [Service] S
-			INNER JOIN [Repair] R ON S.ServicePk = R.ServiceFk
-			WHERE S.StartDate = @currentDate AND R.Defect = 'Small Planned Maintenance';
+			INNER JOIN [Clean] C ON S.ServicePk = C.ServiceFk
+			WHERE S.StartDate = @currentDate AND C.Remarks = 'Small Planned Maintenance';
 
 			if (@serviceCount < 3)--Kan 3 per dag
 			BEGIN
-				EXEC AddRepairService @currentDate, @tram, 'Small Planned Maintenance', 1;
+				EXEC AddCleaningService @currentDate, @tram, 1, 'Small Planned Maintenance';
 				BREAK;
 			END
 			SET @currentDate = DATEADD(d, 1, @currentDate);
@@ -149,8 +167,8 @@ BEGIN
 			--Check of alle mogelijke posities zijn ingedeeld
 			SELECT @totalServiceCount = COUNT(S.StartDate)
 			FROM [Service] S
-			INNER JOIN [Repair] R ON S.ServicePk = R.ServiceFk
-			WHERE S.StartDate <= @endDate AND S.StartDate > @startDate AND R.Defect = 'Small Planned Maintenance';
+			INNER JOIN [Clean] C ON S.ServicePk = C.ServiceFk
+			WHERE S.StartDate <= @endDate AND S.StartDate > @startDate AND C.Remarks = 'Small Planned Maintenance';
 		END
 		SET @currentDate = @startDate;
 		FETCH NEXT FROM @SmallMaintenance INTO @tram;

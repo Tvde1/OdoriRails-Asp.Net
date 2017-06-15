@@ -188,6 +188,7 @@
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\DriverModel.cs" />
     <Compile Include="Models\GoogleMapsModel.cs" />
+    <Compile Include="Models\LogistiekBeheer\AlertModel.cs" />
     <Compile Include="Models\LogistiekBeheer\FormResultModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\LogistiekBeheer\LogistiekBeheerModel.cs" />
@@ -226,6 +227,7 @@
     <Content Include="Views\SR\MarkAsDone.cshtml" />
     <Content Include="Views\SR\AssignUsers.cshtml" />
     <Content Include="Views\Login\Error.cshtml" />
+    <Content Include="Views\LogistiekBeheersysteem\MoveTramAlert.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

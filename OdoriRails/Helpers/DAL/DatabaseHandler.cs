@@ -22,7 +22,7 @@ namespace OdoriRails.Helpers.DAL
                     return dataTable;
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 throw new DatabaseException();
                 //var newCommand = command;
