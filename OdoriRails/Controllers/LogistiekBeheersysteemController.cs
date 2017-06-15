@@ -77,8 +77,8 @@ namespace OdoriRails.Controllers
                     SectorId = result.Form.SectorNumber
                 };
                 TempData["AlertModel"] = alertModel;
-                return RedirectToAction("MoveTramAlert")
-;            }
+                return RedirectToAction("MoveTramAlert");
+            }
 
             remise.Error = moveTramResult;
             if (moveTramResult == null)
@@ -235,7 +235,7 @@ namespace OdoriRails.Controllers
 
             var moveTramResult = remise.Logic.MoveTram(model.TramId, model.TrackId,
                 model.SectorId, true);
-            
+
             remise.Error = moveTramResult;
             if (moveTramResult == null)
                 remise.Sucess = "De tram is verplaatst.";
