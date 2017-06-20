@@ -1,6 +1,4 @@
-﻿@using System.Security.Cryptography
-@using OdoriRails.Helpers.Objects
-@using OdoriRails.Models.SRManagement
+﻿@using OdoriRails.Helpers.Objects
 @model OdoriRails.Models.SRManagement.SRLogic
 @{
     ViewBag.Title = "About";
@@ -29,7 +27,6 @@
                 <th>
                     Comment
                 </th>
-
             }
             else if (Model.User.Role == Role.Engineer || Model.User.Role == Role.HeadEngineer)
             {
@@ -54,11 +51,10 @@
                         <td>@cleaning.TramId</td>
                         <td>@cleaning.Size</td>
                         <td>@cleaning.Comments</td>
-                        <td>@Html.ActionLink("Edit", "EditCleaning", "SR", new { id = cleaning.Id }, null)</td>
-                       
+                        <td>@Html.ActionLink("Edit", "EditCleaning", "SR", new {id = cleaning.Id}, null)</td>
+
                     </tr>
                 }
-
             }
 
             else
@@ -80,10 +76,9 @@
                         <td>@repair.Type</td>
                         <td>@repair.Defect</td>
                         <td>@repair.Solution</td>
-                        <td>@Html.ActionLink("Edit", "EditRepair", "SR", new { id = repair.Id }, null)</td>
-                       
-                    </tr>
+                        <td>@Html.ActionLink("Edit", "EditRepair", "SR", new {id = repair.Id}, null)</td>
 
+                    </tr>
                 }
             }
             else

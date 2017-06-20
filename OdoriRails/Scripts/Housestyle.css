@@ -1,126 +1,113 @@
-
-
-body 
-{
+body {
     color: #333;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 20px;
 }
-h1, h2, h3 
-{
+
+h1, h2, h3 {
     margin-bottom: 10px;
     margin-top: 20px;
 }
-.container 
-{
+
+.container {
     margin: 0px auto;
     max-width: 970px;
 }
-a 
-{
+
+a {
     color: #428bca;
     text-decoration: none;
 }
-a:hover 
-{
-    text-decoration: underline;
-}
-table 
-{
+
+a:hover { text-decoration: underline; }
+
+table {
     border-collapse: collapse;
     width: 100%;
 }
-th, td 
-{
+
+th, td {
     padding: 8px;
     text-align: left;
 }
-thead th
-{
-    border-bottom: 2px solid #ccc;
-}
-td 
-{
-    border-top: 1px solid #ccc;
-}
-input[type="submit"] 
-{
+
+thead th { border-bottom: 2px solid #ccc; }
+
+td { border-top: 1px solid #ccc; }
+
+input[type="submit"] {
     background-color: #428bca;
+    border: 1px solid transparent;
     border-color: #357ebd;
     border-radius: 4px;
-    border: 1px solid transparent;
     color: #fff;
     cursor: pointer;
     display: block;
     font-size: 14px;
     line-height: 20px;
-    padding: 6px 12px;
     margin: 3px 0px;
+    padding: 6px 12px;
 }
-input[type="submit"]:hover 
-{
+
+input[type="submit"]:hover {
     background-color: #3071a9;
     border-color: #285e8e;
     color: #fff;
 }
-input[type="text"] 
-{
+
+input[type="text"] {
     background-color: #fff;
-    border-radius: 4px;
     border: 1px solid #ccc;
+    border-radius: 4px;
     color: #555;
     font-size: 14px;
     line-height: 20px;
     padding: 6px 12px;
 }
-input[type="reset"]
- {
+
+input[type="reset"] {
     background-color: #fff;
-    border-radius: 4px;
     border: 1px solid #ccc;
+    border-radius: 4px;
     color: #555;
     font-size: 14px;
     line-height: 20px;
     padding: 6px 12px;
 }
-input[type="reset"]:hover 
-{
+
+input[type="reset"]:hover {
     background-color: #B5B9C2;
-    border-radius: 4px;
     border: 1px solid #ccc;
+    border-radius: 4px;
     color: #555;
     font-size: 14px;
     line-height: 20px;
     padding: 6px 12px;
 }
-label
- {
+
+label {
     display: block;
     font-weight: bold;
 }
-form
- {
-    padding: 0px 8px;
-}
-form p
- {
+
+form { padding: 0px 8px; }
+
+form p {
     color: #737373;
     display: inline-block;
     margin: 0px;
 }
-.hidden 
-{
+
+.hidden {
     display: none;
     visibility: hidden;
 }
-select
-{
-    font-size: 16px;
-    border-radius: 4px;
+
+select {
     border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
 }
-select option
-{
-    font-size: 12pt;
-}
+
+select option { font-size: 12pt; }

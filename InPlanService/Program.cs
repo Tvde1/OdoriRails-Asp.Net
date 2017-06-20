@@ -1,15 +1,15 @@
-﻿using InPlanService.Logic;
-using System;
+﻿using System;
 using System.Timers;
+using InPlanService.Logic;
 
 namespace InPlanService
 {
-    class Program
+    internal class Program
     {
-        static LogistiekInPlan logServer;
-        static Timer CheckForChanges;
+        private static LogistiekInPlan logServer;
+        private static Timer CheckForChanges;
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Console.Title = "OdoriRails Scheduler Server";
             Console.WriteLine("© 2017 - OdoriRails BV");
@@ -18,10 +18,12 @@ namespace InPlanService
 
             logServer = new LogistiekInPlan();
             CheckForChanges = new Timer(5000);
-            CheckForChanges.Elapsed += new ElapsedEventHandler(CheckForChanges_Tick);
+            CheckForChanges.Elapsed += CheckForChanges_Tick;
             CheckForChanges.Enabled = true;
 
-            while (Console.ReadKey(true).Key != ConsoleKey.Escape) { }
+            while (Console.ReadKey(true).Key != ConsoleKey.Escape)
+            {
+            }
 
             Console.Clear();
             Console.WriteLine("Shutting down...");

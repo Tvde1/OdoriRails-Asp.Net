@@ -1,6 +1,4 @@
-﻿@using System.Web.Mvc.Html
-@using OdoriRails.Helpers.Objects
-@model OdoriRails.Models.SRManagement.EditCleaningViewModel
+﻿@model OdoriRails.Models.SRManagement.EditCleaningViewModel
 @{
     ViewBag.Title = "EditService";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -24,16 +22,17 @@
         <input type="radio" name="Size" value="1"/>Small<br/>
         <input type="radio" name="Size" value="0"/>Big<br/>
 
-        <br /><label> Comment:</label><br/>
-        <input type="text" name="Comment" value="@Model.CleaningToChange.Comments"/><br />
+        <br/><label> Comment:</label><br/>
+        <input type="text" name="Comment" value="@Model.CleaningToChange.Comments"/><br/>
         <label> Tram Number::</label><br/>
-        <input type="text" name="TramId" value="@Model.CleaningToChange.TramId" /><br />
+        <input type="text" name="TramId" value="@Model.CleaningToChange.TramId"/><br/>
         <label>Assigned Users:</label><br/>
 
         @foreach (var user in Model.AssignedWorkers)
         {
-            @Html.CheckBoxFor(x => x.AssignedWorkers[user.Key]) @user.Key <br/>
-
+            @Html.CheckBoxFor(x => x.AssignedWorkers[user.Key])
+            @user.Key
+            <br/>
         }
 
         <input type="submit" value="EditCleaning"/>

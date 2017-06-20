@@ -204,11 +204,11 @@ ON Repair.ServiceFk = @ServiceID");
         }
 
         public DataRow GetUserByName(string naam)
-        {     
+        {
             var command = new SqlCommand("SELECT * FROM [User] WHERE Name = @naam;");
             command.Parameters.AddWithValue("@naam", naam);
             var data = DatabaseHandler.GetData(command);
-            return data.Rows.Count == 0 ? null: data.Rows[0];
+            return data.Rows.Count == 0 ? null : data.Rows[0];
         }
 
         public bool HadBigMaintenance(Tram tram)
@@ -288,6 +288,14 @@ WHERE (Service.ServicePk = {serviceId})");
             return DatabaseHandler.GetData(command);
         }
 
+        public void PlanMaintenance(int days)
+        {
+            var query = new SqlCommand(
+                "EXEC PlanServices @forAmountDays = @days;");
+            query.Parameters.AddWithValue("@days", days);
+            DatabaseHandler.GetData(query);
+        }
+
         private void SetUsersToServices(Service service)
         {
             if (service.AssignedUsers == null) return;
@@ -304,14 +312,6 @@ WHERE (Service.ServicePk = {serviceId})");
                         .Count < 1)
                     DatabaseHandler.GetData(new SqlCommand(
                         $"INSERT INTO ServiceUser (ServiceCk, UserCk) VALUES ({service.Id},{user.Id})"));
-        }
-
-        public void PlanMaintenance(int days)
-        {
-            var query = new SqlCommand(
-                "EXEC PlanServices @forAmountDays = @days;");
-            query.Parameters.AddWithValue("@days", days);
-            DatabaseHandler.GetData(query);
         }
     }
 }

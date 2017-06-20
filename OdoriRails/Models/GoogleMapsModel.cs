@@ -1,14 +1,11 @@
-﻿using OdoriRails.Helpers.Objects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
+using OdoriRails.Helpers.Objects;
 
 namespace OdoriRails.Models
 {
     public class GoogleMapsModel
     {
-        List<Tram> Trams { get; set; }
-        List<Track> Tracks { get; set; }
+        private List<Tram> Trams { get; set; }
+        private List<Track> Tracks { get; set; }
     }
 }

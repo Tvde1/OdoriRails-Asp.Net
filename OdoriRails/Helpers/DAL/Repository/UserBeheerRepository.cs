@@ -56,7 +56,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         public int? GetUserId(string username)
         {
             var data = _userContext.GetUserId(username);
-            return (int?)data?["UserPk"];
+            return (int?) data?["UserPk"];
         }
 
         public int? GetUserIdByFullName(string name)
@@ -107,7 +107,7 @@ namespace OdoriRails.Helpers.DAL.Repository
 
         private void SetUserToTrams(User user)
         {
-            var tramId = (int?)_tramContext.GetTramByDriver(user)?["TramFk"];
+            var tramId = (int?) _tramContext.GetTramByDriver(user)?["TramFk"];
 
             if (tramId != null && tramId != user.TramId)
                 _tramContext.SetUserToTram(tramId.Value, null);

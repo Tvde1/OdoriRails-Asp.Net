@@ -11,11 +11,11 @@ namespace OdoriRails.Controllers
         [HttpGet]
         public ActionResult Index(int? id)
         {
-            var result = GetLoggedInUser(new[] { Role.Administrator });
+            var result = GetLoggedInUser(new[] {Role.Administrator});
             if (result is ActionResult) return result as ActionResult;
             var user = result as User;
 
-            var model = TempData["BeheerModel"] as UserBeheerModel ?? new UserBeheerModel { User = user };
+            var model = TempData["BeheerModel"] as UserBeheerModel ?? new UserBeheerModel {User = user};
             if (id != null) model.DeleteUser(id.Value);
             return View(model);
         }
@@ -23,7 +23,7 @@ namespace OdoriRails.Controllers
         [HttpPost]
         public ActionResult Index(UserBeheerModel model)
         {
-            var result = GetLoggedInUser(new[] { Role.Administrator });
+            var result = GetLoggedInUser(new[] {Role.Administrator});
             if (result is ActionResult) return result as ActionResult;
             var user = result as User;
 
@@ -36,20 +36,20 @@ namespace OdoriRails.Controllers
         [HttpGet]
         public ActionResult Edit(int? id)
         {
-            var result = GetLoggedInUser(new[] { Role.Administrator });
+            var result = GetLoggedInUser(new[] {Role.Administrator});
             if (result is ActionResult) return result as ActionResult;
             var user = result as User;
 
             var editUser = id == null ? null : new UserBeheerRepository().GetUser(id.Value);
 
-            var model = (EditUserModel)TempData["EditModel"] ?? new EditUserModel(editUser) { User = user };
+            var model = (EditUserModel) TempData["EditModel"] ?? new EditUserModel(editUser) {User = user};
             return View(model);
         }
 
         [HttpPost]
         public ActionResult Edit(EditUserModel model)
         {
-            var userResult = GetLoggedInUser(new[] { Role.Administrator });
+            var userResult = GetLoggedInUser(new[] {Role.Administrator});
             if (userResult.GetType() == typeof(ActionResult)) return userResult as ActionResult;
             var user = userResult as User;
 
@@ -59,7 +59,7 @@ namespace OdoriRails.Controllers
 
             if (result != null) return result;
 
-            var newModel = new UserBeheerModel { Sucess = "De gebruiker is aangemaakt/aangepast." };
+            var newModel = new UserBeheerModel {Sucess = "De gebruiker is aangemaakt/aangepast."};
             TempData["UserBeheerModel"] = newModel;
             return RedirectToAction("Index");
         }

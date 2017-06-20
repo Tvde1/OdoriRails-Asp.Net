@@ -23,9 +23,9 @@ namespace OdoriRails.Helpers.DAL.Contexts
                 "INSERT INTO Tram (TramPk,Line,Status,DriverFk,ModelFk,RemiseFk,Location,DepartureTime) VALUES(@id,@line,@status,@driver,@model,@remise,@location,@dep); SELECT SCOPE_IDENTITY();");
             query.Parameters.AddWithValue("@id", tram.Number);
             query.Parameters.AddWithValue("@line", tram.Line);
-            query.Parameters.AddWithValue("@status", (int)tram.Status);
-            query.Parameters.AddWithValue("@model", (int)tram.Model);
-            query.Parameters.AddWithValue("@location", (int)tram.Location);
+            query.Parameters.AddWithValue("@status", (int) tram.Status);
+            query.Parameters.AddWithValue("@model", (int) tram.Model);
+            query.Parameters.AddWithValue("@location", (int) tram.Location);
             if (tram.DepartureTime == null) query.Parameters.AddWithValue("@dep", DBNull.Value);
             else query.Parameters.AddWithValue("@dep", tram.DepartureTime);
             if (tram.Driver != null)
@@ -59,27 +59,27 @@ namespace OdoriRails.Helpers.DAL.Contexts
             var query = new SqlCommand(
                 "UPDATE Tram SET Line = @line, Status = @stat, DriverFk = @driver, ModelFk = @model, RemiseFk = @remis, Location = @loc, DepartureTime = @dep WHERE TramPk = @id");
             query.Parameters.AddWithValue("@line", tram.Line);
-            query.Parameters.AddWithValue("@stat", (int)tram.Status);
+            query.Parameters.AddWithValue("@stat", (int) tram.Status);
             if (tram.Driver != null)
-                query.Parameters.AddWithValue("@driver", (int)_userContext.GetUserId(tram.Driver.Username)["UserPk"]);
+                query.Parameters.AddWithValue("@driver", (int) _userContext.GetUserId(tram.Driver.Username)["UserPk"]);
             else query.Parameters.AddWithValue("@driver", DBNull.Value);
-            query.Parameters.AddWithValue("@model", (int)tram.Model);
+            query.Parameters.AddWithValue("@model", (int) tram.Model);
             query.Parameters.AddWithValue("@remis", 1); //TODO: Correct updaten.
             if (tram.DepartureTime == null) query.Parameters.AddWithValue("@dep", DBNull.Value);
             else query.Parameters.AddWithValue("@dep", tram.DepartureTime);
-            query.Parameters.AddWithValue("@loc", (int)tram.Location);
+            query.Parameters.AddWithValue("@loc", (int) tram.Location);
             query.Parameters.AddWithValue("@id", tram.Number);
             DatabaseHandler.GetData(query);
         }
 
         public DataTable GetAllTramsWithStatus(TramStatus status)
         {
-            return DatabaseHandler.GetData(new SqlCommand($"SELECT * FROM Tram WHERE Status = {(int)status}"));
+            return DatabaseHandler.GetData(new SqlCommand($"SELECT * FROM Tram WHERE Status = {(int) status}"));
         }
 
         public DataTable GetAllTramsWithLocation(TramLocation location)
         {
-            return DatabaseHandler.GetData(new SqlCommand($"SELECT * FROM Tram WHERE Location = {(int)location}"));
+            return DatabaseHandler.GetData(new SqlCommand($"SELECT * FROM Tram WHERE Location = {(int) location}"));
         }
 
         public DataRow GetAssignedSector(Tram tram)
@@ -123,15 +123,16 @@ namespace OdoriRails.Helpers.DAL.Contexts
 
         public DataRow GetLocation(int tramNumber)
         {
-            var data = DatabaseHandler.GetData(new SqlCommand($"SELECT Location FROM Tram WHERE TramPk = {tramNumber}"));
+            var data = DatabaseHandler.GetData(
+                new SqlCommand($"SELECT Location FROM Tram WHERE TramPk = {tramNumber}"));
             return data.Rows.Count == 0 ? null : data.Rows[0];
         }
 
         public void StartSimulation()
         {
             DatabaseHandler.GetData(new SqlCommand($"UPDATE sector SET TramFK = null;" +
-                                                    "UPDATE sector SET status = 0 WHERE status = 2; " +
-                                                    "UPDATE tram SET location = 1"));
+                                                   "UPDATE sector SET status = 0 WHERE status = 2; " +
+                                                   "UPDATE tram SET location = 1"));
         }
     }
 }

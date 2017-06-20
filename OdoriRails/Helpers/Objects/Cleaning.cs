@@ -11,9 +11,10 @@ namespace OdoriRails.Helpers.Objects
 
     public class Cleaning : Service
     {
-        public Cleaning() : base()
+        public Cleaning()
         {
         }
+
         public Cleaning(int id, DateTime startDate, DateTime? endDate, CleaningSize size, string comments,
             List<User> users, int tramId) : base(id, users, startDate, endDate, tramId)
         {

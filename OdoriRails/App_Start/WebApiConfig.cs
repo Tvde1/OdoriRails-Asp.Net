@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
 
 namespace OdoriRails
 {
@@ -14,7 +11,7 @@ namespace OdoriRails
             config.Routes.MapHttpRoute(
                 "Api Default",
                 "api/{controller}/{id}",
-                new { id = RouteParameter.Optional }
+                new {id = RouteParameter.Optional}
             );
         }
     }

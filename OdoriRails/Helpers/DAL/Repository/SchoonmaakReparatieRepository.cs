@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using OdoriRails.Helpers.DAL.ContextInterfaces;
 using OdoriRails.Helpers.DAL.Contexts;
 using OdoriRails.Helpers.Objects;
@@ -83,11 +82,14 @@ namespace OdoriRails.Helpers.DAL.Repository
         /// <returns></returns>
         public List<Repair> GetRepairFromId(int id)
         {
-            return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllRepairsfromId(id),_objectCreator.CreateRepair);
+            return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllRepairsfromId(id),
+                _objectCreator.CreateRepair);
         }
+
         public List<Cleaning> GetCleanFromId(int id)
         {
-            return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllCleansfromId(id), _objectCreator.CreateCleaning);
+            return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllCleansfromId(id),
+                _objectCreator.CreateCleaning);
         }
 
         /// <summary>
@@ -130,7 +132,8 @@ namespace OdoriRails.Helpers.DAL.Repository
 
         public List<Repair> GetAllRepairsFromTram(int tramId)
         {
-            return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllRepairsFromTram(tramId), _objectCreator.CreateRepair);
+            return ObjectCreator.GenerateListWithFunction(_serviceContext.GetAllRepairsFromTram(tramId),
+                _objectCreator.CreateRepair);
         }
 
         public List<Cleaning> GetAllCleaningsFromTram(int tramId)
@@ -143,6 +146,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         {
             return _objectCreator.CreateUser(_serviceContext.GetUserByName(naam));
         }
+
         /// <summary>
         ///     Returnt een int[] met Repairs,Queries
         /// </summary>

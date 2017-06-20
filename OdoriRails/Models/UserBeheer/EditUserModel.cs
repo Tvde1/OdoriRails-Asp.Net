@@ -9,7 +9,6 @@ namespace OdoriRails.Models.UserBeheer
     public class EditUserModel : BaseModel
     {
         private readonly UserBeheerRepository _repository = new UserBeheerRepository();
-        public bool IsNewUser { get; set; } = true;
 
         public EditUserModel()
         {
@@ -20,6 +19,8 @@ namespace OdoriRails.Models.UserBeheer
             IsNewUser = user == null;
             EditUser = new User(user);
         }
+
+        public bool IsNewUser { get; set; } = true;
 
         public User EditUser { get; set; } = new User(null);
 

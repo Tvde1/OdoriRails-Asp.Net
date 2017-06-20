@@ -1,24 +1,17 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Threading;
-using System.Threading.Tasks;
-using OdoriRails.Helpers.Objects;
 using OdoriRails.Helpers.DAL.Repository;
 using OdoriRails.Helpers.Driver;
+using OdoriRails.Helpers.Objects;
 
 namespace OdoriRails.Models
 {
     public class DriverModel : BaseModel
     {
-        public InUitRitTram Tram { get; set; }
         private readonly InUitrijRepository _inUitrijRepository = new InUitrijRepository();
-        
-        public bool NeedsCleaning { get; set; }
-        public bool NeedsRepair { get; set; }
-        public string Comments { get; set; }
 
         public DriverModel()
-        {            
+        {
         }
 
         public DriverModel(User user)
@@ -28,11 +21,16 @@ namespace OdoriRails.Models
             Tram = tempTram == null ? null : InUitRitTram.ToInUitRitTram(tempTram);
         }
 
+        public InUitRitTram Tram { get; set; }
+
+        public bool NeedsCleaning { get; set; }
+        public bool NeedsRepair { get; set; }
+        public string Comments { get; set; }
+
         public string GetAssignedTramLocation()
         {
             string text;
             if (Tram != null)
-            {
                 switch (Tram.Location)
                 {
                     case TramLocation.In:
@@ -54,11 +52,8 @@ namespace OdoriRails.Models
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-            }
             else
-            {
                 text = "Nog geen tram toegewezen.";
-            }
 
             return text;
         }

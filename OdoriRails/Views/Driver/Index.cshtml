@@ -14,7 +14,7 @@
                     <h4>Tramnumber:</h4>
                 </div>
                 <div class="panel-body">
-                    <p style="text-align:center; font-size:xx-large"> @Html.Raw(Model.Tram?.Number.ToString() ?? "Unknown")</p>
+                    <p style="font-size: xx-large; text-align: center;"> @Html.Raw(Model.Tram?.Number.ToString() ?? "Unknown")</p>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
                     <h4>Location:</h4>
                 </div>
                 <div class="panel-body">
-                    <p id="LbLocation" style="text-align:center; font-size:xx-large"> @Model.GetAssignedTramLocation()</p>
+                    <p id="LbLocation" style="font-size: xx-large; text-align: center;"> @Model.GetAssignedTramLocation()</p>
                 </div>
             </div>
         </div>
@@ -38,16 +38,16 @@
                 </div>
                 <div class="panel-body">
                     <div class="pull-right">
-                        <label>Comments:</label><br />
-                        @Html.TextAreaFor(x => x.Comments, Model.Tram?.Location == TramLocation.Out ? new { @class = "form-control", style = "width:500px", rows = "5" } : (object)new { @class = "form-control", style = "width:500px", rows = "5", @disabled = "true" })
+                        <label>Comments:</label><br/>
+                        @Html.TextAreaFor(x => x.Comments, Model.Tram?.Location == TramLocation.Out ? new {@class = "form-control", style = "width:500px", rows = "5"} : (object) new {@class = "form-control", style = "width:500px", rows = "5", disabled = "true"})
                     </div>
                     <div class="pull-left">
 
                         <div class="checkbox">
-                            <label>@Html.CheckBoxFor(x => x.NeedsCleaning, Model.Tram?.Location == TramLocation.Out ? new { } : (object)new { @disabled = "true" }) Cleaning</label>
+                            <label>@Html.CheckBoxFor(x => x.NeedsCleaning, Model.Tram?.Location == TramLocation.Out ? new {} : (object) new {disabled = "true"}) Cleaning</label>
                         </div>
                         <div class="checkbox">
-                            <label>@Html.CheckBoxFor(x => x.NeedsRepair, Model.Tram?.Location == TramLocation.Out ? new { } : (object)new { @disabled = "true" }) Repair</label>
+                            <label>@Html.CheckBoxFor(x => x.NeedsRepair, Model.Tram?.Location == TramLocation.Out ? new {} : (object) new {disabled = "true"}) Repair</label>
                         </div>
                     </div>
                     @*<br/><br />*@

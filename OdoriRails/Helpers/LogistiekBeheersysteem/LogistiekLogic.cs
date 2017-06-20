@@ -1,17 +1,14 @@
-﻿using OdoriRails.Helpers.DAL.Repository;
-using OdoriRails.Helpers.Objects;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OdoriRails.Helpers.DAL.Repository;
 using OdoriRails.Helpers.LogistiekBeheersysteem.ObjectClasses;
+using OdoriRails.Helpers.Objects;
 
 namespace OdoriRails.Helpers.LogistiekBeheersysteem
 {
     public class LogistiekLogic
     {
-        public Dictionary<int, BeheerTrack> AllTracks { get; private set; }
-        public Dictionary<int, BeheerTram> AllTrams { get; private set; }
-
         private readonly LogisticRepository _repo = new LogisticRepository();
 
         public LogistiekLogic()
@@ -19,16 +16,19 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             Update();
         }
 
+        public Dictionary<int, BeheerTrack> AllTracks { get; private set; }
+        public Dictionary<int, BeheerTram> AllTrams { get; private set; }
+
         private void Update()
         {
             AllTracks = new Dictionary<int, BeheerTrack>();
-            foreach (Track track in _repo.GetTracksAndSectors())
+            foreach (var track in _repo.GetTracksAndSectors())
             {
                 if (track == null) continue;
                 AllTracks.Add(track.Number, BeheerTrack.ToBeheerTrack(track));
             }
             AllTrams = new Dictionary<int, BeheerTram>();
-            foreach (Tram tram in _repo.GetAllTrams())
+            foreach (var tram in _repo.GetAllTrams())
             {
                 if (tram == null) continue;
                 AllTrams.Add(tram.Number, BeheerTram.ToBeheerTram(tram));
@@ -39,7 +39,8 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
         {
             if (!AllTracks.ContainsKey(trackNumber)) return "Dit spoor bestaat niet.";
             var track = AllTracks[trackNumber];
-            track.AddSector(new Sector(track.Sectors.Count + 1, track.Number, SectorStatus.Open, null, latitude, longitude));
+            track.AddSector(new Sector(track.Sectors.Count + 1, track.Number, SectorStatus.Open, null, latitude,
+                longitude));
             _repo.AddSector(track.Sectors[track.Sectors.Count - 1], track);
             Update();
             return null;
@@ -85,7 +86,7 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
 
         public string Lock(string tracks, string sectors)
         {
-            int[] lockSectors = { -1 };
+            int[] lockSectors = {-1};
             int[] lockTracks;
 
             try
@@ -94,9 +95,7 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
                 {
                     lockSectors = Parse(sectors);
                     for (var i = 0; i < lockSectors.Length; i++)
-                    {
                         lockSectors[i] -= 1;
-                    }
                 }
 
                 lockTracks = Parse(tracks);
@@ -138,7 +137,7 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
 
         public string Unlock(string tracks, string sectors)
         {
-            int[] unlockSectors = { -1 };
+            int[] unlockSectors = {-1};
             int[] unlockTracks;
 
             try
@@ -147,9 +146,7 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
                 {
                     unlockSectors = Parse(sectors);
                     for (var i = 0; i < unlockSectors.Length; i++)
-                    {
                         unlockSectors[i] -= 1;
-                    }
                 }
                 unlockTracks = Parse(tracks);
             }
@@ -190,7 +187,6 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             {
                 var pos = Array.IndexOf(iTrams, tram.Key);
                 if (pos != -1)
-                {
                     if (tram.Value.Status == TramStatus.Defect)
                     {
                         tram.Value.EditTramStatus(TramStatus.Idle);
@@ -201,7 +197,6 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
                         tram.Value.EditTramStatus(TramStatus.Defect);
                         _repo.EditTram(tram.Value);
                     }
-                }
             }
             Update();
         }
@@ -225,14 +220,14 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
                 case SectorStatus.Occupied:
                     return "Deze sector is bezet.";
                 case SectorStatus.Open:
-                    {
-                        var beheerSector = BeheerSector.ToBeheerSector(sector);
-                        if (beheerSector != null && beheerSector.SetOccupyingTram(tram))
-                            _repo.WipeSectorByTramId(tram.Number);
-                        _repo.EditSector(beheerSector);
-                        Update();
-                        break;
-                    }
+                {
+                    var beheerSector = BeheerSector.ToBeheerSector(sector);
+                    if (beheerSector != null && beheerSector.SetOccupyingTram(tram))
+                        _repo.WipeSectorByTramId(tram.Number);
+                    _repo.EditSector(beheerSector);
+                    Update();
+                    break;
+                }
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -258,10 +253,8 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
             Enum.TryParse(trackType, out newTrackType);
 
             var newSectors = new List<Sector>();
-            for (int i = 0; i < sectorAmount; i++)
-            {
+            for (var i = 0; i < sectorAmount; i++)
                 newSectors.Add(new Sector(i + 1));
-            }
 
             _repo.AddTrack(new Track(trackNumber, newDefaultLine, newTrackType, newSectors));
             Update();

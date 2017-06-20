@@ -9,11 +9,11 @@ namespace OdoriRails.Helpers.DAL.Repository
     public class ApiRepository
     {
         private readonly ObjectCreator _objectCreator = new ObjectCreator();
-        private readonly ITramContext _tramContext = new TramContext();
-        private readonly ITrackSectorContext _trackSectorContext = new TrackSectorContext();
 
         private readonly List<Sector> _sectors;
         private readonly List<Track> _tracks;
+        private readonly ITrackSectorContext _trackSectorContext = new TrackSectorContext();
+        private readonly ITramContext _tramContext = new TramContext();
         private readonly Dictionary<int, Tram> _trams;
 
         public ApiRepository()
@@ -25,17 +25,15 @@ namespace OdoriRails.Helpers.DAL.Repository
             _trams = ObjectCreator.GenerateListWithFunction(_tramContext.GetAllTrams(),
                 _objectCreator.CreateTram).ToDictionary(x => x.Number, x => x);
         }
-        
+
         public List<Track> GetAllTracks()
         {
             foreach (var track in _tracks)
+            foreach (var sector in _sectors.Where(x => x.TrackNumber == track.Number))
             {
-                foreach (var sector in _sectors.Where(x => x.TrackNumber == track.Number))
-                {
-                    if (sector.TramId != null)
-                        sector.SetTram(_trams[sector.TramId.Value]);
-                    track.AddSector(sector);
-                }
+                if (sector.TramId != null)
+                    sector.SetTram(_trams[sector.TramId.Value]);
+                track.AddSector(sector);
             }
             return _tracks;
         }

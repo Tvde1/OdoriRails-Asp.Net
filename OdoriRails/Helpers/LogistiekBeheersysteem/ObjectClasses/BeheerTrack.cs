@@ -1,9 +1,6 @@
-﻿using OdoriRails.Helpers.Objects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using OdoriRails.Helpers.LogistiekBeheersysteem.ObjectClasses;
+using OdoriRails.Helpers.Objects;
 
 namespace OdoriRails.Helpers.LogistiekBeheersysteem
 {
@@ -11,8 +8,10 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
     {
         public List<BeheerSector> BeheerSectors = new List<BeheerSector>();
 
-        public BeheerTrack(int number, int? line, TrackType type, List<Sector> sectors) : base(number, line, type, sectors)
-        { }
+        public BeheerTrack(int number, int? line, TrackType type, List<Sector> sectors) : base(number, line, type,
+            sectors)
+        {
+        }
 
         public static BeheerTrack ToBeheerTrack(Track track)
         {
@@ -20,26 +19,26 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem
         }
 
         /// <summary>
-        /// Zet elke sectoren's status op 'Locked'
+        ///     Zet elke sectoren's status op 'Locked'
         /// </summary>
         public void LockTrack()
         {
-            for (int i = 0; i < Sectors.Count; i++)
+            for (var i = 0; i < Sectors.Count; i++)
             {
-                BeheerSector beheerSector = Sectors[i] == null ? null : BeheerSector.ToBeheerSector(Sectors[i]);
+                var beheerSector = Sectors[i] == null ? null : BeheerSector.ToBeheerSector(Sectors[i]);
                 beheerSector.Lock();
                 Sectors[i] = beheerSector;
             }
         }
 
         /// <summary>
-        /// Zet alle sectoren's status op 'Open'.
+        ///     Zet alle sectoren's status op 'Open'.
         /// </summary>
         public void UnlockTrack()
         {
-            for (int i = 0; i < Sectors.Count; i++)
+            for (var i = 0; i < Sectors.Count; i++)
             {
-                BeheerSector beheerSector = Sectors[i] == null ? null : BeheerSector.ToBeheerSector(Sectors[i]);
+                var beheerSector = Sectors[i] == null ? null : BeheerSector.ToBeheerSector(Sectors[i]);
                 beheerSector.UnLock();
                 Sectors[i] = beheerSector;
             }

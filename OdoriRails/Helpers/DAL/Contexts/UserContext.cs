@@ -19,12 +19,12 @@ namespace OdoriRails.Helpers.DAL.Contexts
             query.Parameters.AddWithValue("@username", user.Username);
             query.Parameters.AddWithValue("@pass", user.Password);
             query.Parameters.AddWithValue("@email", user.Email);
-            query.Parameters.AddWithValue("@role", (int)user.Role);
+            query.Parameters.AddWithValue("@role", (int) user.Role);
 
             if (string.IsNullOrEmpty(user.ManagerName)) query.Parameters.AddWithValue("@managedBy", DBNull.Value);
             else query.Parameters.AddWithValue("@managedBy", GetUserIdByName(user.ManagerName));
 
-            user.SetId(Convert.ToInt32((decimal)DatabaseHandler.GetData(query).Rows[0][0]));
+            user.SetId(Convert.ToInt32((decimal) DatabaseHandler.GetData(query).Rows[0][0]));
             return user;
         }
 
@@ -35,7 +35,8 @@ namespace OdoriRails.Helpers.DAL.Contexts
 
         public void RemoveUser(int userId)
         {
-            DatabaseHandler.GetData(new SqlCommand($"UPDATE [User] SET ManagedBy = null WHERE ManagedBy = {userId}; DELETE FROM [User] WHERE UserPk = {userId}"));
+            DatabaseHandler.GetData(new SqlCommand(
+                $"UPDATE [User] SET ManagedBy = null WHERE ManagedBy = {userId}; DELETE FROM [User] WHERE UserPk = {userId}"));
         }
 
         public void UpdateUser(User user)
@@ -46,7 +47,7 @@ namespace OdoriRails.Helpers.DAL.Contexts
             query.Parameters.AddWithValue("@name", user.Name);
             query.Parameters.AddWithValue("@password", user.Password);
             query.Parameters.AddWithValue("@email", user.Email);
-            query.Parameters.AddWithValue("@role", (int)user.Role);
+            query.Parameters.AddWithValue("@role", (int) user.Role);
             if (string.IsNullOrEmpty(user.ManagerName)) query.Parameters.AddWithValue("@managedby", DBNull.Value);
             else query.Parameters.AddWithValue("@managedby", GetUserIdByName(user.ManagerName));
             query.Parameters.AddWithValue("@id", user.Id);
@@ -55,7 +56,7 @@ namespace OdoriRails.Helpers.DAL.Contexts
 
         public DataTable GetAllUsersWithFunction(Role role)
         {
-            return DatabaseHandler.GetData(new SqlCommand($"SELECT * FROM [User] WHERE Role = {(int)role}"));
+            return DatabaseHandler.GetData(new SqlCommand($"SELECT * FROM [User] WHERE Role = {(int) role}"));
         }
 
         public DataRow GetUser(int id)
@@ -84,7 +85,7 @@ namespace OdoriRails.Helpers.DAL.Contexts
         {
             var query = new SqlCommand("SELECT UserPk FROM [User] WHERE Name = @name");
             query.Parameters.AddWithValue("@name", name);
-            return (int?)DatabaseHandler.GetData(query).Rows[0]?["UserPk"];
+            return (int?) DatabaseHandler.GetData(query).Rows[0]?["UserPk"];
         }
     }
 }

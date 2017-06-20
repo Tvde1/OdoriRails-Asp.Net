@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using OdoriRails.Helpers.DAL.ContextInterfaces;
+﻿using OdoriRails.Helpers.DAL.ContextInterfaces;
 using OdoriRails.Helpers.DAL.Contexts;
 using OdoriRails.Helpers.Driver;
 using OdoriRails.Helpers.Objects;
@@ -51,7 +50,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         public Tram GetTramByDriver(User driver)
         {
             var data = _tramContext.GetTramByDriver(driver);
-            return data == null ? null : _objectCreator.CreateTram(_tramContext.GetTram((int)data["TramPk"]));
+            return data == null ? null : _objectCreator.CreateTram(_tramContext.GetTram((int) data["TramPk"]));
         }
 
         /// <summary>

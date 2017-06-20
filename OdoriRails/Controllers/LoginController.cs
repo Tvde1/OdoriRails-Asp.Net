@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Cryptography.X509Certificates;
 using System.Web.Mvc;
 using OdoriRails.Helpers;
 using OdoriRails.Helpers.DAL.Repository;
@@ -20,7 +19,7 @@ namespace OdoriRails.Controllers
             var conn = BaseRepository.TestConnection();
             if (conn != null)
             {
-                var errorModel = new LoginModel { Error = "Kan niet met de database verbinden." };
+                var errorModel = new LoginModel {Error = "Kan niet met de database verbinden."};
                 return View(errorModel);
             }
             var result = TrySignInWithCookies();
@@ -31,7 +30,7 @@ namespace OdoriRails.Controllers
 
         public ActionResult Error(string errorText)
         {
-            var errorModel = new LoginModel { Error = errorText };
+            var errorModel = new LoginModel {Error = errorText};
             return View(errorModel);
         }
 
@@ -43,7 +42,7 @@ namespace OdoriRails.Controllers
 
             Session["User"] = null;
 
-            var model = new LoginModel { Sucess = "U bent sucessvol uitgelogd." };
+            var model = new LoginModel {Sucess = "U bent sucessvol uitgelogd."};
             TempData["SigninModel"] = model;
             return RedirectToAction("Index");
         }
@@ -56,7 +55,7 @@ namespace OdoriRails.Controllers
             var conn = BaseRepository.TestConnection();
             if (conn != null)
             {
-                var errorModel = new LoginModel { Error = "Kan niet met de database verbinden." };
+                var errorModel = new LoginModel {Error = "Kan niet met de database verbinden."};
                 return View(errorModel);
             }
 
@@ -68,6 +67,7 @@ namespace OdoriRails.Controllers
 
             return View(model);
         }
+
         private ActionResult TrySignInWithCookies()
         {
             var cookie = Request.Cookies["UserSettings"];
@@ -81,6 +81,7 @@ namespace OdoriRails.Controllers
 
             return result == 1 ? LogIn(username, password, true, true) : null;
         }
+
         private ActionResult AttemptLogin(string username, string password, bool rememberMe)
         {
             var result = _repository.ValidateUser(username, password);
@@ -88,29 +89,30 @@ namespace OdoriRails.Controllers
             switch (result)
             {
                 case 1:
-                    {
-                        return LogIn(username, password, rememberMe);
-                    }
+                {
+                    return LogIn(username, password, rememberMe);
+                }
                 default:
-                    {
-                        var model = new LoginModel();
+                {
+                    var model = new LoginModel();
 
-                        switch (result)
-                        {
-                            case -2:
-                                model.Error = "This account doesn't exist.";
-                                break;
-                            case -1:
-                                model.Error = "This username and password don't match.";
-                                break;
-                            default:
-                                model.Error = "An uncaught login error has occured.";
-                                break;
-                        }
-                        return Index(model);
+                    switch (result)
+                    {
+                        case -2:
+                            model.Error = "This account doesn't exist.";
+                            break;
+                        case -1:
+                            model.Error = "This username and password don't match.";
+                            break;
+                        default:
+                            model.Error = "An uncaught login error has occured.";
+                            break;
                     }
+                    return Index(model);
+                }
             }
         }
+
         private ActionResult LogIn(string username, string password, bool rememberme, bool isAutomatic = false)
         {
             if (!isAutomatic)
@@ -130,7 +132,7 @@ namespace OdoriRails.Controllers
 
             //Adh van de user.role de juiste view teruggeven.
 
-            switch (((User)Session["User"]).Role)
+            switch (((User) Session["User"]).Role)
             {
                 case Role.Administrator:
                     return RedirectToAction("Index", "UserBeheer");

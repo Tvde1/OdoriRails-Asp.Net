@@ -57,7 +57,7 @@ namespace OdoriRails.Helpers.DAL.Repository
         public int? GetTramByDriver(User driver)
         {
             var data = _tramContext.GetTramByDriver(driver);
-            return (int?)data?["TramPk"];
+            return (int?) data?["TramPk"];
         }
 
         /// <summary>
@@ -101,9 +101,7 @@ namespace OdoriRails.Helpers.DAL.Repository
             foreach (var sector in sectors)
             {
                 if (sector.TramId != null)
-                {
-                    sector.OccupyingTram = trams[(int)sector.TramId];
-                }
+                    sector.OccupyingTram = trams[(int) sector.TramId];
                 tracks[sector.TrackNumber].AddSector(sector);
             }
 

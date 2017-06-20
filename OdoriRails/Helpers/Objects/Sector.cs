@@ -21,7 +21,8 @@ namespace OdoriRails.Helpers.Objects
         /// <param name="tramId"></param>
         /// <param name="latitude"></param>
         /// <param name="longitude"></param>
-        public Sector(int number, int trackNumber, SectorStatus status, int? tramId, decimal? latitude, decimal? longitude)
+        public Sector(int number, int trackNumber, SectorStatus status, int? tramId, decimal? latitude,
+            decimal? longitude)
         {
             Number = number;
             Status = status;
@@ -42,14 +43,19 @@ namespace OdoriRails.Helpers.Objects
 
         [DataMember]
         public int Number { get; set; }
+
         [DataMember]
         public SectorStatus Status { get; set; }
+
         [DataMember]
         public Tram OccupyingTram { get; set; }
+
         public int TrackNumber { get; set; }
         public int? TramId { get; set; }
+
         [DataMember]
         public decimal? Latitude { get; set; }
+
         [DataMember]
         public decimal? Longitude { get; set; }
 

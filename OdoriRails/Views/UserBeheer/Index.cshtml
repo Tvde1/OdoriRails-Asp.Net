@@ -1,5 +1,4 @@
-﻿@using OdoriRails.Models
-@model OdoriRails.Models.UserBeheer.UserBeheerModel
+﻿@model OdoriRails.Models.UserBeheer.UserBeheerModel
 
 @{
     ViewBag.Title = "Edit User";
@@ -9,11 +8,12 @@
 
 @using (Html.BeginForm("Index", "UserBeheer", FormMethod.Post))
 {
-    @Html.EnumDropDownListFor(x => x.SortMethod, new { Id = "DropDownRole" })<br /><br />
-    <input type="submit" value="Refresh" class="btn btn-primary pull-left" />
+    @Html.EnumDropDownListFor(x => x.SortMethod, new {Id = "DropDownRole"})<br/>
+    <br/>
+    <input type="submit" value="Refresh" class="btn btn-primary pull-left"/>
 }
 
-<input type="button" value="Voeg Toe" class="btn btn-default pull-right" onclick="location.href='/UserBeheer/Edit'" />
+<input type="button" value="Voeg Toe" class="btn btn-default pull-right" onclick="location.href = '/UserBeheer/Edit'"/>
 
 <script type="text/javascript">
     document.getElementById('DropDownRole').Value = @Model.SortMethod;
@@ -21,28 +21,28 @@
 
 <table class="table table-striped table-hover">
     <thead>
-        <tr>
-            <td>Naam</td>
-            <td>Gebruikersnaam</td>
-            <td>Email</td>
-            <td>Rol</td>
-            <td>Manager</td>
-            <td>Tram Id's</td>
-            <td>Controls</td>
-        </tr>
+    <tr>
+        <td>Naam</td>
+        <td>Gebruikersnaam</td>
+        <td>Email</td>
+        <td>Rol</td>
+        <td>Manager</td>
+        <td>Tram Id's</td>
+        <td>Controls</td>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var user in Model.Users)
-        {
-            <tr>
-                <td>@user.Name</td>
-                <td>@user.Username</td>
-                <td>@user.Email</td>
-                <td>@user.Role.ToString()</td>
-                <td>@user.ManagerName</td>
-                <td>@user.TramId</td>
-                <td>@Html.ActionLink("Edit", "Edit", new { user.Id }) | @Html.ActionLink("Delete", "Index", new { user.Id })</td>
-            </tr>
-        }
+    @foreach (var user in Model.Users)
+    {
+        <tr>
+            <td>@user.Name</td>
+            <td>@user.Username</td>
+            <td>@user.Email</td>
+            <td>@user.Role.ToString()</td>
+            <td>@user.ManagerName</td>
+            <td>@user.TramId</td>
+            <td>@Html.ActionLink("Edit", "Edit", new {user.Id}) | @Html.ActionLink("Delete", "Index", new {user.Id})</td>
+        </tr>
+    }
     </tbody>
 </table>

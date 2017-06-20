@@ -1,6 +1,4 @@
-﻿@using System.Web.Mvc.Html
-@using OdoriRails.Helpers.Objects
-@model OdoriRails.Models.SRManagement.AddCleaningModel
+﻿@model OdoriRails.Models.SRManagement.AddCleaningModel
 @{
     ViewBag.Title = "AddCleaning";
 }
@@ -11,31 +9,32 @@
 {
     <p>
         <label>Start Date:</label>
-        <br />
-        <input type="date" name="StartDate" value="@DateTime.Today" />
-        <br />
+        <br/>
+        <input type="date" name="StartDate" value="@DateTime.Today"/>
+        <br/>
         <label>End Date:</label>
-        <br />
-        <input type="date" name="EndDate" value="@Model.EndDate" />
-        <br />
+        <br/>
+        <input type="date" name="EndDate" value="@Model.EndDate"/>
+        <br/>
         <label>Cleaning Size:</label>
-        <br />
-        <input type="radio" name="Size" value="1" />Small<br />
-        <input type="radio" name="Size" value="0" />Big<br />
+        <br/>
+        <input type="radio" name="Size" value="1"/>Small<br/>
+        <input type="radio" name="Size" value="0"/>Big<br/>
 
-        <br /><label> Comment:</label><br />
-        <input type="text" name="Comment" value="@Model.Comment" /><br />
-        <label> Tram Number:</label><br />
-        <input type="text" name="TramId" value="" /><br />
-        <label>Assigned Users:</label><br />
+        <br/><label> Comment:</label><br/>
+        <input type="text" name="Comment" value="@Model.Comment"/><br/>
+        <label> Tram Number:</label><br/>
+        <input type="text" name="TramId" value=""/><br/>
+        <label>Assigned Users:</label><br/>
 
         @foreach (var user in Model.AssignedWorkers)
         {
-            @Html.CheckBoxFor(x => x.AssignedWorkers[user.Key]) @user.Key <br />
-
+            @Html.CheckBoxFor(x => x.AssignedWorkers[user.Key])
+            @user.Key
+            <br/>
         }
 
-        <input type="submit" value="AddCleaning" />
+        <input type="submit" value="AddCleaning"/>
 
     </p>
 }

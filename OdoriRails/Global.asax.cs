@@ -1,11 +1,9 @@
-﻿using OdoriRails.Helpers.DAL;
-using OdoriRails.Helpers.Objects;
-using OdoriRails.Models;
-using System;
+﻿using System;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using OdoriRails.Helpers.DAL;
 
 namespace OdoriRails
 {
@@ -18,27 +16,21 @@ namespace OdoriRails
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
 
-        void Application_Error(Object sender, EventArgs e)
+        private void Application_Error(object sender, EventArgs e)
         {
-            Exception exception = Server.GetLastError();
+            var exception = Server.GetLastError();
             Response.Clear();
 
-            string message = "";
+            var message = "";
             if (exception is DatabaseException)
-            {
                 message = "Something went wrong connecting to our database. Please try again later.";
-            }
             else if (exception is HttpException)
-            {
                 message = "This page does not exist.";
-            }
             else
-            {
                 message = "An unknown error has occurred.";
-            }
 
             Server.ClearError();
-            Response.RedirectToRoute("Default", new { controller = "Login", action = "Error", message });
+            Response.RedirectToRoute("Default", new {controller = "Login", action = "Error", message});
         }
     }
 }

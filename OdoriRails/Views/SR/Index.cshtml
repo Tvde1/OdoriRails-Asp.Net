@@ -1,6 +1,4 @@
-﻿@using System.Security.Cryptography
-@using OdoriRails.Helpers.Objects
-@using OdoriRails.Models.SRManagement
+﻿@using OdoriRails.Helpers.Objects
 @model OdoriRails.Models.SRManagement.SRLogic
 @{
     ViewBag.Title = "About";
@@ -9,17 +7,17 @@
 <div class="secondarybar">
     @if (Model.User.Role == Role.HeadCleaner)
     {
-        <input type="button" class="btn btn-primary" value="Add Service" onclick="location.href = 'SR/AddCleaning';" style="margin: 10px 0 10px;">         
+        <input type="button" class="btn btn-primary" value="Add Service" onclick="location.href = 'SR/AddCleaning';" style="margin: 10px 0 10px;">
     }
     @if (Model.User.Role == Role.HeadEngineer)
     {
-        <input type="button" class="btn btn-primary" value="Add Repair" onclick="location.href = 'SR/AddRepair';" style="margin: 10px 0 10px;">          
+        <input type="button" class="btn btn-primary" value="Add Repair" onclick="location.href = 'SR/AddRepair';" style="margin: 10px 0 10px;">
     }
-    <input type="button" class="btn btn-primary" value="Assign Users" onclick="location.href = 'SR/AssignUsers';" style="margin: 10px 0 10px;">   
+    <input type="button" class="btn btn-primary" value="Assign Users" onclick="location.href = 'SR/AssignUsers';" style="margin: 10px 0 10px;">
     <input type="button" class="btn btn-default" value="Tram History" onclick="location.href = 'SR/TramHistory';" style="margin: 10px 0 10px;">
     @if (Model.User.Role == Role.HeadCleaner || Model.User.Role == Role.HeadEngineer)
     {
-        @Html.ActionLink("Plan next weeks maintenances", "PlanMaintenance", "SR", null, new { @class = "btn btn-md btn-default" })
+        @Html.ActionLink("Plan next weeks maintenances", "PlanMaintenance", "SR", null, new {@class = "btn btn-md btn-default"})
     }
 
 </div>
@@ -46,7 +44,6 @@
                 <th>
                     Comment
                 </th>
-
             }
             else if (Model.User.Role == Role.Engineer || Model.User.Role == Role.HeadEngineer)
             {
@@ -71,11 +68,10 @@
                         <td>@cleaning.TramId</td>
                         <td>@cleaning.Size</td>
                         <td>@cleaning.Comments</td>
-                        <td>@Html.ActionLink("Edit ", "EditCleaning", "SR", new { id = cleaning.Id }, null)</td>
-                        <td>@Html.ActionLink("Mark as Done", "MarkAsDone", "SR", new { id = cleaning.Id }, null)</td>
+                        <td>@Html.ActionLink("Edit ", "EditCleaning", "SR", new {id = cleaning.Id}, null)</td>
+                        <td>@Html.ActionLink("Mark as Done", "MarkAsDone", "SR", new {id = cleaning.Id}, null)</td>
                     </tr>
                 }
-
             }
 
             else
@@ -97,10 +93,9 @@
                         <td>@repair.Type</td>
                         <td>@repair.Defect</td>
                         <td>@repair.Solution</td>
-                        <td>@Html.ActionLink("Edit", "EditRepair", "SR", new { id = repair.Id }, null)</td>
-                        <td>@Html.ActionLink("Mark as Done", "MarkAsDone", "SR", new { id = repair.Id }, null)</td>
+                        <td>@Html.ActionLink("Edit", "EditRepair", "SR", new {id = repair.Id}, null)</td>
+                        <td>@Html.ActionLink("Mark as Done", "MarkAsDone", "SR", new {id = repair.Id}, null)</td>
                     </tr>
-
                 }
             }
             else

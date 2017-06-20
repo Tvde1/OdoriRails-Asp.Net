@@ -4,18 +4,20 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem.ObjectClasses
 {
     public class BeheerSector : Sector
     {
-        private BeheerSector(int number, int trackNumber, SectorStatus status, Tram tram, decimal? latitude, decimal? longitude) : base(number, trackNumber, status, tram?.Number, latitude, longitude)
+        private BeheerSector(int number, int trackNumber, SectorStatus status, Tram tram, decimal? latitude,
+            decimal? longitude) : base(number, trackNumber, status, tram?.Number, latitude, longitude)
         {
             SetTram(tram);
         }
 
         public static BeheerSector ToBeheerSector(Sector sector)
         {
-            return new BeheerSector(sector.Number, sector.TrackNumber, sector.Status, sector.OccupyingTram, sector.Latitude, sector.Longitude);
+            return new BeheerSector(sector.Number, sector.TrackNumber, sector.Status, sector.OccupyingTram,
+                sector.Latitude, sector.Longitude);
         }
 
         /// <summary>
-        /// Zet de status van de tram naar locked.
+        ///     Zet de status van de tram naar locked.
         /// </summary>
         public void Lock()
         {
@@ -23,7 +25,7 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem.ObjectClasses
         }
 
         /// <summary>
-        /// Zet de status van de tram naar open.
+        ///     Zet de status van de tram naar open.
         /// </summary>
         public void UnLock()
         {
@@ -31,7 +33,7 @@ namespace OdoriRails.Helpers.LogistiekBeheersysteem.ObjectClasses
         }
 
         /// <summary>
-        /// Zet de occupying tram. Gebruik `null` om de tram leeg te maken.
+        ///     Zet de occupying tram. Gebruik `null` om de tram leeg te maken.
         /// </summary>
         /// <param name="tram"></param>
         public bool SetOccupyingTram(Tram tram)

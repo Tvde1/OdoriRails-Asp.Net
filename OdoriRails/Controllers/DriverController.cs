@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using OdoriRails.Helpers;
 using OdoriRails.Helpers.Objects;
@@ -12,7 +11,7 @@ namespace OdoriRails.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var result = GetLoggedInUser(new[] { Role.Driver });
+            var result = GetLoggedInUser(new[] {Role.Driver});
             if (result is ActionResult) return result as ActionResult;
             var user = result as User;
 
@@ -24,7 +23,7 @@ namespace OdoriRails.Controllers
         [HttpPost]
         public ActionResult Index(DriverModel model)
         {
-            var result = GetLoggedInUser(new[] { Role.Driver });
+            var result = GetLoggedInUser(new[] {Role.Driver});
             if (result is ActionResult) return result as ActionResult;
             model.User = result as User;
 

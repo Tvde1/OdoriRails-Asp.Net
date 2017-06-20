@@ -26,7 +26,7 @@ namespace OdoriRails.Helpers.Objects
             TramId = tramId;
         }
 
-        public int Id { get;  set; }
+        public int Id { get; set; }
         public List<User> AssignedUsers { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }

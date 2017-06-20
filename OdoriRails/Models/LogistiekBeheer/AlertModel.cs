@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace OdoriRails.Models.LogistiekBeheer
+﻿namespace OdoriRails.Models.LogistiekBeheer
 {
     public class AlertModel : BaseModel
     {

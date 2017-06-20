@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Eventing.Reader;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using OdoriRails.Helpers.DAL.Repository;
 using OdoriRails.Helpers.Objects;
@@ -10,7 +8,7 @@ namespace OdoriRails.Tests
     [TestClass]
     public class UserTests
     {
-        readonly UserBeheerRepository _userBeheerRepository = new UserBeheerRepository();
+        private readonly UserBeheerRepository _userBeheerRepository = new UserBeheerRepository();
 
         [TestMethod]
         public void AddUser()
@@ -34,21 +32,15 @@ namespace OdoriRails.Tests
             if (user == null)
             {
                 Assert.IsTrue(true);
-                return;
             }
-
-
-
         }
 
         [TestMethod]
         public void GetUserIdByFullName()
         {
             var user = _userBeheerRepository.GetUser("TestUser");
-            int? id = _userBeheerRepository.GetUserIdByFullName("Test User");
-            Assert.AreEqual(user.Id,id);
-
-
+            var id = _userBeheerRepository.GetUserIdByFullName("Test User");
+            Assert.AreEqual(user.Id, id);
         }
 
         [TestMethod]
@@ -64,20 +56,13 @@ namespace OdoriRails.Tests
         public void GetAllUsers()
         {
             var user = _userBeheerRepository.GetUser("Driver");
-            bool found = false;
+            var found = false;
 
-            foreach (User item in _userBeheerRepository.GetAllUsers())
-            {
-
+            foreach (var item in _userBeheerRepository.GetAllUsers())
                 if (JsonConvert.SerializeObject(user) == JsonConvert.SerializeObject(item))
-                {
                     found = true;
-                }
 
-            }
-            
             Assert.IsTrue(found);
         }
-
     }
 }

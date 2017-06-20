@@ -9,10 +9,10 @@
 <div class="col-md-4 pull-left">
 <div class="panel panel-default" style="margin-top: 10px">
     <div class="panel-heading">
-        @Html.ActionLink("Main", "SetStateMain", null, new { @class = "btn btn-md btn-primary" })
-        @Html.ActionLink("Edit", "SetStateEdit", null, new { @class = "btn btn-md btn-primary" })
-        @Html.ActionLink("Delete", "SetStateDelete", null, new { @class = "btn btn-md btn-primary" })
-        @Html.ActionLink("Simulation", "SetStateSimulation", null, new { @class = "btn btn-md btn-primary" })
+        @Html.ActionLink("Main", "SetStateMain", null, new {@class = "btn btn-md btn-primary"})
+        @Html.ActionLink("Edit", "SetStateEdit", null, new {@class = "btn btn-md btn-primary"})
+        @Html.ActionLink("Delete", "SetStateDelete", null, new {@class = "btn btn-md btn-primary"})
+        @Html.ActionLink("Simulation", "SetStateSimulation", null, new {@class = "btn btn-md btn-primary"})
     </div>
 </div>
 @if (Model.State == LogistiekState.Main)
@@ -68,7 +68,7 @@
                             @Html.Label("Tram Number:")
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.Form.TramNumber, new { type = "number" })
+                            @Html.TextBoxFor(m => m.Form.TramNumber, new {type = "number"})
                         </td>
                     </tr>
                     <tr>
@@ -76,7 +76,7 @@
                             @Html.Label("Track Number:")
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.Form.TrackNumber, new { type = "number" })
+                            @Html.TextBoxFor(m => m.Form.TrackNumber, new {type = "number"})
                         </td>
                     </tr>
                     <tr>
@@ -84,7 +84,7 @@
                             @Html.Label("Sector Number:")
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.Form.SectorNumber, new { type = "number" })
+                            @Html.TextBoxFor(m => m.Form.SectorNumber, new {type = "number"})
                         </td>
                     </tr>
                 </table>
@@ -129,7 +129,7 @@ else if (Model.State == LogistiekState.Edit)
                             @Html.Label("Tram Number:")
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.Form.TramNumber, new { type = "number" })
+                            @Html.TextBoxFor(m => m.Form.TramNumber, new {type = "number"})
                         </td>
                     </tr>
                     <tr>
@@ -137,7 +137,7 @@ else if (Model.State == LogistiekState.Edit)
                             @Html.Label("Default Line:")
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.Form.DefaultLine, new { type = "number" })
+                            @Html.TextBoxFor(m => m.Form.DefaultLine, new {type = "number"})
                         </td>
                     </tr>
                     <tr>
@@ -166,7 +166,7 @@ else if (Model.State == LogistiekState.Edit)
                             @Html.Label("Track Number:")
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.Form.TrackNumber, new { type = "number" })
+                            @Html.TextBoxFor(m => m.Form.TrackNumber, new {type = "number"})
                         </td>
                     </tr>
                     <tr>
@@ -182,7 +182,7 @@ else if (Model.State == LogistiekState.Edit)
                             @Html.Label("Default Line:")
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.Form.DefaultLine, new { type = "number" })
+                            @Html.TextBoxFor(m => m.Form.DefaultLine, new {type = "number"})
                         </td>
                         @* TODO: Add optie om te kiezen hoeveel sectoren toe te voegen. *@
                     </tr>
@@ -204,7 +204,7 @@ else if (Model.State == LogistiekState.Edit)
                             @Html.Label("Track Number:")
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.Form.TrackNumber, new { type = "number" })
+                            @Html.TextBoxFor(m => m.Form.TrackNumber, new {type = "number"})
                         </td>
                     </tr>
                     <tr>
@@ -212,7 +212,7 @@ else if (Model.State == LogistiekState.Edit)
                             @Html.Label("Latitude:")
                         </td>
                         <td>
-                                    @Html.TextBoxFor(m => m.Form.Latitude, new { type = "number", step = "any" })
+                            @Html.TextBoxFor(m => m.Form.Latitude, new {type = "number", step = "any"})
                         </td>
                     </tr>
                     <tr>
@@ -220,7 +220,7 @@ else if (Model.State == LogistiekState.Edit)
                             @Html.Label("Longitude")
                         </td>
                         <td>
-                                    @Html.TextBoxFor(m => m.Form.Longitude, new { type = "number", step = "any" })
+                            @Html.TextBoxFor(m => m.Form.Longitude, new {type = "number", step = "any"})
                         </td>
                     </tr>
                 </table>
@@ -244,7 +244,7 @@ else
                             @Html.Label("Tram Number:")
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.Form.TramNumber, new { type = "number" })
+                            @Html.TextBoxFor(m => m.Form.TramNumber, new {type = "number"})
                         </td>
                     </tr>
                 </table>
@@ -265,7 +265,7 @@ else
                             @Html.Label("Track Number:")
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.Form.TrackNumber, new { type = "number" })
+                            @Html.TextBoxFor(m => m.Form.TrackNumber, new {type = "number"})
                         </td>
                     </tr>
                 </table>
@@ -286,7 +286,7 @@ else
                             @Html.Label("Track Number:")
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.Form.TrackNumber, new { type = "number" })
+                            @Html.TextBoxFor(m => m.Form.TrackNumber, new {type = "number"})
                         </td>
                     </tr>
                 </table>
@@ -295,11 +295,11 @@ else
     }
 }
 </div>
-    
+
 <div class="col-md-8">
-    <select style="margin-top: 10px; z-index: 1; position: absolute;" name="sometext" onclick="UpdateTramNumber()" size="5" id="listBox">
+    <select style="margin-top: 10px; position: absolute; z-index: 1;" name="sometext" onclick="UpdateTramNumber()" size="5" id="listBox">
     </select>
-    <div style="border-radius: 4px; margin-top: 10px; height: 800px; width: 100%; background-color: black;" id="map">
+    <div style="background-color: black; border-radius: 4px; height: 800px; margin-top: 10px; width: 100%;" id="map">
     </div>
 </div>
 </div>
@@ -307,9 +307,10 @@ else
 <script>
     var map;
     var markers;
+
     function initMap() {
 
-        var myStyle = [
+        const myStyle = [
             {
                 featureType: "administrative",
                 elementType: "labels",
@@ -343,17 +344,17 @@ else
         console.log("initmap...");
         map = new google.maps.Map(document.getElementById('map'),
             {
-            mapTypeControlOptions: {
-                mapTypeIds: ['myStyle', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.TERRAIN]
-            },
-            center: { lat: 52.348012, lng: 4.852770 },
-            zoom: 18,
-            draggable: true,
-            navigationControl: false,
-            mapTypeControl: false,
-            scaleControl: false,
-            streetViewControl: false,
-            mapTypeId: 'myStyle'
+                mapTypeControlOptions: {
+                    mapTypeIds: ['myStyle', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.TERRAIN]
+                },
+                center: { lat: 52.348012, lng: 4.852770 },
+                zoom: 18,
+                draggable: true,
+                navigationControl: false,
+                mapTypeControl: false,
+                scaleControl: false,
+                streetViewControl: false,
+                mapTypeId: 'myStyle'
             });
 
         map.mapTypes.set('myStyle', new google.maps.StyledMapType(myStyle, { name: 'My Style' }));
@@ -364,7 +365,7 @@ else
 
 
         var textBox = document.getElementById('Form_TramNumber');
-        var listBox = document.getElementById('listBox');
+        const listBox = document.getElementById('listBox');
 
         function addMarker(location, map, labeltext, contentString, sectorStatus, statusTram) {
             var icon;
@@ -379,13 +380,12 @@ else
             var color;
             if (statusTram > 0 && statusTram < 4) {
                 color = 'blue';
-            }
-            else if (statusTram === 4) {
+            } else if (statusTram === 4) {
                 color = 'red';
             } else {
                 color = 'black';
             }
-            
+
             // Add the marker at the clicked location, and add the next-available label
             // from the array of alphabetical characters.
             marker = new google.maps.Marker({
@@ -397,35 +397,36 @@ else
                 map: map,
                 icon: icon
             });
-            marker.addListener('click', function () {
-                console.log();
-                var infowindow = new google.maps.InfoWindow({
-                    content: contentString
+            marker.addListener('click',
+                function() {
+                    console.log();
+                    const infowindow = new google.maps.InfoWindow({
+                        content: contentString
+                    });
+                    if (infowindowold) {
+                        infowindowold.close();
+                    }
+                    infowindow.open(map, marker);
+
+                    if (!isNaN(parseInt(marker.label.text))) {
+                        textBox.value = parseInt(marker.label.text);
+                    }
+
+                    infowindowold = infowindow;
                 });
-                if (infowindowold) {
-                    infowindowold.close();
-                }
-                infowindow.open(map, marker);
-
-                if (!isNaN(parseInt(marker.label.text))) {
-                    textBox.value = parseInt(marker.label.text);
-                }
-
-                infowindowold = infowindow;
-            });
             markersArray.push(marker);
         }
         //var coordinates = { lat: 52.348012, lng: 4.852770 };
         //addMarker(coordinates, map);
 
-        var requestMethod = function (data) {
+        var requestMethod = function(data) {
             if (JSON.stringify(oldJson) !== JSON.stringify(data)) {
                 document.getElementById("listBox").options.length = 0;
                 map.clearOverlays();
                 for (var i = 0; i < data.length; i++) {
                     console.log(data[i]);
                     for (var y = 0; y < data[i].Sectors.length; y++) {
-                        
+
                         console.log(data[i].Sectors[y]);
                         var lat = parseFloat(data[i].Sectors[y].Latitude);
                         var lng = parseFloat(data[i].Sectors[y].Longitude);
@@ -435,49 +436,22 @@ else
                         var sectorStatus = parseInt(data[i].Sectors[y].Status);
 
                         if (data[i].Sectors[y].OccupyingTram === null) {
-                            contentString = '<div id="content">' +
-                                '<div id="siteNotice">' +
-                                '</div>' +
-                                '<div id="bodyContent">' +
-                                '<p>Tracknumber: ' +
-                                String(data[i].Number) +
-                                '</p>' +
-                                '<p>Tracktype: ' +
-                                String(data[i].Type) +
-                                '</p>' +
-                                '<p>Sectornumber: ' +
-                                String(data[i].Sectors[y].Number) +
-                                '</p>' +
-                                '<p>Line: ' +
-                                String(data[i].Line) +
-                                '</p>' +
-                                '</div>' +
-                                '</div>';
+                            contentString =
+                                `<div id="content"><div id="siteNotice"></div><div id="bodyContent"><p>Tracknumber: ${
+                                String(data[i].Number)}</p><p>Tracktype: ${String(data[i].Type)
+                                }</p><p>Sectornumber: ${String(data[i].Sectors[y].Number)}</p><p>Line: ${String(data[i]
+                                    .Line)}</p></div></div>`;
                             tramNumber = ' ';
                             tramStatus = 0;
                         } else {
                             tramNumber = String(data[i].Sectors[y].OccupyingTram.Number);
-                            contentString = '<div id="content">' +
-                                '<div id="siteNotice">' +
-                                '</div>' +
-                                '<h1 id="firstHeading" class="firstHeading">' +
-                                 tramNumber +
-                                '</h1>' +
-                                '<div id="bodyContent">' +
-                                '<p>Tracknumber: ' +
-                                String(data[i].Number) +
-                                '</p>' +
-                                '<p>Tracktype: ' +
-                                String(data[i].Type) +
-                                '</p>' +
-                                '<p>Sectornumber: ' +
-                                String(data[i].Sectors[y].Number) +
-                                '</p>' +
-                                '<p>Line: ' +
-                                String(data[i].Line) +
-                                '</p>' +
-                                '</div>' +
-                                '</div>';
+                            contentString =
+                                `<div id="content"><div id="siteNotice"></div><h1 id="firstHeading" class="firstHeading">${
+                                tramNumber
+                                }</h1><div id="bodyContent"><p>Tracknumber: ${String(data[i].Number)
+                                }</p><p>Tracktype: ${String(data[i].Type)}</p><p>Sectornumber: ${String(
+                                    data[i].Sectors[y].Number)}</p><p>Line: ${String(data[i].Line)
+                                }</p></div></div>`;
                             if (parseInt(data[i].Sectors[y].OccupyingTram.Location) === 4) {
                                 var opt = document.createElement("option");
                                 opt.text = data[i].Sectors[y].OccupyingTram.Number;
@@ -488,25 +462,22 @@ else
                         }
                         addMarker(location, map, tramNumber, contentString, sectorStatus, tramStatus);
                     }
-                    
+
                 }
                 oldJson = data;
             }
-        }
-
-        var documentReady = function () {
+        };
+        var documentReady = function() {
             $.getJSON('/api/GoogleMapsAPI').done(requestMethod);
             console.log("json read!");
-            }
-
-        google.maps.Map.prototype.clearOverlays = function () {
-            for (var i = 0; i < markersArray.length; i++) {
+        };
+        google.maps.Map.prototype.clearOverlays = function() {
+            for (let i = 0; i < markersArray.length; i++) {
                 markersArray[i].setMap(null);
             }
             markersArray.length = 0;
-        }
-
-        var myVar = setInterval(myTimer, 1000);
+        };
+        const myVar = setInterval(myTimer, 1000);
 
         function myTimer() {
             documentReady();
@@ -516,11 +487,10 @@ else
     }
 
     function UpdateTramNumber() {
-        var e = document.getElementById("listBox");
+        const e = document.getElementById("listBox");
         document.getElementById('Form_TramNumber').value = parseInt(e.options[e.selectedIndex].text);
     }
 
 
-    
 </script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4qb6olqxSBOg_yeccMF6MFjzNf9RCZ9s&callback=initMap"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4qb6olqxSBOg_yeccMF6MFjzNf9RCZ9s&callback=initMap"></script>
