@@ -35,8 +35,7 @@ namespace OdoriRails.Helpers.DAL.Contexts
 
         public void RemoveUser(int userId)
         {
-            DatabaseHandler.GetData(new SqlCommand($"UPDATE [User] SET ManagedBy = null WHERE ManagedBy = {userId}"));
-            DatabaseHandler.GetData(new SqlCommand($"DELETE FROM [User] WHERE UserPk = {userId}"));
+            DatabaseHandler.GetData(new SqlCommand($"UPDATE [User] SET ManagedBy = null WHERE ManagedBy = {userId}; DELETE FROM [User] WHERE UserPk = {userId}"));
         }
 
         public void UpdateUser(User user)
